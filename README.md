@@ -1,2 +1,17 @@
 # wnunes
-Aplicações fron-end e back-end do e-commerce da empresa Wnunes
+
+## Instalação
+
+```bash
+virualenv env
+source env/bin/activate
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+```
+
+## Usage
+
+```bash
+python manage.py runserver
+```
