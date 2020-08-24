@@ -2,14 +2,21 @@
   "name": "wnunes-frontend-dev",
   "version": "1.0.0",
   "description": "Wnunes frontend development",
-  "main": "index.js",
+  "main": "js/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "styl": "stylus -w stylus/style.styl -o ../wnunes/static/css/style.css -c",
+    "ts": "tsc --watch",
+    "browserify": "watchify js/index.js -o ../wnunes/static/js/main.js",
+    "build": "concurrently --kill-others \"npm run ts\" \"npm run browserify\" \"npm run styl\"",
+    "minify": "minify ../wnunes/static/js/main.js > ../wnunes/static/js/main.min.js"
   },
   "keywords": [
     "frontend",
     "wnunes"
   ],
   "author": "luizfilipezs",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^5.2.0"
+  }
 }
