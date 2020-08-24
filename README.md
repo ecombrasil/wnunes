@@ -10,7 +10,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-## Usage
+## Uso
 
 ```bash
 python manage.py runserver
