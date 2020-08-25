@@ -1,12 +1,3 @@
-const clickAndGo = (): void => {
-  const bindings = document.querySelectorAll('[clickAndGo]');
-  
-  bindings.forEach(element => {
-    const attr = element.getAttribute('clickAndGo');
-    
-    if (attr)
-      element.addEventListener('click', () => window.location.href = attr);
-  });
-};
+import { addBindingAttr } from './utils';
 
-clickAndGo();
+addBindingAttr('clickAndGo', 'click', (attr) => window.location.href = attr);
