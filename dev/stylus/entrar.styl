@@ -1,5 +1,8 @@
 .wrapper-center
 
+  @media (max-width 600px)
+    align-items flex-start
+
   #login-box
     padding 6em 4.5em 6em 4.5em
     border()
@@ -7,13 +10,19 @@
     text-align center
     background-color rgba(text-color, .01)
 
+    @media (max-width 600px)
+      margin-top 10em
+      padding 0
+      border-style none
+      background-color transparent
+
     .login-box-title
       font-size 2.75em
       font-weight 800
       color theme-color
 
     .login-form
-      width 37em
+      width 35em
       margin-top 4.5em
 
       .login-field
@@ -31,6 +40,9 @@
       .login-field[type=email]
         width calc(100% - 3.2em)
 
+      .login-field[name=cpf]
+        width calc(82% - 3.2em)
+
       .login-field[type=password]
         width calc(92% - 3.2em)
 
@@ -43,12 +55,13 @@
 
       .forgot-password
         margin-top .6em
-        margin-bottom 2.4em
+        margin-bottom .4em
         font-size 1.55em
         font-weight 800
         color theme-color
 
       .login-submit
+        margin-top 1.8em
         padding .9em 3em .75em 3em
         border-radius(1em)
         font-size 1.7em
@@ -56,3 +69,15 @@
         color reversed-text-color
         background-color theme-color
         cursor pointer
+
+    .or-option
+      margin-top 2.4em
+      margin-bottom 1.4em
+      font-size 1.55em
+      font-weight 500
+      color theme-color
+
+    .secondary-option
+      font-size 2.1em
+      font-weight 800
+      color theme-color

@@ -6,21 +6,19 @@
 
 <div class="wrapper-center">
   <div id="login-box">
-    <h2 class="login-box-title">Entrar</h2>
+    <h2 class="login-box-title">Registrar</h2>
 
     <form method="POST" class="login-form">
       {% csrf_token %}
       <input type="email" name="email" placeholder="Email" required class="login-field">
+      <input type="text" name="cpf" placeholder="CPF" required class="login-field">
       <input type="password" name="senha" placeholder="Senha" required class="login-field">
+      <input type="password" placeholder="Confirmar senha" required class="login-field">
       {% if error %}
-      <p class="validation-error">Email ou senha incorreto(a)!</p>
+      <p class="validation-error">Algum campo não foi devidamente preenchido!</p>
       {% endif %}
-      <p class="forgot-password"><a href="">Esqueci minha senha</a></p>
-      <input type="submit" value="Entrar" class="login-submit">
+      <input type="submit" value="Criar conta" class="login-submit">
     </form>
-    
-    <p class="or-option">ou</p>
-    <p class="secondary-option"><a href="{% url 'criar_conta' %}">Registrar-se</a></p>
   </div>
 </div>
 
