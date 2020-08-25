@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Início{% endblock %}
+
+{% block content %}
+
+<div class="wrapper-center">
+  <div id="login-box">
+    <h2 class="login-box-title">Entrar</h2>
+
+    <form method="POST" class="login-form">
+      {% csrf_token %}
+      <input type="email" name="email" placeholder="Email" required class="login-field">
+      <input type="password" name="senha" placeholder="Senha" required class="login-field">
+      {% if error %}
+      <p class="validation-error">Nome de usuário ou senha incorreto(a)!</p>
+      {% endif %}
+      <p class="forgot-password">Esqueci minha senha</p>
+      <input type="submit" value="Entrar" class="login-submit">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

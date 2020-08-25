@@ -1,0 +1,58 @@
+.wrapper-center
+
+  #login-box
+    padding 6em 4.5em 6em 4.5em
+    border()
+    border-radius(4em)
+    text-align center
+    background-color rgba(text-color, .01)
+
+    .login-box-title
+      font-size 2.75em
+      font-weight 800
+      color theme-color
+
+    .login-form
+      width 37em
+      margin-top 4.5em
+
+      .login-field
+        margin-bottom 1em
+        padding .9em
+        padding-bottom .75em
+        border()
+        border-radius(2em)
+        font-size 1.7em
+        font-weight 500
+        color text-color
+        text-align center
+        background-color reversed-text-color
+      
+      .login-field[type=email]
+        width calc(100% - 3.2em)
+
+      .login-field[type=password]
+        width calc(92% - 3.2em)
+
+      .validation-error
+        margin-top .6em
+        margin-bottom 1em
+        font-size 1.55em
+        font-weight 600
+        color orangered
+
+      .forgot-password
+        margin-top .6em
+        margin-bottom 2.4em
+        font-size 1.55em
+        font-weight 800
+        color theme-color
+
+      .login-submit
+        padding .9em 3em .75em 3em
+        border-radius(1em)
+        font-size 1.7em
+        font-weight 700
+        color reversed-text-color
+        background-color theme-color
+        cursor pointer
