@@ -1,6 +1,7 @@
 @import 'resources'
 
 *
+  position relative
   margin 0
   padding 0
 
@@ -16,11 +17,14 @@ body
   font-family font-family
   font-size 62.5%
   color text-color
-  background-color #fff
+  background-color #fcfcfc
 
 a
   text-decoration none
   color inherit
+
+ul
+  list-style none
 
 input
 textarea
@@ -32,3 +36,82 @@ button
   box-shadow(none)
   outline 0
   background-color transparent
+
+#header
+  position absolute
+  z-index 1
+  top 0
+  left 0
+  width 80%
+  padding 2.7em 10% 1.5em 10%
+  flex-parent(row, nowrap, space-between)
+
+  @media (max-width 900px)
+    width 92%
+    padding 2em 4% 1.1em 4%
+
+  #header-logo
+    flex-basis auto
+    height 7em
+  
+  #main-menu
+    align-self flex-end
+    flex-parent(row, nowrap, flex-start)
+    margin-bottom .4em
+
+    @media (max-width 768px)
+      margin-bottom 1em
+
+    @media (max-width 600px)
+      align-self center
+      margin-top 2em
+
+    .main-menu-item
+      font-size 1.65em
+      font-weight 600
+      padding .6em 1.2em .42em 1.2em
+      border-radius(2em)
+
+      @media (max-width 900px)
+        font-size 1.55em
+
+      @media (max-width 768px)
+        padding .5em .8em .35em .8em
+
+      @media (max-width 600px)
+        display none
+    
+    .highlighted-item
+      margin-left 1.3em
+      padding-left 1.8em
+      padding-right 1.8em
+      color reversed-text-color
+      background-color theme-color
+
+      @media (max-width 600px)
+        display flex
+
+main
+  width 100%
+  height 100vh
+  overflow-y auto
+
+@media (max-width 1600px)
+  body
+    font-size 62%
+
+@media (max-width 1366px)
+  body
+    font-size 60.5%
+
+@media (max-width 1280px)
+  body
+    font-size 60%
+
+@media (max-width 768px)
+  body
+    font-size 57.5%
+
+@media (max-width 600px)
+  body
+    font-size 60%
