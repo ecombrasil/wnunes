@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
+
 from .models import User
+from .forms import CriarContaForm
+
 from lets_debug import terminal, DecoratorTools as debug
 
 
@@ -23,18 +26,31 @@ class Entrar(View):
 
 class CriarConta(View):
     def get(self, request):
-        return render(request, 'criar.conta.html', { 'error': False })
+        return render(request, 'criar.conta.html', { 'form': CriarContaForm(auto_id=False), 'error': False })
 
     def post(self, request):
-        email = request.POST['email']
-        cpf = request.POST['cpf']
-        senha = request.POST['senha']
+        form = CriarContaForm(request.POST, auto_id=False)
+        
+        if form.is_valid():
+            nome = form.cleaned_data['nome']
+            sobrenome = form.cleaned_data['sobrenome']
+            cpf = form.cleaned_data['cpf']
+            email = form.cleaned_data['email']
+            senha = form.cleaned_data['senha']
 
-        if email is not None and cpf is not None and senha is not None:
-            usuario = User.objects.create(email=email, cpf=cpf, password=senha)
+            usuario = User.objects.create(
+                first_name=nome,
+                last_name=sobrenome,
+                cpf=cpf,
+                email=email,
+                password=senha
+            )
+            usuario = authenticate(request, username=email, password=senha)
             login(request, usuario)
+            
             return redirect('inicio')
-        return render(request, 'criar.conta.html', { 'error': True })
+            
+        return render(request, 'criar.conta.html', { 'form': form, 'error': True })
 
 class Sair(View):
     def get(self, request):

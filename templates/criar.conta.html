@@ -7,13 +7,9 @@
 <div class="wrapper-center" id="login-wrapper">
   <div id="login-box">
     <h2 class="login-box-title">Registrar</h2>
-
     <form method="POST" class="login-form">
       {% csrf_token %}
-      <input type="email" name="email" placeholder="Email" required class="login-field">
-      <input type="text" name="cpf" placeholder="CPF" required class="login-field">
-      <input type="password" name="senha" placeholder="Senha" required class="login-field">
-      <input type="password" placeholder="Confirmar senha" required class="login-field">
+      {{ form }}
       {% if error %}
       <p class="validation-error">Algum campo não foi devidamente preenchido!</p>
       {% endif %}

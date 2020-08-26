@@ -2,17 +2,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("./utils");
-utils_1.addBindingAttr('clickAndGo', 'click', (attr) => window.location.href = attr);
+document.body.ondragstart = () => false;
+utils_1.handleBindingAttr('clickAndGo', (element, value) => element.addEventListener('click', () => window.location.href = value));
 
 },{"./utils":2}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addBindingAttr = void 0;
-exports.addBindingAttr = (attr, event, callback) => {
+exports.handleBindingAttr = void 0;
+exports.handleBindingAttr = (attr, callback) => {
     const bindings = document.querySelectorAll(`[${attr}]`);
     bindings.forEach(element => {
         const value = element.getAttribute('clickAndGo');
-        value && element.addEventListener(event, () => callback(value));
+        callback(element, value);
     });
 };
 
