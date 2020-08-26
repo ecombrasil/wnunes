@@ -6,3 +6,4 @@
 
 ## Qua, 26 de agosto
 - Autenticação de usuários
+- Área administrativa
