@@ -49,16 +49,6 @@
       height 6.25em
       margin-top 7em
 
-      .background-blur
-        position absolute
-        z-index 0
-        bottom 0
-        left 7.5%
-        width 85%
-        height 4.75em
-        filter(blur(23px))
-        background-color rgba(theme-color, .55)
-
       .see-more-button
         position absolute
         z-index 1
@@ -70,6 +60,7 @@
         flex-parent(row, wrap, center)
         align-items center
         background-color theme-color
+        cursor pointer
 
         .see-more-text
           margin-top .3em
@@ -78,6 +69,20 @@
           letter-spacing .06em
           color reversed-text-color
           text-align center
+
+      .background-blur
+        position absolute
+        z-index 0
+        bottom 0
+        left 7.5%
+        width 85%
+        height 4.75em
+        filter(blur(23px))
+        background-color rgba(theme-color, .55)
+        transition(400ms)
+
+      .see-more-button:hover + .background-blur
+        opacity 0
 
   #initial-illustration
     flex-basis auto
