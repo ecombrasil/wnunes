@@ -1,3 +1,4 @@
-import { addBindingAttr } from './utils';
+import { handleBindingAttr } from './utils';
 
-addBindingAttr('clickAndGo', 'click', (attr) => window.location.href = attr);
+handleBindingAttr('clickAndGo', (element, value) =>
+  element.addEventListener('click', () => window.location.href = value));
