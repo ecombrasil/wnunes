@@ -10,7 +10,7 @@ utils_1.handleBindingAttr('clickAndGo', (element, value) => element.addEventList
 },{"./utils":2}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleBindingAttr = void 0;
+exports.ruleOfThree = exports.handleBindingAttr = void 0;
 exports.handleBindingAttr = (attr, callback) => {
     const bindings = document.querySelectorAll(`[${attr}]`);
     bindings.forEach(element => {
@@ -18,5 +18,6 @@ exports.handleBindingAttr = (attr, callback) => {
         callback(element, value);
     });
 };
+exports.ruleOfThree = (a, b, c) => (b * c) / a;
 
 },{}]},{},[1]);

@@ -1,9 +1,10 @@
 #presenting-video-wrapper
   width 80%
   height auto
-  background-color rgba(soft-theme-color, .4)
+  align-items center
   transform(skewY(1deg))
   padding 8em 10% 6em 10%
+  background-color rgba(soft-theme-color, .4)
 
   @media (max-width 1366px)
     width 90%
@@ -20,11 +21,77 @@
 
   @media (max-width 600px)
     width 86%
-    padding-left 7%
-    padding-right 7%
+    margin-top 3em
+    padding 4em 7% 4em 7%
+    transform(skewY(0deg))
+    border-bottom-left-radius 4em
+    border-bottom-right-radius 4em
 
   #youtube-video
     flex-basis 640px
-    height 385px
+    height 360px
     transform(skewY(-1deg))
     border-radius(3em)
+    select(none)
+
+    @media (max-width 1600px)
+      flex-basis 560px
+      height 315px
+
+    @media (max-width 1366px)
+      flex-basis 480px
+      height 270px
+
+    @media (max-width 900px)
+      flex-basis 560px
+      height 315px
+
+    @media (max-width 600px)
+      height 200px
+      transform(skewY(0deg))
+      border-radius(1.5em)
+
+  .presenting-video-texts
+    flex-basis calc(85% - 640px)
+    height auto
+    transform(skewY(-1deg))
+
+    @media (max-width 1600px)
+      flex-basis calc(85% - 560px)
+
+    @media (max-width 1366px)
+      flex-basis calc(90% - 480px)
+
+    @media (max-width 900px)
+      flex-basis 60%
+
+    @media (max-width 600px)
+      flex-basis 100%
+      transform(skewY(0deg))
+
+    .presenting-title
+      font-size 4em
+      font-weight 800
+      color theme-color
+      text-align right
+
+      @media (max-width 900px)
+        margin-top 1.5em
+        font-size 3.2em
+        font-weight 900
+        text-align center
+
+      @media (max-width 600px)
+        font-size 2.4em
+
+    .presenting-paragraph
+      margin-top 2em
+      font-size 1.7em
+      font-weight 500
+      line-height 2em
+      text-align right
+
+      @media (max-width 900px)
+        font-size 1.6em
+        line-height 1.8em
+        text-align center
