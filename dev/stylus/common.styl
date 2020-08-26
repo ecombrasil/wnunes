@@ -39,7 +39,7 @@ button
 
 #header
   position absolute
-  z-index 1
+  z-index 1000
   top 0
   left 0
   width 80%
@@ -105,10 +105,16 @@ main
   overflow-y auto
 
   .wrapper-center
+  .wrapper-aparted
     width 100%
     height 100vh
+
+  .wrapper-center
     flex-parent(row, wrap, center)
     align-items center
+
+  .wrapper-aparted
+    flex-parent(row, wrap, space-between)
 
 @media (max-width 1600px)
   body

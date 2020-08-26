@@ -16,7 +16,10 @@
         <li class="main-menu-item"><a href="">Contato</a></li>
         <li class="main-menu-item"><a href="">Catálogo</a></li>
         <li class="main-menu-item"><a href="">Meu carrinho</a></li>
-        <li class="main-menu-item highlighted-item"><a href="">Entrar</a></li>
+        <li class="main-menu-item highlighted-item">
+          {% if request.user.is_authenticated %}{{ request.user.username }}
+          {% else %}<a href="{% url 'entrar' %}">Entrar</a>{% endif %}
+        </li>
       </ul>
     </header>
     <main>

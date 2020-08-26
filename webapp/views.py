@@ -3,7 +3,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
 from .models import User
-from lets_debug import DecoratorTools as debug
+from lets_debug import terminal, DecoratorTools as debug
 
 
 class Entrar(View):
@@ -13,7 +13,7 @@ class Entrar(View):
     def post(self, request):
         email = request.POST['email']
         senha = request.POST['senha']
-        usuario = authenticate(request, email=email, password=senha)
+        usuario = authenticate(request, username=email, password=senha)
 
         if usuario is not None:
             login(request, usuario)
@@ -43,4 +43,5 @@ class Sair(View):
         return redirect('entrar')
 
 class Inicio(TemplateView):
-    template_name = 'inicio.html'
+    def get(self, request):
+        return render(request, 'inicio.html', { 'user': request.user })

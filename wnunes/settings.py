@@ -125,4 +125,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'wnunes/static'),)
 
 AUTH_USER_MODEL = 'webapp.User'
-AUTHENTICATION_BACKENDS = ['webapp.auth.LoginWithEmailBackend']
+AUTHENTICATION_BACKENDS = ['webapp.backends.EmailBackend']

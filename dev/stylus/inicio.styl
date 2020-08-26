@@ -1,0 +1,79 @@
+#first-box
+  width 80%
+  min-height calc(100vh - 4em)
+  height auto
+  padding 2em 10% 2em 10%
+  align-items center
+  flex-parent(row, nowrap, space-between)
+
+  @media (max-width 900px)
+    width 92%
+    padding-left 4%
+    padding-right 4%
+
+  @media (max-width 600px)
+    width 86%
+    padding-left 7%
+    padding-right 7%
+
+  #initial-text
+    flex-basis auto
+    height auto
+
+    .main-title
+      font-size 6.5em
+      font-weight 900
+      font-style italic
+      color theme-color
+
+    .main-subtitle
+      max-width 18em
+      margin-top 2.75em
+      font-size 2.5em
+      font-weight 800
+
+    .main-paragraph
+      max-width 25em
+      margin-top 2em
+      font-size 1.8em
+      font-weight 600
+      line-height 1.5em
+
+    .see-more-button-wrapper
+      width 22em
+      height 6.25em
+      margin-top 7em
+
+      .background-blur
+        position absolute
+        z-index 0
+        bottom 0
+        left 7.5%
+        width 85%
+        height 4.75em
+        filter(blur(23px))
+        background-color rgba(theme-color, .55)
+
+      .see-more-button
+        position absolute
+        z-index 1
+        top 0
+        left 0
+        width 100%
+        height 5.5em
+        border-radius(1.2em)
+        flex-parent(row, wrap, center)
+        align-items center
+        background-color theme-color
+
+        .see-more-text
+          margin-top .3em
+          font-size 1.8em
+          font-weight 700
+          letter-spacing .06em
+          color reversed-text-color
+          text-align center
+
+  #initial-illustration
+    flex-basis auto
+    height 80vh
