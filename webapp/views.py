@@ -37,18 +37,18 @@ class CriarConta(View):
             cpf = form.cleaned_data['cpf']
             email = form.cleaned_data['email']
             senha = form.cleaned_data['senha']
-
-            usuario = User.objects.create(
-                first_name=nome,
-                last_name=sobrenome,
-                cpf=cpf,
-                email=email,
-                password=senha
-            )
-            usuario = authenticate(request, username=email, password=senha)
-            login(request, usuario)
             
-            return redirect('inicio')
+            usuario = User.objects.create_user(email, senha)
+            usuario.first_name = nome
+            usuario.last_name = sobrenome
+            usuario.cpf = cpf
+            usuario.save()
+            
+            usuario = authenticate(request, username=email, password=senha)
+
+            if usuario is not None:
+                login(request, usuario)
+                return redirect('inicio')
             
         return render(request, 'criar.conta.html', { 'form': form, 'error': True })
 
