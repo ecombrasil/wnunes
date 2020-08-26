@@ -1,0 +1,30 @@
+#presenting-video-wrapper
+  width 80%
+  height auto
+  background-color rgba(soft-theme-color, .4)
+  transform(skewY(1deg))
+  padding 8em 10% 6em 10%
+
+  @media (max-width 1366px)
+    width 90%
+    padding-left 5%
+    padding-right 5%
+
+  @media (max-width 900px)
+    width 92%
+    padding-left 4%
+    padding-right 4%
+    min-height auto
+    flex-wrap wrap
+    justify-content center
+
+  @media (max-width 600px)
+    width 86%
+    padding-left 7%
+    padding-right 7%
+
+  #youtube-video
+    flex-basis 640px
+    height 385px
+    transform(skewY(-1deg))
+    border-radius(3em)
