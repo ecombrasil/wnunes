@@ -44,6 +44,7 @@ button
   width 80%
   padding 2.7em 10% 1.5em 10%
   flex-parent(row, nowrap, space-between)
+  background-color #fcfcfc
 
   @media (max-width 1366px)
     width 90%
@@ -56,6 +57,10 @@ button
   @media (max-width 600px)
     width 86%
     padding 1em 7% 1em 7%
+
+  &.shaded-header
+    transition(300ms)
+    box-shadow(0px 4px 12px -1px rgba(#aaa, .16))
 
   #header-logo
     flex-basis auto
