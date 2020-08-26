@@ -1,5 +1,5 @@
 # Atividades concluídas
 
-[x] Página de login
-[x] Página de cadastro
-[x] Autenticação de usuários
+- Página de login
+- Página de cadastro
+- Autenticação de usuários
