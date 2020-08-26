@@ -1,4 +1,4 @@
-import { handleBindingAttr } from './utils';
+import { handleBindingAttr, ruleOfThree } from './utils';
 
 // Avoid images from getting arrested by the user
 document.body.ondragstart = () => false;
