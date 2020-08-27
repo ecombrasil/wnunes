@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+{% endblock %}
+
 {% block title %}Início{% endblock %}
 
 {% block content %}
@@ -53,4 +57,40 @@
 </div>
 
 <h2 class="home-section-title">Nossos clientes</h2>
+
+<div id="customers-slider">
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/copel.png' %}" alt="Copel" class="customer-logo">
+  </div>
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/edp.png' %}" alt="edp" class="customer-logo">
+  </div>
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/embratel.png' %}" alt="Embratel" class="customer-logo">
+  </div>
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/cemig.png' %}" alt="Cemig" class="customer-logo">
+  </div>
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/shell.png' %}" alt="Shell" class="customer-logo">
+  </div>
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/vivo.png' %}" alt="Vivo" class="customer-logo">
+  </div>
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/claro.png' %}" alt="Claro" class="customer-logo">
+  </div>
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/oi.png' %}" alt="oi" class="customer-logo">
+  </div>
+  <div class="customer-box">
+    <img src="{% static 'img/clientes/tim.png' %}" alt="Tim" class="customer-logo">
+  </div>
+</div>
+
+<div class="slider-controllers-wrapper">
+  <div class="slider-btn-controller"></div>
+  <div class="slider-btn-controller active-slider-controller"></div>
+  <div class="slider-btn-controller"></div>
+</div>
 {% endblock %}

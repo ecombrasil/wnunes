@@ -7,3 +7,20 @@ document.body.ondragstart = () => false;
 handleBindingAttr('clickAndGo', (element, value) =>
   element.addEventListener('click', () => window.location.href = value)
 );
+
+// Slider
+
+const slider = document.getElementById('customers-slider');
+
+const initSlider = () => {
+  const getCenter = () => (slider.scrollWidth - slider.clientWidth) / 2;
+  const [ leftBtn, centerBtn, rightBtn ] = document.getElementsByClassName('slider-btn-controller');
+
+  leftBtn.addEventListener('click', () => slider.scrollLeft = 0);
+  centerBtn.addEventListener('click', () => slider.scrollLeft = getCenter());
+  rightBtn.addEventListener('click', () => slider.scrollLeft = slider.scrollWidth);
+
+  slider.scrollLeft = getCenter();
+};
+
+window.addEventListener('load', initSlider);

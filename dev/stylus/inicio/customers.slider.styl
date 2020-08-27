@@ -1,0 +1,38 @@
+#customers-slider
+  width 100%
+  height auto
+  white-space nowrap
+  overflow hidden
+  scroll-behavior smooth
+
+  .customer-box
+    display inline-block
+    width wth = 25em
+    height wth
+    margin 0 1.5em 0 1.5em
+    border-radius(50%)
+    background-color rgba(soft-theme-color, .25)
+
+    .customer-logo
+      width 38%
+      position absolute
+      top 50%
+      left 50%
+      transform(translate(-50%, -50%))
+
+.slider-controllers-wrapper
+  margin 0 auto
+  margin-top 6em
+  flex-parent(row, nowrap, center)
+
+  .slider-btn-controller
+    width wth = 1.6em
+    height wth
+    margin-right .75em
+    margin-left .75em
+    border-radius(50%)
+    background-color rgba(theme-color, .28)
+    cursor pointer
+
+    &.active-slider-controller
+      background-color theme-color
