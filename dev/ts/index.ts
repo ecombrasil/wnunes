@@ -1,4 +1,4 @@
-import { handleBindingAttr } from 'easy-coding';
+import { handleBindingAttr, createElement, getRandomValueFrom } from 'easy-coding';
 
 // Avoid images from getting arrested by the user
 document.body.ondragstart = () => false;
@@ -38,4 +38,20 @@ const initSlider = () => {
   animate('center');
 };
 
-window.addEventListener('load', initSlider);
+document.addEventListener('DOMContentLoaded', initSlider);
+
+// Adjust slides for mobile
+const setSlidesSize = () => {
+  const slides = [...document.querySelectorAll('.customer-box')] as HTMLElement[];
+  const windowWidth = window.innerWidth;
+
+  if (windowWidth <= 600)
+    slides.forEach(el => el.style.height = el.clientWidth + 'px');
+  else if (windowWidth <= 1366)
+    slides.forEach(el => el.style.height = '22em');
+  else
+    slides.forEach(el => el.style.height = '25em');
+}
+
+document.addEventListener('DOMContentLoaded', setSlidesSize);
+window.addEventListener('resize', setSlidesSize);

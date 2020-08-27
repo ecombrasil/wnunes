@@ -31,7 +31,20 @@ const initSlider = () => {
     controllers[2].addEventListener('click', (e) => animate('right', e.target));
     animate('center');
 };
-window.addEventListener('load', initSlider);
+document.addEventListener('DOMContentLoaded', initSlider);
+// Adjust slides for mobile
+const setSlidesSize = () => {
+    const slides = [...document.querySelectorAll('.customer-box')];
+    const windowWidth = window.innerWidth;
+    if (windowWidth <= 600)
+        slides.forEach(el => el.style.height = el.clientWidth + 'px');
+    else if (windowWidth <= 1366)
+        slides.forEach(el => el.style.height = '22em');
+    else
+        slides.forEach(el => el.style.height = '25em');
+};
+document.addEventListener('DOMContentLoaded', setSlidesSize);
+window.addEventListener('resize', setSlidesSize);
 
 },{"easy-coding":5}],2:[function(require,module,exports){
 "use strict";
