@@ -1,4 +1,4 @@
-import { handleBindingAttr, createElement, getRandomValueFrom } from 'easy-coding';
+import { handleBindingAttr } from 'easy-coding';
 
 // Avoid images from getting arrested by the user
 document.body.ondragstart = () => false;
