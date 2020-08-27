@@ -9,18 +9,33 @@ handleBindingAttr('clickAndGo', (element, value) =>
 );
 
 // Slider
-
-const slider = document.getElementById('customers-slider');
-
 const initSlider = () => {
-  const getCenter = () => (slider.scrollWidth - slider.clientWidth) / 2;
-  const [ leftBtn, centerBtn, rightBtn ] = document.getElementsByClassName('slider-btn-controller');
+  const slider = document.getElementById('customers-slider');
+  const controllers = document.getElementsByClassName('slider-btn-controller');
 
-  leftBtn.addEventListener('click', () => slider.scrollLeft = 0);
-  centerBtn.addEventListener('click', () => slider.scrollLeft = getCenter());
-  rightBtn.addEventListener('click', () => slider.scrollLeft = slider.scrollWidth);
+  const animate = (direction: 'left' | 'center' | 'right', btn?: HTMLElement) => {
+    switch(direction) {
+      case 'left':
+        slider.scrollLeft = 0;
+        break;
+      case 'center':
+        slider.scrollLeft = (slider.scrollWidth - slider.clientWidth) / 2;
+        break;
+      case 'right':
+        slider.scrollLeft = slider.scrollWidth;
+        break;
+    }
 
-  slider.scrollLeft = getCenter();
+    if (btn)
+      for (const c of controllers)
+        c.classList.toggle('active-slider-controller', c === btn);
+  };
+
+  controllers[0].addEventListener('click', (e) => animate('left', e.target as HTMLElement));
+  controllers[1].addEventListener('click', (e) => animate('center', e.target as HTMLElement));
+  controllers[2].addEventListener('click', (e) => animate('right', e.target as HTMLElement));
+
+  animate('center');
 };
 
 window.addEventListener('load', initSlider);
