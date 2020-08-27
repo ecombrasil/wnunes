@@ -22,6 +22,9 @@
   margin 0 auto
   flex-parent(row, nowrap, space-between)
 
+  @media (max-width 1366px)
+    width 90%
+
   @media (max-width 900px)
     width 65%
     flex-wrap wrap
@@ -71,3 +74,32 @@
 
       @media (max-width 1366px)
         font-size 1.5em
+
+.last-suggestions-wrapper
+  margin 0 auto
+  margin-top 13em
+  flex-parent(row, wrap, center)
+
+  .suggestion-box
+    flex-parent(row, nowrap, space-between)
+    align-items center
+    height 14em
+    padding 0 4.5em 0 4.5em
+    border-radius(1.6em)
+    background-color rgba(soft-theme-color, .4)
+
+    @media (min-width 901px)
+      &:first-child
+        margin-right 4em
+      &:last-child
+        margin-left 4em
+
+    .suggestion-text
+      margin-top .3em
+      font-size 2.6em
+      font-weight 800
+      color theme-color
+
+    .suggestion-illustration
+      margin-left 5.5em
+      height 80%
