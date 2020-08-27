@@ -6,8 +6,6 @@ from django.contrib.auth import authenticate, login, logout
 from .models import User
 from .forms import CriarContaForm
 
-from lets_debug import terminal, DecoratorTools as debug
-
 
 class Entrar(View):
     def get(self, request):
@@ -59,5 +57,4 @@ class Sair(View):
         return redirect('entrar')
 
 class Inicio(TemplateView):
-    def get(self, request):
-        return render(request, 'inicio.html', { 'user': request.user })
+    template_name = 'inicio.html'
