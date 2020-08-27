@@ -3,12 +3,17 @@
 
 .home-section-title
   width 100%
-  padding-top 3.4em
-  padding-bottom 2.5em
+  margin-top 3.4em
+  margin-bottom 2.5em
   font-size 3.5em
   font-weight 900
   color theme-color
   text-align center
+
+  @media (max-width 600px)
+    font-size 2.4em
+    margin-top 3.3em
+    margin-bottom 1.8em
 
 .advantages-wrapper
   width 80%
@@ -16,9 +21,29 @@
   margin 0 auto
   flex-parent(row, nowrap, space-between)
 
+  @media (max-width 900px)
+    width 65%
+    flex-wrap wrap
+
+  @media (max-width 600px)
+    width 70%
+
   .advantage-box
     flex-basis 16.5%
     height auto
+
+    @media (max-width 900px) and (min-width 601px)
+      flex-basis 36%
+      
+      &:first-child
+      &:nth-child(2)
+        margin-bottom 6em
+
+    @media (max-width 600px)
+      flex-basis 100%
+
+      &:not(:last-child)
+        margin-bottom 7em
 
     .advantage-illustration
       width 100%
@@ -30,9 +55,18 @@
       font-weight 900
       text-align center
 
+      @media (max-width 1366px)
+        font-size 1.8em
+
+      @media (max-width 600px)
+        font-size 2.2em
+
     .advantage-text
       margin-top 1.4em
       font-size 1.6em
       font-weight normal
       line-height 1.4em
       text-align center
+
+      @media (max-width 1366px)
+        font-size 1.5em
