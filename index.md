@@ -1,5 +1,13 @@
 # Atividades concluídas
 
+## Qui, 27 de agosto
+
+- Página inicial
+
+![Screenshot da tela Início](https://i.imgur.com/10r3ecU.png)
+![Screenshot da tela Início](https://i.imgur.com/0IwN6ak.png)
+![Screenshot da tela Início](https://i.imgur.com/8JGcSQd.png)
+
 ## Qua, 26 de agosto
 - Autenticação de usuários
 - Área administrativa
