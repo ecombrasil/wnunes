@@ -1,5 +1,12 @@
 # Atividades concluídas
 
+## Qui, 28 de agosto
+
+- Página Sobre nós
+
+![Screenshot da tela Sobre nós](https://i.imgur.com/9OYp0QF.png)
+![Screenshot da tela Sobre nós - versão mobile](https://i.imgur.com/hTiJ1Hw.png)
+
 ## Qui, 27 de agosto
 
 - Página inicial
