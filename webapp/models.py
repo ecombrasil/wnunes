@@ -37,9 +37,41 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+UF_CHOICES = (
+    ('AC', 'Acre'), 
+    ('AL', 'Alagoas'),
+    ('AP', 'Amapá'),
+    ('BA', 'Bahia'),
+    ('CE', 'Ceará'),
+    ('DF', 'Distrito Federal'),
+    ('ES', 'Espírito Santo'),
+    ('GO', 'Goiás'),
+    ('MA', 'Maranão'),
+    ('MG', 'Minas Gerais'),
+    ('MS', 'Mato Grosso do Sul'),
+    ('MT', 'Mato Grosso'),
+    ('PA', 'Pará'),
+    ('PB', 'Paraíba'),
+    ('PE', 'Pernanbuco'),
+    ('PI', 'Piauí'),
+    ('PR', 'Paraná'),
+    ('RJ', 'Rio de Janeiro'),
+    ('RN', 'Rio Grande do Norte'),
+    ('RO', 'Rondônia'),
+    ('RR', 'Roraima'),
+    ('RS', 'Rio Grande do Sul'),
+    ('SC', 'Santa Catarina'),
+    ('SE', 'Sergipe'),
+    ('SP', 'São Paulo'),
+    ('TO', 'Tocantins'),
+)
+
 class User(AbstractUser):
     """User model."""
+
+    is_pessoa_juridica = models.BooleanField(default=False)
     cpf = models.CharField(max_length=14, null=False, blank=False)
+    uf = models.CharField(max_length=2, choices=UF_CHOICES, blank=True, null=True)
     
     username = None
     email = models.EmailField(_('email address'), unique=True)
