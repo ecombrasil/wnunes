@@ -1,15 +1,25 @@
+import Shared from './shared';
+import { Type } from 'easy-coding/lib/types';
 import { handleBindingAttr } from 'easy-coding';
 import Inicio from './inicio';
 
-// Avoid images from getting arrested by the user
-document.body.ondragstart = () => false;
+@Shared
+class App {
+  declarations: Type[] = [
+    Inicio
+  ];
 
-// Enable elements with the atribute clickAndGo to be clicked to open links
-handleBindingAttr('clickAndGo', (element, value) =>
-  element.addEventListener('click', () => window.location.href = value)
-);
+  constructor() {
+    this.addListeners();
+  }
 
-// Run code for proper page
-const pages = [
-  Inicio
-];
+  private addListeners(): void {
+    // Avoid images from getting arrested by the user
+    document.body.ondragstart = () => false;
+
+    // Enable elements with the atribute clickAndGo to open links by clicking them
+    handleBindingAttr('clickAndGo', (element, value) =>
+      element.addEventListener('click', () => window.location.href = value)
+    );
+  }
+}

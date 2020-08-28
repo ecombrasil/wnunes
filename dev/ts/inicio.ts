@@ -39,7 +39,7 @@ export default class Inicio {
     animate('center');
   }
 
-  private setSlidesSize() {
+  private setSlidesSize(): void {
     const slides = [...document.querySelectorAll('.customer-box')] as HTMLElement[];
     const windowWidth = window.innerWidth;
   
