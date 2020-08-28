@@ -3,6 +3,7 @@
 ## Qui, 28 de agosto
 
 - Página Sobre nós
+- Tabela usuário (cliente/funcionário)
 
 ![Screenshot da tela Sobre nós](https://i.imgur.com/9OYp0QF.png)
 ![Screenshot da tela Sobre nós - versão mobile](https://i.imgur.com/hTiJ1Hw.png)
