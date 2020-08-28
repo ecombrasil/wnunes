@@ -2,51 +2,85 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const easy_coding_1 = require("easy-coding");
+const inicio_1 = require("./inicio");
 // Avoid images from getting arrested by the user
 document.body.ondragstart = () => false;
 // Enable elements with the atribute clickAndGo to be clicked to open links
 easy_coding_1.handleBindingAttr('clickAndGo', (element, value) => element.addEventListener('click', () => window.location.href = value));
-// Slider
-const initSlider = () => {
-    const slider = document.getElementById('customers-slider');
-    const controllers = document.getElementsByClassName('slider-btn-controller');
-    const animate = (direction, btn) => {
-        switch (direction) {
-            case 'left':
-                slider.scrollLeft = 0;
-                break;
-            case 'center':
-                slider.scrollLeft = (slider.scrollWidth - slider.clientWidth) / 2;
-                break;
-            case 'right':
-                slider.scrollLeft = slider.scrollWidth;
-                break;
-        }
-        if (btn)
-            for (const c of controllers)
-                c.classList.toggle('active-slider-controller', c === btn);
-    };
-    controllers[0].addEventListener('click', (e) => animate('left', e.target));
-    controllers[1].addEventListener('click', (e) => animate('center', e.target));
-    controllers[2].addEventListener('click', (e) => animate('right', e.target));
-    animate('center');
-};
-document.addEventListener('DOMContentLoaded', initSlider);
-// Adjust slides for mobile
-const setSlidesSize = () => {
-    const slides = [...document.querySelectorAll('.customer-box')];
-    const windowWidth = window.innerWidth;
-    if (windowWidth <= 600)
-        slides.forEach(el => el.style.height = el.clientWidth + 'px');
-    else if (windowWidth <= 1366)
-        slides.forEach(el => el.style.height = '22em');
-    else
-        slides.forEach(el => el.style.height = '25em');
-};
-document.addEventListener('DOMContentLoaded', setSlidesSize);
-window.addEventListener('resize', setSlidesSize);
+// Run code for proper page
+const pages = [
+    inicio_1.default
+];
 
-},{"easy-coding":5}],2:[function(require,module,exports){
+},{"./inicio":2,"easy-coding":7}],2:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const page_1 = require("./page");
+let Inicio = class Inicio {
+    constructor() {
+        document.addEventListener('DOMContentLoaded', () => {
+            this.initSlider();
+            this.setSlidesSize();
+        });
+        window.addEventListener('resize', () => this.setSlidesSize());
+    }
+    initSlider() {
+        const slider = document.getElementById('customers-slider');
+        const controllers = document.getElementsByClassName('slider-btn-controller');
+        const animate = (direction, btn) => {
+            switch (direction) {
+                case 'left':
+                    slider.scrollLeft = 0;
+                    break;
+                case 'center':
+                    slider.scrollLeft = (slider.scrollWidth - slider.clientWidth) / 2;
+                    break;
+                case 'right':
+                    slider.scrollLeft = slider.scrollWidth;
+                    break;
+            }
+            if (btn)
+                for (const c of controllers)
+                    c.classList.toggle('active-slider-controller', c === btn);
+        };
+        controllers[0].addEventListener('click', (e) => animate('left', e.target));
+        controllers[1].addEventListener('click', (e) => animate('center', e.target));
+        controllers[2].addEventListener('click', (e) => animate('right', e.target));
+        animate('center');
+    }
+    setSlidesSize() {
+        const slides = [...document.querySelectorAll('.customer-box')];
+        const windowWidth = window.innerWidth;
+        if (windowWidth <= 600)
+            slides.forEach(el => el.style.height = el.clientWidth + 'px');
+        else if (windowWidth <= 1366)
+            slides.forEach(el => el.style.height = '22em');
+        else
+            slides.forEach(el => el.style.height = '25em');
+    }
+};
+Inicio = __decorate([
+    page_1.default('/inicio')
+], Inicio);
+exports.default = Inicio;
+
+},{"./page":3}],3:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Page = (route) => (type) => {
+    if (window.location.pathname === route)
+        new type();
+    return type;
+};
+exports.default = Page;
+
+},{}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
@@ -85,7 +119,7 @@ class Cookies {
 }
 exports.Cookies = Cookies;
 
-},{}],3:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
@@ -95,7 +129,7 @@ exports.Global = void 0;
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.handleBindingAttr = exports.createElement = void 0;
@@ -176,7 +210,7 @@ exports.randomDateBetween = (date1, date2) => {
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -193,4 +227,4 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":2,"./decorators":3,"./functions":4}]},{},[1]);
+},{"./classes":4,"./decorators":5,"./functions":6}]},{},[1]);

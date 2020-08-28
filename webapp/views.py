@@ -58,3 +58,6 @@ class Sair(View):
 
 class Inicio(TemplateView):
     template_name = 'inicio.html'
+
+class SobreNos(TemplateView):
+    template_name = 'sobre.nos.html'
