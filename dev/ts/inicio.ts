@@ -1,6 +1,6 @@
 import Page from './page';
 
-@Page('/inicio')
+@Page('/')
 export default class Inicio {
   constructor() {
     document.addEventListener('DOMContentLoaded', () => {

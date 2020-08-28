@@ -66,7 +66,7 @@ let Inicio = class Inicio {
     }
 };
 Inicio = __decorate([
-    page_1.default('/inicio')
+    page_1.default('/')
 ], Inicio);
 exports.default = Inicio;
 
@@ -74,7 +74,14 @@ exports.default = Inicio;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Page = (route) => (type) => {
-    if (window.location.pathname === route)
+    if (Array.isArray(route))
+        for (const r of route) {
+            if (window.location.pathname === r) {
+                new type();
+                break;
+            }
+        }
+    else if (window.location.pathname === route)
         new type();
     return type;
 };
