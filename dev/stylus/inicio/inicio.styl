@@ -83,6 +83,9 @@
   @media (max-width 1200px)
     width 82%
 
+  @media (max-width 600px)
+    margin-top 7.5em
+
   .suggestion-box
     flex-parent(row, nowrap, space-between)
     align-items center
@@ -109,6 +112,15 @@
       &:first-child
         margin-bottom 3.2em
 
+    @media (max-width 600px)
+      &:first-child
+        margin-bottom 2.5em
+
+    @media (max-width 600px)
+      padding 0 3em 0 3em
+      border-radius(2.4em)
+      background-color rgba(soft-theme-color, .6)
+
     .suggestion-text
       margin-top .3em
       font-size 2.6em
@@ -121,6 +133,9 @@
       @media (max-width 1366px)
         font-size 2.4em
 
+      @media (max-width 600px)
+        font-size 1.8em
+
     .suggestion-illustration
       margin-left 5.5em
       height 80%
@@ -130,3 +145,6 @@
 
       @media (max-width 1600px)
         margin-left 4em
+
+      @media (max-width 600px)
+        margin-left 2em
