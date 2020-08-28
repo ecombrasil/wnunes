@@ -61,20 +61,36 @@ main
     flex-parent(row, wrap, space-between)
 
   .page-title
-    margin-top 4em
-    margin-bottom 1em
+    width 17.85em
+    margin 4em auto 1em auto
     font-size 4.2em
     font-weight 900
     color theme-color
     text-align center
 
+    @media (max-width 900px)
+      width 15.47em
+
+    @media (max-width 768px)
+      width 82%
+      margin-top 5em
+      font-size 2.65em
+      font-weight 800
+
   .opening-page-paragraph
-    width 33%
+    width 42.85em
     margin 0 auto
     font-size 1.75em
     font-weight 500
     line-height 1.5em
     text-align center
+
+    @media (max-width 900px)
+      width 37.13em
+
+    @media (max-width 768px)
+      width 82%
+      font-size 1.55em
 
 @media (max-width 1600px)
   body
