@@ -3,7 +3,7 @@
 ## Sáb, 29 de agosto
 
 - Tabela de produtos
-- Tabela de avaliação dos produtos
+- Tabela de avaliações dos clientes
 
 ## Sex, 28 de agosto
 
