@@ -7,6 +7,9 @@
 - Tabela de kits
 - Tabela de produtos em kits
 - Tabela de mensagens dos clientes no site
+- Página de vídeos
+
+![Screenshot da tela Vídeos](https://i.imgur.com/yyF2QK0.png)
 
 ## Sex, 28 de agosto
 
