@@ -1,6 +1,6 @@
 # Atividades concluídas
 
-## Qui, 28 de agosto
+## Sex, 28 de agosto
 
 - Página Sobre nós
 - Tabela usuário (cliente/funcionário)
