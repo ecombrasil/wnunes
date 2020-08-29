@@ -95,6 +95,9 @@ class AvaliacaoCliente(models.Model):
     texto = models.CharField(max_length=200)
     pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(0), MaxValueValidator(5)])
 
+    class Meta:
+        verbose_name_plural = 'Avaliações dos produtos'
+
 class Kit(models.Model):
     nome = models.CharField(max_length=48)
     descricao = models.CharField(max_length=200, blank=True, null=True)
@@ -103,3 +106,14 @@ class ItemKit(models.Model):
     kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     qntd = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name_plural = 'Itens em kits'
+
+class MensagemSite(models.Model):
+    nome = models.CharField(max_length=128)
+    email = models.EmailField()
+    mensagem = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name_plural = 'Mensagens do site'

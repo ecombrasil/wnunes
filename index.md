@@ -6,6 +6,7 @@
 - Tabela de avaliações dos clientes
 - Tabela de kits
 - Tabela de produtos em kits
+- Tabela de mensagens dos clientes no site
 
 ## Sex, 28 de agosto
 
