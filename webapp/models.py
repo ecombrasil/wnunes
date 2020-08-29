@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 
@@ -35,7 +36,6 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(email, password, **extra_fields)
-
 
 UF_CHOICES = (
     ('AC', 'Acre'), 
@@ -80,3 +80,17 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+class Produto(models.Model):
+    nome = models.CharField(max_length=128)
+    preco = models.FloatField()
+    qntd_estoque = models.PositiveIntegerField(default=0)
+    descricao = models.CharField(max_length=200)
+    medidas = models.CharField(max_length=32, blank=True, null=True)
+
+class AvaliacaoCliente(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=48)
+    texto = models.CharField(max_length=200)
+    pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(0), MaxValueValidator(5)])

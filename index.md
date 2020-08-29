@@ -1,9 +1,14 @@
 # Atividades concluídas
 
+## Sáb, 29 de agosto
+
+- Tabela de produtos
+- Tabela de avaliação dos produtos
+
 ## Sex, 28 de agosto
 
 - Página Sobre nós
-- Tabela usuário (cliente/funcionário)
+- Tabela de usuários (cliente/funcionário)
 
 ![Screenshot da tela Sobre nós](https://i.imgur.com/9OYp0QF.png)
 ![Screenshot da tela Sobre nós - versão mobile](https://i.imgur.com/hTiJ1Hw.png)
