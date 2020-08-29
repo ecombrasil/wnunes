@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
-
+import datetime
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -87,6 +87,7 @@ class Produto(models.Model):
     qntd_estoque = models.PositiveIntegerField(default=0)
     descricao = models.CharField(max_length=200)
     medidas = models.CharField(max_length=32, blank=True, null=True)
+    data_criacao = models.DateField(auto_now_add=True)
 
 class AvaliacaoCliente(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
@@ -94,6 +95,7 @@ class AvaliacaoCliente(models.Model):
     titulo = models.CharField(max_length=48)
     texto = models.CharField(max_length=200)
     pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    data_criacao = models.DateField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'Avaliações dos produtos'
@@ -101,7 +103,8 @@ class AvaliacaoCliente(models.Model):
 class Kit(models.Model):
     nome = models.CharField(max_length=48)
     descricao = models.CharField(max_length=200, blank=True, null=True)
-
+    data_criacao = models.DateField(auto_now_add=True)
+    
 class ItemKit(models.Model):
     kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
@@ -114,6 +117,7 @@ class MensagemSite(models.Model):
     nome = models.CharField(max_length=128)
     email = models.EmailField()
     mensagem = models.CharField(max_length=200)
+    data_criacao = models.DateField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'Mensagens do site'
