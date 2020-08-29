@@ -4,6 +4,8 @@
 
 - Tabela de produtos
 - Tabela de avaliações dos clientes
+- Tabela de kits
+- Tabela de produtos em kits
 
 ## Sex, 28 de agosto
 

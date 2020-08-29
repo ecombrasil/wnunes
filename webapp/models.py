@@ -94,3 +94,12 @@ class AvaliacaoCliente(models.Model):
     titulo = models.CharField(max_length=48)
     texto = models.CharField(max_length=200)
     pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(0), MaxValueValidator(5)])
+
+class Kit(models.Model):
+    nome = models.CharField(max_length=48)
+    descricao = models.CharField(max_length=200, blank=True, null=True)
+
+class ItemKit(models.Model):
+    kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    qntd = models.PositiveIntegerField(default=1)
