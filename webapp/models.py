@@ -95,7 +95,7 @@ class AvaliacaoCliente(models.Model):
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=48, verbose_name='Título')
     texto = models.CharField(max_length=200)
-    pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='Pontuação (0-5)')
+    pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)], verbose_name='Pontuação (0-5)')
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     class Meta:

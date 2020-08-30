@@ -1,8 +1,10 @@
-export default interface Model {
-  id: number;
+export default interface Model<T> {
+  pk: number;
+  fields: T;
+  model: string;
 }
 
-export interface Produto extends Model {
+export interface Produto{
   nome: string;
   preco: number;
   qntd_estoque: number;

@@ -35,6 +35,7 @@ ul
 input
 textarea
 button
+select
   border-style none
   font-family font-family
   font-size inherit
@@ -42,6 +43,12 @@ button
   box-shadow(none)
   outline 0
   background-color transparent
+
+select
+  -webkit-appearance none
+  appearance none
+  &::-ms-expand
+    display none
 
 main
   width 100%
@@ -91,6 +98,50 @@ main
     @media (max-width 768px)
       width 82%
       font-size 1.55em
+
+.page-header
+  width 80%
+  height 4em
+  margin 0 auto 6em auto
+  flex-parent(row, wrap, flex-start)
+
+  @media (max-width 1366px)
+    width 90%
+
+  @media (max-width 900px)
+    width 92%
+
+  @media (max-width 600px)
+    width 86%
+
+  .pg-header-option
+  .ordering-btn
+    height 100%
+    font-size 1.5em
+    font-weight 700
+    flex-parent(row, nowrap, center)
+    align-items center
+    border-radius(.5em)
+
+  .pg-header-option
+    margin-right 1.5em
+    padding 0 2em 0 2em
+    border-width 1px
+    border-style solid
+    border-color #ddd
+    background-color rgba(text-color, .01)
+
+    &.active-pg-option
+      border-color theme-color
+      color reversed-text-color
+      background-color theme-color
+
+  .ordering-btn
+    padding 0 2.2em 0 2.2em
+    background-color #f5f5f5
+    margin-left auto
+    border-style none
+    cursor pointer
 
 @media (max-width 1600px)
   body
