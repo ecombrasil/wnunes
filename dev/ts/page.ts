@@ -17,8 +17,8 @@ const Page = (route: string | string[], options?: PageOptions) => <T extends Typ
   else if (window.location.pathname === route) instance = new type();
 
   if (instance && options?.globalInstance) {
-    const objectName = type.name.charAt(0).toLowerCase();
-    globalThis[objectName] = instance;
+    const objectName = type.name.charAt(0).toLowerCase() + type.name.substring(1);
+    (<any>window)[objectName] = instance;
   }
 
   return type;

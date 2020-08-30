@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Catálogo de produtos{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block after_script %}
+<script type="text/javascript">
+  {% for produto in produtos %}
+  catalogoProdutos.items.push({
+    id: {{ produto.id }},
+    nome: '{{ produto.nome }}',
+    qntd_estoque: {{ produto.qntd_estoque }},
+    preco: {{ produto.preco|stringformat:"f" }},
+    descricao: '{{ produto.descricao }}',
+    medidas: '{{ produto.medidas }}',
+    data_criacao: '{{ data_criacao }}'
+  });
+  {% endfor %}
+</script>
+{% endblock %}

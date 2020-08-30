@@ -1,11 +1,25 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth import authenticate, login, logout
-
-from .models import User
+from .models import User, Produto
 from .forms import CriarContaForm
 
+
+
+class Inicio(TemplateView):
+    template_name = 'inicio.html'
+
+class SobreNos(TemplateView):
+    template_name = 'sobre.nos.html'
+
+class Videos(TemplateView):
+    template_name = 'videos.html'
+
+class CatalogoProdutos(ListView):
+    template_name = 'catalogo.produtos.html'
+    context_object_name = 'produtos'
+    model = Produto
 
 class Entrar(View):
     def get(self, request):
@@ -55,12 +69,3 @@ class Sair(View):
         if request.user.is_authenticated:
             logout(request)
         return redirect('entrar')
-
-class Inicio(TemplateView):
-    template_name = 'inicio.html'
-
-class SobreNos(TemplateView):
-    template_name = 'sobre.nos.html'
-
-class Videos(TemplateView):
-    template_name = 'videos.html'
