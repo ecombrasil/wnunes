@@ -2,13 +2,13 @@ import Shared from './shared';
 import { Type } from 'easy-coding/lib/types';
 import { handleBindingAttr } from 'easy-coding';
 import Inicio from './inicio';
-import catalogos from './catalogos';
+import ProdutosCatalogo from './produtos.catalogo';
 
 @Shared
 class App {
   declarations: Type[] = [
     Inicio,
-    ...catalogos
+    ProdutosCatalogo
   ];
 
   constructor() {
