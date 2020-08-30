@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth import authenticate, login, logout
+from django.core.serializers import serialize
+from django.utils.safestring import SafeString
 from .models import User, Produto
 from .forms import CriarContaForm
-
 
 
 class Inicio(TemplateView):
@@ -16,10 +17,12 @@ class SobreNos(TemplateView):
 class Videos(TemplateView):
     template_name = 'videos.html'
 
-class CatalogoProdutos(ListView):
-    template_name = 'catalogo.produtos.html'
-    context_object_name = 'produtos'
-    model = Produto
+class CatalogoProdutos(View):
+    def get(self, request):
+        queryset = Produto.objects.all()
+        data = serialize('json', queryset)
+        produtos = SafeString(data)
+        return render(request, 'catalogo.produtos.html', { 'produtos': produtos })
 
 class Entrar(View):
     def get(self, request):

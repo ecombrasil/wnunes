@@ -83,32 +83,33 @@ class User(AbstractUser):
 
 class Produto(models.Model):
     nome = models.CharField(max_length=128)
-    preco = models.FloatField()
-    qntd_estoque = models.PositiveIntegerField(default=0)
-    descricao = models.CharField(max_length=200)
+    preco = models.FloatField(verbose_name='Preço')
+    qntd_estoque = models.PositiveIntegerField(default=0, verbose_name='Quantidade em estoque')
+    descricao = models.CharField(max_length=200, verbose_name='Descrição')
     medidas = models.CharField(max_length=32, blank=True, null=True)
-    data_criacao = models.DateField(auto_now_add=True)
+    imagem_url = models.CharField(max_length=200, verbose_name='Link da imagem', blank=True, null=True)
+    data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
 class AvaliacaoCliente(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
-    titulo = models.CharField(max_length=48)
+    titulo = models.CharField(max_length=48, verbose_name='Título')
     texto = models.CharField(max_length=200)
-    pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(0), MaxValueValidator(5)])
-    data_criacao = models.DateField(auto_now_add=True)
+    pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='Pontuação (0-5)')
+    data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     class Meta:
         verbose_name_plural = 'Avaliações dos produtos'
 
 class Kit(models.Model):
     nome = models.CharField(max_length=48)
-    descricao = models.CharField(max_length=200, blank=True, null=True)
-    data_criacao = models.DateField(auto_now_add=True)
+    descricao = models.CharField(max_length=200, blank=True, null=True, verbose_name='Descrição')
+    data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
     
 class ItemKit(models.Model):
     kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
-    qntd = models.PositiveIntegerField(default=1)
+    qntd = models.PositiveIntegerField(default=1, verbose_name='Quantidade')
 
     class Meta:
         verbose_name_plural = 'Itens em kits'
@@ -117,7 +118,7 @@ class MensagemSite(models.Model):
     nome = models.CharField(max_length=128)
     email = models.EmailField()
     mensagem = models.CharField(max_length=200)
-    data_criacao = models.DateField(auto_now_add=True)
+    data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     class Meta:
         verbose_name_plural = 'Mensagens do site'
