@@ -17,7 +17,7 @@
   </select>
 </div>
 
-<div class="catalog-wrapper">
+<div id="catalog-wrapper"><!--
   <div class="catalog-item">
     <img src="{% static 'img/sample/image--031.jpg' %}" alt="Sample product image" class="item-img">
     <div class="stars-group">
@@ -171,10 +171,10 @@
     </div>
     <h3 class="item-name">Title</h3>
     <p class="item-description">Minor information</p>
-  </div>
+  </div>-->
 </div>
 {% endblock %}
 
 {% block after_script %}
-<script type="text/javascript">catalogoProdutos.items = JSON.parse('{{ produtos }}');</script>
+<script type="text/javascript">produtosCatalogo.items = JSON.parse('{{ produtos }}');</script>
 {% endblock %}

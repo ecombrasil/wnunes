@@ -1,36 +1,69 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
 };
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+};
+var _items, _pages, _currentPage;
 Object.defineProperty(exports, "__esModule", { value: true });
-const page_1 = require("./page");
-class Catalogo {
+class CatalogoBase {
     constructor() {
-        this.items = [];
-        this.elements = [];
+        _items.set(this, []);
+        _pages.set(this, []);
+        _currentPage.set(this, 0);
+        this.parentElement = document.getElementById('catalog-wrapper');
     }
-    init() { }
+    get items() {
+        return __classPrivateFieldGet(this, _items);
+    }
+    set items(value) {
+        __classPrivateFieldSet(this, _items, value);
+        this.init();
+    }
+    get pages() {
+        return __classPrivateFieldGet(this, _pages);
+    }
+    get currentPage() {
+        return __classPrivateFieldGet(this, _currentPage);
+    }
+    set currentPage(value) {
+        __classPrivateFieldSet(this, _currentPage, value);
+        this.pages[value].forEach(item => this.renderElement(item));
+    }
+    createPages(itemsPerPage = 24) {
+        let availableItems = [...this.items];
+        while (availableItems.length > 0) {
+            this.pages.push(availableItems.splice(0, itemsPerPage));
+        }
+        this.currentPage = 0;
+    }
+    init() {
+        this.createPages();
+        this.afterInit();
+    }
+    /**
+     * Runs after initialization. Place secondary needs here.
+     */
+    afterInit() { }
+    /**
+     * Render an element from the `items` list in the DOM
+     * @param item {T} Model object
+     */
+    renderElement(item) { }
 }
-let CatalogoProdutos = class CatalogoProdutos extends Catalogo {
-    constructor() {
-        super();
-    }
-};
-CatalogoProdutos = __decorate([
-    page_1.default('/catalogo/produtos', {
-        globalInstance: true
-    })
-], CatalogoProdutos);
-const catalogos = [
-    CatalogoProdutos
-];
-exports.default = catalogos;
+exports.default = CatalogoBase;
+_items = new WeakMap(), _pages = new WeakMap(), _currentPage = new WeakMap();
 
-},{"./page":4}],2:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -42,12 +75,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const shared_1 = require("./shared");
 const easy_coding_1 = require("easy-coding");
 const inicio_1 = require("./inicio");
-const catalogos_1 = require("./catalogos");
+const produtos_catalogo_1 = require("./produtos.catalogo");
 let App = class App {
     constructor() {
         this.declarations = [
             inicio_1.default,
-            ...catalogos_1.default
+            produtos_catalogo_1.default
         ];
         this.addListeners();
     }
@@ -62,7 +95,7 @@ App = __decorate([
     shared_1.default
 ], App);
 
-},{"./catalogos":1,"./inicio":3,"./shared":5,"easy-coding":9}],3:[function(require,module,exports){
+},{"./inicio":3,"./produtos.catalogo":5,"./shared":6,"easy-coding":10}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -144,6 +177,50 @@ exports.default = Page;
 
 },{}],5:[function(require,module,exports){
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const page_1 = require("./page");
+const catalogo_1 = require("./catalogo");
+const easy_coding_1 = require("easy-coding");
+let ProdutosCatalogo = class ProdutosCatalogo extends catalogo_1.default {
+    constructor() {
+        super();
+    }
+    renderElement(item) {
+        const element = easy_coding_1.createElement('div', {
+            content: `
+        <img src="/static/img/sample/image--031.jpg" alt="Sample product image" class="item-img">
+        <div class="stars-group"></div>
+        <h3 class="item-name">${item.fields.nome}</h3>
+        <p class="item-description">${item.fields.descricao}</p>
+      `,
+            classes: ['catalog-item'],
+            childOf: this.parentElement
+        });
+        for (let i = 0; i < 5; i++) {
+            const star = easy_coding_1.createElement('img', {
+                classes: ['star'],
+                childOf: element.querySelector('.stars-group')
+            });
+            star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
+            star.setAttribute('src', '/static/img/star.svg');
+        }
+    }
+};
+ProdutosCatalogo = __decorate([
+    page_1.default('/catalogo/produtos', {
+        globalInstance: true
+    })
+], ProdutosCatalogo);
+exports.default = ProdutosCatalogo;
+
+},{"./catalogo":1,"./page":4,"easy-coding":10}],6:[function(require,module,exports){
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Shared = (type) => {
     new type();
@@ -151,7 +228,7 @@ const Shared = (type) => {
 };
 exports.default = Shared;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
@@ -190,7 +267,7 @@ class Cookies {
 }
 exports.Cookies = Cookies;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
@@ -200,7 +277,7 @@ exports.Global = void 0;
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.handleBindingAttr = exports.createElement = void 0;
@@ -281,7 +358,7 @@ exports.randomDateBetween = (date1, date2) => {
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -298,4 +375,4 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":6,"./decorators":7,"./functions":8}]},{},[2]);
+},{"./classes":7,"./decorators":8,"./functions":9}]},{},[2]);

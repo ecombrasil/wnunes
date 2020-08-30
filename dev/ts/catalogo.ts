@@ -1,4 +1,4 @@
-abstract class CatalogoBase<T> {
+export default class CatalogoBase<T> {
   #items: T[] = [];
   #pages: T[][] = [];
   #currentPage = 0;
@@ -23,7 +23,7 @@ abstract class CatalogoBase<T> {
 
   set currentPage(value) {
     this.#currentPage = value;
-    this.pages[value].forEach(this.renderElement);
+    this.pages[value].forEach(item => this.renderElement(item));
   }
 
   protected createPages(itemsPerPage = 24): void {
@@ -51,5 +51,3 @@ abstract class CatalogoBase<T> {
    */
   renderElement(item: T): void { }
 }
-
-export default CatalogoBase;
