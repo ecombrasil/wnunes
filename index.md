@@ -6,6 +6,8 @@
 
 ![Screenshot da tela Catálogo de produtos](https://i.imgur.com/BecQ9MA.png)
 
+>Uma alteração foi feita no estilo do título da seção. O objetivo foi manter um padrão nos estilos gerais do site.
+
 ## Sáb, 29 de agosto
 
 - Tabela de produtos
