@@ -3,6 +3,10 @@ import Page from './page';
 @Page('/')
 export default class Inicio {
   constructor() {
+    this.addListeners();
+  }
+
+  private addListeners(): void {
     document.addEventListener('DOMContentLoaded', () => {
       this.initSlider();
       this.setSlidesSize();

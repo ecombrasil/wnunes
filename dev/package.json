@@ -2,11 +2,11 @@
   "name": "wnunes-frontend-dev",
   "version": "1.0.0",
   "description": "Wnunes frontend development",
-  "main": "js/index.js",
+  "main": "js/app.js",
   "scripts": {
     "styl": "stylus -w stylus/style.styl -o ../wnunes/static/css/style.css -c",
     "ts": "tsc --watch",
-    "browserify": "watchify js/index.js -o ../wnunes/static/js/main.js",
+    "browserify": "watchify js/app.js -o ../wnunes/static/js/main.js",
     "build": "concurrently --kill-others \"npm run ts\" \"npm run browserify\" \"npm run styl\"",
     "minify": "minify ../wnunes/static/js/main.js > ../wnunes/static/js/main.min.js"
   },

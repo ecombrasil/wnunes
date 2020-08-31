@@ -2,7 +2,7 @@ import Model from './models';
 
 type CatalogItem<T> = Model<T & { preco: number }>;
 
-export default class CatalogoBase<T> {
+abstract class CatalogoBase<T> {
   #items: CatalogItem<T>[] = [];
   #pages: Model<T>[][] = [];
   #currentPage = 0;
@@ -94,3 +94,5 @@ export default class CatalogoBase<T> {
    */
   renderElement(item: Model<T>): void { }
 }
+
+export default CatalogoBase;

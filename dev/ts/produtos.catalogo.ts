@@ -7,10 +7,6 @@ import { createElement } from 'easy-coding';
   globalInstance: true
 })
 export default class ProdutosCatalogo extends Catalogo<Produto> {
-  constructor() {
-    super();
-  }
-
   renderElement(item: Model<Produto>): void {
     const element = createElement('div', {
       content: `
@@ -23,6 +19,7 @@ export default class ProdutosCatalogo extends Catalogo<Produto> {
       childOf: this.parentElement
     });
 
+    /* Temporarily code (just for tests) */
     for (let i = 0; i < 5; i++) {
       const star = createElement('img', {
         classes: ['star'],
@@ -31,5 +28,6 @@ export default class ProdutosCatalogo extends Catalogo<Produto> {
       star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
       star.setAttribute('src', '/static/img/star.svg');
     }
+    /* --- */
   }
 }

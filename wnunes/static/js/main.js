@@ -1,5 +1,37 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const shared_1 = require("./shared");
+const easy_coding_1 = require("easy-coding");
+const inicio_1 = require("./inicio");
+const produtos_catalogo_1 = require("./produtos.catalogo");
+let App = class App {
+    constructor() {
+        this.declarations = [
+            inicio_1.default,
+            produtos_catalogo_1.default
+        ];
+        this.addListeners();
+    }
+    addListeners() {
+        // Avoid images from getting arrested by the user
+        document.body.ondragstart = () => false;
+        // Enable elements with the atribute clickAndGo to open links by clicking them
+        easy_coding_1.handleBindingAttr('clickAndGo', (element, value) => element.addEventListener('click', () => window.location.href = value));
+    }
+};
+App = __decorate([
+    shared_1.default
+], App);
+
+},{"./inicio":3,"./produtos.catalogo":5,"./shared":6,"easy-coding":10}],2:[function(require,module,exports){
+"use strict";
 var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
@@ -91,42 +123,10 @@ class CatalogoBase {
      */
     renderElement(item) { }
 }
-exports.default = CatalogoBase;
 _items = new WeakMap(), _pages = new WeakMap(), _currentPage = new WeakMap();
+exports.default = CatalogoBase;
 
-},{}],2:[function(require,module,exports){
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const shared_1 = require("./shared");
-const easy_coding_1 = require("easy-coding");
-const inicio_1 = require("./inicio");
-const produtos_catalogo_1 = require("./produtos.catalogo");
-let App = class App {
-    constructor() {
-        this.declarations = [
-            inicio_1.default,
-            produtos_catalogo_1.default
-        ];
-        this.addListeners();
-    }
-    addListeners() {
-        // Avoid images from getting arrested by the user
-        document.body.ondragstart = () => false;
-        // Enable elements with the atribute clickAndGo to open links by clicking them
-        easy_coding_1.handleBindingAttr('clickAndGo', (element, value) => element.addEventListener('click', () => window.location.href = value));
-    }
-};
-App = __decorate([
-    shared_1.default
-], App);
-
-},{"./inicio":3,"./produtos.catalogo":5,"./shared":6,"easy-coding":10}],3:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -138,6 +138,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const page_1 = require("./page");
 let Inicio = class Inicio {
     constructor() {
+        this.addListeners();
+    }
+    addListeners() {
         document.addEventListener('DOMContentLoaded', () => {
             this.initSlider();
             this.setSlidesSize();
@@ -219,9 +222,6 @@ const page_1 = require("./page");
 const catalogo_1 = require("./catalogo");
 const easy_coding_1 = require("easy-coding");
 let ProdutosCatalogo = class ProdutosCatalogo extends catalogo_1.default {
-    constructor() {
-        super();
-    }
     renderElement(item) {
         const element = easy_coding_1.createElement('div', {
             content: `
@@ -233,6 +233,7 @@ let ProdutosCatalogo = class ProdutosCatalogo extends catalogo_1.default {
             classes: ['catalog-item'],
             childOf: this.parentElement
         });
+        /* Temporarily code (just for tests) */
         for (let i = 0; i < 5; i++) {
             const star = easy_coding_1.createElement('img', {
                 classes: ['star'],
@@ -241,6 +242,7 @@ let ProdutosCatalogo = class ProdutosCatalogo extends catalogo_1.default {
             star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
             star.setAttribute('src', '/static/img/star.svg');
         }
+        /* --- */
     }
 };
 ProdutosCatalogo = __decorate([
@@ -250,7 +252,7 @@ ProdutosCatalogo = __decorate([
 ], ProdutosCatalogo);
 exports.default = ProdutosCatalogo;
 
-},{"./catalogo":1,"./page":4,"easy-coding":10}],6:[function(require,module,exports){
+},{"./catalogo":2,"./page":4,"easy-coding":10}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Shared = (type) => {
@@ -406,4 +408,4 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":7,"./decorators":8,"./functions":9}]},{},[2]);
+},{"./classes":7,"./decorators":8,"./functions":9}]},{},[1]);
