@@ -21,6 +21,18 @@ class CatalogoBase {
         _pages.set(this, []);
         _currentPage.set(this, 0);
         this.parentElement = document.getElementById('catalog-wrapper');
+        this.loadMoreBtn = document.querySelector('.load-more-btn');
+        this.orderingSelect = document.querySelector('.ordering-btn');
+        this.addListeners();
+    }
+    addListeners() {
+        this.loadMoreBtn.addEventListener('click', () => this.nextPage());
+        this.orderingSelect.addEventListener('change', () => this.init());
+    }
+    init() {
+        this.parentElement.innerHTML = '';
+        this.sortItems();
+        this.createPages();
     }
     get items() {
         return __classPrivateFieldGet(this, _items);
@@ -32,31 +44,50 @@ class CatalogoBase {
     get pages() {
         return __classPrivateFieldGet(this, _pages);
     }
+    set pages(value) {
+        __classPrivateFieldSet(this, _pages, value);
+    }
     get currentPage() {
         return __classPrivateFieldGet(this, _currentPage);
     }
     set currentPage(value) {
         __classPrivateFieldSet(this, _currentPage, value);
         this.pages[value].forEach(item => this.renderElement(item));
+        this.toggleLoadMoreBtn(!(this.currentPage === this.pages.length - 1));
     }
     createPages(itemsPerPage = 24) {
+        this.pages = [];
         let availableItems = [...this.items];
         while (availableItems.length > 0) {
             this.pages.push(availableItems.splice(0, itemsPerPage));
         }
         this.currentPage = 0;
     }
-    init() {
-        this.createPages();
-        this.afterInit();
+    toggleLoadMoreBtn(show) {
+        this.loadMoreBtn.style.display = show ? 'block' : 'none';
     }
-    /**
-     * Runs after initialization. Place secondary needs here.
-     */
-    afterInit() { }
+    nextPage() {
+        if (this.currentPage < this.pages.length - 1)
+            this.currentPage++;
+    }
+    sortItems() {
+        const by = this.orderingSelect.value;
+        switch (by) {
+            case '+recentes':
+                this.items.sort((a, b) => b.pk - a.pk);
+                break;
+            case '-preco':
+                this.items.sort((a, b) => a.fields.preco - b.fields.preco);
+                break;
+            case '+preco':
+                this.items.sort((a, b) => b.fields.preco - a.fields.preco);
+                break;
+        }
+    }
+    ;
     /**
      * Render an element from the `items` list in the DOM
-     * @param item {T} Model object
+     * @param item {Model<T>} Model object
      */
     renderElement(item) { }
 }

@@ -6,7 +6,7 @@ import { createElement } from 'easy-coding';
 @Page('/catalogo/produtos', {
   globalInstance: true
 })
-export default class ProdutosCatalogo extends Catalogo<Model<Produto>> {
+export default class ProdutosCatalogo extends Catalogo<Produto> {
   constructor() {
     super();
   }

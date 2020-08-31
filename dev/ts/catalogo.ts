@@ -1,8 +1,30 @@
+import Model from './models';
+
+type CatalogItem<T> = Model<T & { preco: number }>;
+
 export default class CatalogoBase<T> {
-  #items: T[] = [];
-  #pages: T[][] = [];
+  #items: CatalogItem<T>[] = [];
+  #pages: Model<T>[][] = [];
   #currentPage = 0;
-  parentElement = document.getElementById('catalog-wrapper');
+
+  protected parentElement = document.getElementById('catalog-wrapper');
+  protected loadMoreBtn = document.querySelector('.load-more-btn') as HTMLElement;
+  protected orderingSelect = document.querySelector('.ordering-btn') as HTMLSelectElement;
+
+  constructor() {
+    this.addListeners();
+  }
+
+  private addListeners(): void {
+    this.loadMoreBtn.addEventListener('click', () => this.nextPage());
+    this.orderingSelect.addEventListener('change', () => this.init());
+  }
+
+  init(): void {
+    this.parentElement.innerHTML = '';
+    this.sortItems();
+    this.createPages();
+  }
 
   get items() {
     return this.#items;
@@ -17,6 +39,10 @@ export default class CatalogoBase<T> {
     return this.#pages;
   }
 
+  set pages(value) {
+    this.#pages = value;
+  }
+
   get currentPage() {
     return this.#currentPage;
   }
@@ -24,9 +50,11 @@ export default class CatalogoBase<T> {
   set currentPage(value) {
     this.#currentPage = value;
     this.pages[value].forEach(item => this.renderElement(item));
+    this.toggleLoadMoreBtn(!(this.currentPage === this.pages.length - 1));
   }
 
-  protected createPages(itemsPerPage = 24): void {
+  private createPages(itemsPerPage = 24): void {
+    this.pages = [];
     let availableItems = [...this.items];
 
     while (availableItems.length > 0) {
@@ -36,18 +64,33 @@ export default class CatalogoBase<T> {
     this.currentPage = 0;
   }
 
-  init(): void {
-    this.createPages();
-    this.afterInit();
+  private toggleLoadMoreBtn(show: boolean): void {
+    this.loadMoreBtn.style.display = show ? 'block' : 'none';
   }
 
-  /**
-   * Runs after initialization. Place secondary needs here.
-   */
-  afterInit(): void { }
+  private nextPage(): void {
+    if (this.currentPage < this.pages.length - 1) this.currentPage++;
+  }
+
+  private sortItems(): void {
+    const by = this.orderingSelect.value as '-preco' | '+preco' | '+recentes';
+
+    switch(by) {
+      case '+recentes':
+        this.items.sort((a, b) => b.pk - a.pk);
+        break;
+      case '-preco':
+        this.items.sort((a, b) => a.fields.preco - b.fields.preco);
+        break;
+      case '+preco':
+        this.items.sort((a, b) => b.fields.preco - a.fields.preco);
+        break;
+    }
+  };
+
   /**
    * Render an element from the `items` list in the DOM
-   * @param item {T} Model object
+   * @param item {Model<T>} Model object
    */
-  renderElement(item: T): void { }
+  renderElement(item: Model<T>): void { }
 }
