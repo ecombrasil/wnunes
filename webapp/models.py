@@ -90,6 +90,9 @@ class Produto(models.Model):
     imagem_url = models.CharField(max_length=200, verbose_name='Link da imagem', blank=True, null=True)
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
+    def __str__(self):
+        return self.nome
+
 class AvaliacaoCliente(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -101,10 +104,16 @@ class AvaliacaoCliente(models.Model):
     class Meta:
         verbose_name_plural = 'Avaliações dos produtos'
 
+    def __str__(self):
+        return f"{self.produto}, por {self.cliente}"
+
 class Kit(models.Model):
     nome = models.CharField(max_length=48)
     descricao = models.CharField(max_length=200, blank=True, null=True, verbose_name='Descrição')
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
+
+    def __str__(self):
+        return self.nome
     
 class ItemKit(models.Model):
     kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
@@ -114,6 +123,9 @@ class ItemKit(models.Model):
     class Meta:
         verbose_name_plural = 'Itens em kits'
 
+    def __str__(self):
+        return f"{self.produto} | {self.kit}"
+
 class MensagemSite(models.Model):
     nome = models.CharField(max_length=128)
     email = models.EmailField()
@@ -122,3 +134,6 @@ class MensagemSite(models.Model):
 
     class Meta:
         verbose_name_plural = 'Mensagens do site'
+
+    def __str__(self):
+        return f"{self.nome}, em {self.data_criacao}"
