@@ -1,5 +1,11 @@
 # Atividades concluídas
 
+## Seg, 31 de agosto
+
+- Página do catálogo de produtos
+
+![Screenshot da tela Catálogo de produtos](https://i.imgur.com/BecQ9MA.png)
+
 ## Sáb, 29 de agosto
 
 - Tabela de produtos

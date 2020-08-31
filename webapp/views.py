@@ -22,6 +22,7 @@ class CatalogoProdutos(View):
         queryset = Produto.objects.all()
         data = serialize('json', queryset)
         produtos = SafeString(data)
+        
         return render(request, 'catalogo.produtos.html', { 'produtos': produtos })
 
 class Entrar(View):
