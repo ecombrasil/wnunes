@@ -113,6 +113,9 @@ main
 
   @media (max-width 600px)
     width 86%
+    height auto
+    margin-bottom 3em
+    justify-content space-between
 
   .pg-header-option
   .ordering-btn
@@ -123,6 +126,9 @@ main
     align-items center
     border-radius(.5em)
 
+    @media (max-width 600px)
+      height 2.75em
+
   .pg-header-option
     margin-right 1.5em
     padding 0 2em 0 2em
@@ -130,6 +136,10 @@ main
     border-style solid
     border-color #ddd
     background-color rgba(text-color, .01)
+
+    @media (max-width 600px)
+      margin-right 0
+      padding 0 1.25em 0 1.25em
 
     &.active-pg-option
       border-color theme-color
@@ -142,6 +152,11 @@ main
     margin-left auto
     border-style none
     cursor pointer
+
+    @media (max-width 600px)
+      width 100%
+      margin-top 1.2em
+      padding-right 0
 
 @media (max-width 1600px)
   body

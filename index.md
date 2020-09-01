@@ -1,5 +1,18 @@
 # Atividades concluídas
 
+## Ter, 1º de setembro
+
+- Tabela de artigos do blog
+- Editor de texto para criar e editar artigos (com suporte a imagens, links etc.)
+
+**Editor:**
+
+![Screenshot da tela Editar artigo](https://i.imgur.com/BChDyNi.png)
+
+**Prévia do resultado:**
+
+![Screenshot da tela Pré-visualizar artigo](https://i.imgur.com/eFQr7mn.png)
+
 ## Seg, 31 de agosto
 
 - Página do catálogo de produtos
