@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -21,7 +22,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nvy_8(#vsw5^e_)(08e=^@1m=8_(vyhfn8s^*6jye9@+%o0xnl'
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -161,8 +162,8 @@ MARTOR_TOOLBAR_BUTTONS = [
 MARTOR_ENABLE_LABEL = False
 
 # Imgur API Keys
-MARTOR_IMGUR_CLIENT_ID = '0b3130bec7c17e0'
-MARTOR_IMGUR_API_KEY = '7e77ccdf3b16e927af0a1c7504234de160a1eecc'
+MARTOR_IMGUR_CLIENT_ID = config('IMGUR_CLIENT_ID')
+MARTOR_IMGUR_API_KEY = config('IMGUR_API_KEY')
 
 # Markdownify
 MARTOR_MARKDOWNIFY_FUNCTION = 'martor.utils.markdownify' # default
