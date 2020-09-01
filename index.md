@@ -4,12 +4,13 @@
 
 - Tabela de artigos do blog
 - Editor de texto para criar e editar artigos (com suporte a imagens, links etc.)
+- Integração com os serviços da Amazon e do Imgur para o armazenamento de imagens
 
-**Editor:**
+Editor:
 
 ![Screenshot da tela Editar artigo](https://i.imgur.com/BChDyNi.png)
 
-**Prévia do resultado:**
+Prévia do resultado:
 
 ![Screenshot da tela Pré-visualizar artigo](https://i.imgur.com/eFQr7mn.png)
 
