@@ -88,7 +88,7 @@ class Produto(models.Model):
     qntd_estoque = models.PositiveIntegerField(default=0, verbose_name='Quantidade em estoque')
     descricao = models.CharField(max_length=200, verbose_name='Descrição')
     medidas = models.CharField(max_length=32, blank=True, null=True)
-    imagem_url = models.CharField(max_length=200, verbose_name='Link da imagem', blank=True, null=True)
+    foto = models.FileField(upload_to='imagens_produtos', null=True)
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     def __str__(self):
