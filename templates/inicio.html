@@ -10,8 +10,8 @@
     <h2 class="main-subtitle">Você pode fazer a diferença e economizar com isso</h2>
     <p class="main-paragraph">A Wnunes é especializada em desenvolver painéis solares que ajudam a cuidar de seu lar e a salvar o meio ambiente</p>
     <div class="see-more-button-wrapper">
-      <div class="see-more-button">
-        <p class="see-more-text">Ver catálogo</p>
+      <div class="see-more-button" clickAndGo="{% url 'catalogo_produtos' %}">
+        <p class="see-more-text"><a href="{% url 'catalogo_produtos' %}">Ver catálogo</a></p>
       </div>
       <div class="background-blur"></div>
     </div>
@@ -95,7 +95,7 @@
     <p class="suggestion-text"><a href="{% url 'sobre_nos' %}">Conheça melhor a nossa empresa</a></p>
     <img src="{% static 'img/In progress-bro.svg' %}" alt="Ilustração de uma mulher escalando engrenagens, simbolizando seu desejo de atingir metas" class="suggestion-illustration">
   </div>
-  <div class="suggestion-box">
+  <div class="suggestion-box" clickAndGo="{% url 'catalogo_produtos' %}">
     <p class="suggestion-text"><a href="{% url 'catalogo_produtos' %}">Confira o nosso catálogo</a></p>
     <img src="{% static 'img/Catalogue-rafiki.svg' %}" alt="Ilustração de uma mulher e um homem mostrando um catálogo aberto" class="suggestion-illustration">
   </div>
