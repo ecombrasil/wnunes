@@ -101,11 +101,11 @@ class AvaliacaoCliente(models.Model):
     pontuacao = models.PositiveIntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)], verbose_name='Pontuação (0-5)')
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
-    class Meta:
-        verbose_name_plural = 'Avaliações dos produtos'
-
     def __str__(self):
         return f"{self.produto}, por {self.cliente}"
+
+    class Meta:
+        verbose_name_plural = 'Avaliações dos produtos'
 
 class Kit(models.Model):
     nome = models.CharField(max_length=48)
@@ -120,11 +120,11 @@ class ItemKit(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     qntd = models.PositiveIntegerField(default=1, verbose_name='Quantidade')
 
-    class Meta:
-        verbose_name_plural = 'Itens em kits'
-
     def __str__(self):
         return f"{self.produto} | {self.kit}"
+
+    class Meta:
+        verbose_name_plural = 'Itens em kits'
 
 class MensagemSite(models.Model):
     nome = models.CharField(max_length=128)
@@ -132,8 +132,20 @@ class MensagemSite(models.Model):
     mensagem = models.CharField(max_length=200)
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
+    def __str__(self):
+        return f"{self.nome}, em {self.data_criacao}"
+
     class Meta:
         verbose_name_plural = 'Mensagens do site'
 
+class ItemCarrinho(models.Model):
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE, null=True)
+    kit = models.ForeignKey(Kit, on_delete=models.CASCADE, null=True)
+    qntd = models.PositiveIntegerField(default=1, verbose_name='Quantidade')
+
     def __str__(self):
-        return f"{self.nome}, em {self.data_criacao}"
+        return f"{self.produto or self.kit} | {self.cliente}"
+
+    class Meta:
+        verbose_name_plural = 'Ítens em carrinhos'
