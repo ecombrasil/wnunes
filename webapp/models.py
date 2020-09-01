@@ -152,6 +152,7 @@ class ItemCarrinho(models.Model):
         verbose_name_plural = 'Ítens em carrinhos'
 
 class BlogPost(models.Model):
+    imagem_capa = models.FileField(upload_to='capas_artigos', null=True)
     titulo = models.CharField(max_length=48)
     conteudo = MartorField()
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')

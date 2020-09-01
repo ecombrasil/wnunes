@@ -14,8 +14,10 @@ soft-text-color = #C4C4C4
 
 // mixins
 
-border(color = #ddd)
-  border 1px solid color
+border(width, style, color)
+  border-width width
+  border-style style
+  border-color color
 
 one-line-text()
   text-overflow ellipsis

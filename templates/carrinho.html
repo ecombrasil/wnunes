@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrinho{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Carrinho</h1>
+
+<div class="page-header">
+  <p class="pg-header-option">R$ {{ total }}</p>
+  <p class="pg-header-option active-pg-option" style="margin-left: auto">Avançar</p>
+</div>
+
+<div class="cart-wrapper">
+  <div class="cart-item"></div>
+</div>
+{% endblock %}
