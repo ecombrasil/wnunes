@@ -5,6 +5,7 @@
 - Tabela de artigos do blog
 - Editor de texto para criar e editar artigos (com suporte a imagens, links etc.)
 - Integração com os serviços da Amazon e do Imgur para o armazenamento de imagens
+- Página do carrinho
 
 ### Editor:
 
@@ -13,6 +14,10 @@
 ### Prévia do resultado:
 
 ![Screenshot da tela Pré-visualizar artigo](https://i.imgur.com/eFQr7mn.png)
+
+### Carrinho
+
+![Screenshot da tela Carrinho](https://i.imgur.com/zYFVw7S.png)
 
 ## Seg, 31 de agosto
 
