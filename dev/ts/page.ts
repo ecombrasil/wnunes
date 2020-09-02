@@ -1,24 +1,34 @@
 import { Type } from 'easy-coding/lib/types';
 
 interface PageOptions {
-  globalInstance: true;
+  globalInstance?: true;
+  startAnytime?: true;
 }
 
 const Page = (route: string | string[], options?: PageOptions) => <T extends Type>(type: T): T => {
-  let instance: InstanceType<T>;
+  let properRoute: string;
 
   if (Array.isArray(route))
     for (const r of route) {
       if (window.location.pathname === r) {
-        instance = new type();
+        properRoute = r;
         break;
       }
     }
-  else if (window.location.pathname === route) instance = new type();
+  else if (window.location.pathname === route) properRoute = route;
 
-  if (instance && options?.globalInstance) {
-    const objectName = type.name.charAt(0).toLowerCase() + type.name.substring(1);
-    (<any>window)[objectName] = instance;
+  if (properRoute) {
+    const initialize = () => {
+      const instance: InstanceType<T> = new type();
+
+      if (options?.globalInstance) {
+        const objectName = type.name.charAt(0).toLowerCase() + type.name.substring(1);
+        window[objectName] = instance;
+      }
+    };
+    
+    if (options?.startAnytime) initialize();
+    else window.addEventListener('mainComponentLoaded', initialize);
   }
 
   return type;

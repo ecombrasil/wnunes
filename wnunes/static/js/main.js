@@ -7,8 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const shared_1 = require("./shared");
 const easy_coding_1 = require("easy-coding");
+const main_1 = require("./main");
 const inicio_1 = require("./inicio");
 const produtos_catalogo_1 = require("./produtos.catalogo");
 let App = class App {
@@ -20,17 +20,17 @@ let App = class App {
         this.addListeners();
     }
     addListeners() {
-        // Avoid images from getting arrested by the user
+        // Avoid images from getting dragged by the user
         document.body.ondragstart = () => false;
         // Enable elements with the atribute clickAndGo to open links by clicking them
         easy_coding_1.handleBindingAttr('clickAndGo', (element, value) => element.addEventListener('click', () => window.location.href = value));
     }
 };
 App = __decorate([
-    shared_1.default
+    main_1.default
 ], App);
 
-},{"./inicio":3,"./produtos.catalogo":5,"./shared":6,"easy-coding":10}],2:[function(require,module,exports){
+},{"./inicio":3,"./main":4,"./produtos.catalogo":6,"easy-coding":10}],2:[function(require,module,exports){
 "use strict";
 var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
     if (!privateMap.has(receiver)) {
@@ -187,29 +187,48 @@ Inicio = __decorate([
 ], Inicio);
 exports.default = Inicio;
 
-},{"./page":4}],4:[function(require,module,exports){
+},{"./page":5}],4:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Main = (type) => {
+    new type();
+    window.dispatchEvent(new Event('mainComponentLoaded'));
+    return type;
+};
+exports.default = Main;
+
+},{}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Page = (route, options) => (type) => {
-    let instance;
+    let properRoute;
     if (Array.isArray(route))
         for (const r of route) {
             if (window.location.pathname === r) {
-                instance = new type();
+                properRoute = r;
                 break;
             }
         }
     else if (window.location.pathname === route)
-        instance = new type();
-    if (instance && (options === null || options === void 0 ? void 0 : options.globalInstance)) {
-        const objectName = type.name.charAt(0).toLowerCase() + type.name.substring(1);
-        window[objectName] = instance;
+        properRoute = route;
+    if (properRoute) {
+        const initialize = () => {
+            const instance = new type();
+            if (options === null || options === void 0 ? void 0 : options.globalInstance) {
+                const objectName = type.name.charAt(0).toLowerCase() + type.name.substring(1);
+                window[objectName] = instance;
+            }
+        };
+        if (options === null || options === void 0 ? void 0 : options.startAnytime)
+            initialize();
+        else
+            window.addEventListener('mainComponentLoaded', initialize);
     }
     return type;
 };
 exports.default = Page;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -222,10 +241,16 @@ const page_1 = require("./page");
 const catalogo_1 = require("./catalogo");
 const easy_coding_1 = require("easy-coding");
 let ProdutosCatalogo = class ProdutosCatalogo extends catalogo_1.default {
+    constructor() {
+        super(...arguments);
+        this.storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
+    }
     renderElement(item) {
+        const imgUrl = item.fields.foto ?
+            this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
         const element = easy_coding_1.createElement('div', {
             content: `
-        <img src="/static/img/sample/image--031.jpg" alt="Sample product image" class="item-img">
+        <img src="${imgUrl}" alt="Imagem do produto ${item.fields.nome}" class="item-img">
         <div class="stars-group"></div>
         <h3 class="item-name">${item.fields.nome}</h3>
         <p class="item-description">${item.fields.descricao}</p>
@@ -234,7 +259,8 @@ let ProdutosCatalogo = class ProdutosCatalogo extends catalogo_1.default {
             childOf: this.parentElement
         });
         /* Temporarily code (just for tests) */
-        for (let i = 0; i < 5; i++) {
+        const n = easy_coding_1.randomNumberBetween(1, 5);
+        for (let i = 0; i < n; i++) {
             const star = easy_coding_1.createElement('img', {
                 classes: ['star'],
                 childOf: element.querySelector('.stars-group')
@@ -252,16 +278,7 @@ ProdutosCatalogo = __decorate([
 ], ProdutosCatalogo);
 exports.default = ProdutosCatalogo;
 
-},{"./catalogo":2,"./page":4,"easy-coding":10}],6:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const Shared = (type) => {
-    new type();
-    return type;
-};
-exports.default = Shared;
-
-},{}],7:[function(require,module,exports){
+},{"./catalogo":2,"./page":5,"easy-coding":10}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
@@ -313,7 +330,7 @@ exports.Global = (type) => (globalThis[type.name] = type);
 },{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.handleBindingAttr = exports.createElement = void 0;
+exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.addGlobalEntries = exports.handleBindingAttr = exports.createElement = void 0;
 /**
  * Create a new element with custom options and return it
  * @param tag {keyof HTMLElementTagNameMap} Element tag
@@ -348,10 +365,16 @@ exports.handleBindingAttr = (attr, callback) => {
     bindings.forEach((element) => callback(element, element.getAttribute(attr)));
 };
 /**
- * Receive an object and add its properties to `globalThis`
- * @param set {object} Object with properties that will be added to `globalThis`
+ * Receive an object and add its properties to the `window` object
+ * @param set {object} Object with properties that will be added to the `window` object
  */
-exports.makeGlobal = (set) => Object.entries(set).forEach((entry) => (globalThis[entry[0]] = entry[1]));
+exports.addGlobalEntries = (set) => Object.entries(set).forEach((entry) => (window[entry[0]] = entry[1]));
+/**
+ * Add a new property to the `window` object
+ * @param key {string} Property name
+ * @param value {any} Property value
+ */
+exports.makeGlobal = (key, value) => (window[key] = value);
 /**
  * Return x where `a` is equivalent to `b` and `c` is equivalent to x
  */

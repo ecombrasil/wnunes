@@ -20,7 +20,7 @@ class Videos(TemplateView):
 
 class CatalogoProdutos(View):
     def get(self, request):
-        queryset = Produto.objects.all()
+        queryset = Produto.objects.all().filter(ativo=True)
         data = serialize('json', queryset)
         produtos = SafeString(data)
         
@@ -32,13 +32,20 @@ class Carrinho(LoginRequiredMixin, View):
     def get(self, request):
         itens = ItemCarrinho.objects.filter(cliente=request.user)
         valor_total = 0
+        valores_kits = []
         for item in itens:
             if item.produto is not None:
                 valor_total += item.produto.preco * item.qntd
             elif item.kit is not None:
+                valor_kit = {
+                    'pk': item.kit.pk,
+                    'preco': 0
+                }
                 itens_kit = ItemKit.objects.filter(kit=item.kit)
                 for item_kit in itens_kit:
-                    valor_total += item_kit.produto.preco * item_kit.qntd
+                    valor_kit['preco'] += item_kit.produto.preco * item_kit.qntd
+                    
+                valor_total = valor_kit['preco']
         
         return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
 

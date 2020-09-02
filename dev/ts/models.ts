@@ -11,4 +11,5 @@ export interface Produto{
   descricao: string;
   medidas: string;
   data_criacao: string;
+  foto: string;
 }

@@ -16,8 +16,8 @@
         <ul id="main-menu">
           <li class="main-menu-item"><a href="{% url 'sobre_nos' %}">Sobre nós</a></li>
           <li class="main-menu-item"><a href="">Contato</a></li>
-          <li class="main-menu-item"><a href="">Catálogo</a></li>
-          <li class="main-menu-item"><a href="">Meu carrinho</a></li>
+          <li class="main-menu-item"><a href="{% url 'catalogo_produtos' %}">Catálogo</a></li>
+          <li class="main-menu-item"><a href="{% url 'carrinho' %}">Meu carrinho</a></li>
           <li class="main-menu-item highlighted-item"{% if not request.user.is_authenticated %} clickAndGo="{% url 'entrar' %}"{%endif%}>{% if request.user.is_authenticated %}{{ request.user.first_name }}{% else %}Entrar{% endif %}</li>
         </ul>
       </header>

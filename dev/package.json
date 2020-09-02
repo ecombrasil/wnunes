@@ -20,6 +20,8 @@
     "concurrently": "^5.2.0"
   },
   "dependencies": {
-    "easy-coding": "^1.0.2"
+    "@types/node": "^14.6.2",
+    "aws-sdk": "^2.744.0",
+    "easy-coding": "^1.0.3"
   }
 }

@@ -6,50 +6,54 @@
 {% block content %}
 <h1 class="page-title">Carrinho</h1>
 
+{% if carrinho.count %}
 <div class="page-header">
-  <p class="pg-header-option">R$ 119,7{{ total }}</p>
+  <p class="pg-header-option fixed-left">R$ {{ total }}</p>
   <p class="pg-header-option active-pg-option" style="margin-left: auto">Avançar</p>
 </div>
 
 <div class="cart-wrapper">
-  <div class="cart-item">
-    <img src="{% static 'img/sample/image--031.jpg' %}" alt="" class="cart-item-img">
-    <h2 class="cart-item-name">Nome do produto</h2>
-    <div class="item-details-wrapper">
-      <p class="cart-item-preco">R$ 39,90</p>
-      <p class="cart-item-qntd">1 unidade</p>
-      <div class="cart-item-options">
-        <div class="cart-item-option-btn"><span class="option-text-content disabled-item-option">-</span></div>
-        <div class="cart-item-option-btn"><span class="option-text-content">+</span></div>
-        <div class="cart-item-option-btn"><img src="{% static 'img/trash-icon.svg' %}" alt="Remover item do carrinho" class="delete-item-icon"></div>
+  {% for item in carrinho %}
+    {% if item.produto %}
+    <div class="cart-item">
+      <img src="{{ item.produto.foto }}" alt="Imagem do produto {{ item.produto.nome }}" class="cart-item-img">
+      <div class="item-info-wrapper">
+        <h2 class="cart-item-name">{{ item.produto.nome }}</h2>
+        <div class="item-details-wrapper">
+          <p class="cart-item-preco">R$ {{ item.produto.preco }}</p>
+          <p class="cart-item-qntd">{{ item.qntd }} unidade</p>
+          <div class="cart-item-options">
+            <div class="cart-item-option-btn"><span class="option-text-content{% if item.qntd < 2 %} disabled-item-option{% endif %}">-</span></div>
+            <div class="cart-item-option-btn"><span class="option-text-content{% if item.qntd >= item.produto.qntd_estoque %} disabled-item-option{% endif %}">+</span></div>
+            <div class="cart-item-option-btn"><img src="{% static 'img/trash-icon.svg' %}" alt="Remover item do carrinho" class="delete-item-icon"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="cart-item">
-    <img src="{% static 'img/sample/image--031.jpg' %}" alt="" class="cart-item-img">
-    <h2 class="cart-item-name">Nome do produto</h2>
-    <div class="item-details-wrapper">
-      <p class="cart-item-preco">R$ 39,90</p>
-      <p class="cart-item-qntd">1 unidade</p>
-      <div class="cart-item-options">
-        <div class="cart-item-option-btn"><span class="option-text-content disabled-item-option">-</span></div>
-        <div class="cart-item-option-btn"><span class="option-text-content">+</span></div>
-        <div class="cart-item-option-btn"><img src="{% static 'img/trash-icon.svg' %}" alt="Remover item do carrinho" class="delete-item-icon"></div>
+    {% elif item.kit %}
+    <div class="cart-item">
+      <img src="{% static 'img/sample/image--031.jpg' %}" alt="Imagem do kit {{ item.kit.nome }}" class="cart-item-img">
+      <div class="item-info-wrapper">
+        <h2 class="cart-item-name">{{ item.kit }}</h2>
+        <div class="item-details-wrapper">
+          {% for vl_kit in valores_kits %}
+          {% if vl_kit.pk == item.kit.pk %}
+          <p class="cart-item-preco">R$ {{ vl_kit.preco }}</p>
+          {% endif %}
+          {% endfor %}
+          <p class="cart-item-qntd">1 unidade</p>
+          <div class="cart-item-options">
+            <div class="cart-item-option-btn"><span class="option-text-content disabled-item-option">-</span></div>
+            <div class="cart-item-option-btn"><span class="option-text-content">+</span></div>
+            <div class="cart-item-option-btn"><img src="{% static 'img/trash-icon.svg' %}" alt="Remover item do carrinho" class="delete-item-icon"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="cart-item">
-    <img src="{% static 'img/sample/image--031.jpg' %}" alt="" class="cart-item-img">
-    <h2 class="cart-item-name">Nome do produto</h2>
-    <div class="item-details-wrapper">
-      <p class="cart-item-preco">R$ 39,90</p>
-      <p class="cart-item-qntd">1 unidade</p>
-      <div class="cart-item-options">
-        <div class="cart-item-option-btn"><span class="option-text-content disabled-item-option">-</span></div>
-        <div class="cart-item-option-btn"><span class="option-text-content">+</span></div>
-        <div class="cart-item-option-btn"><img src="{% static 'img/trash-icon.svg' %}" alt="Remover item do carrinho" class="delete-item-icon"></div>
-      </div>
-    </div>
-  </div>
+    {% endif %}
+  {% endfor %}
 </div>
+{% else %}
+<p class="empty-cart-message">Ainda não há ítens em seu carrinho. <a href="{% url 'catalogo_produtos' %}" class="inner-link">Confira nosso catálogo.</a></p>
+{% endif %}
 {% endblock %}

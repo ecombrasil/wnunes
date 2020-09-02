@@ -1,16 +1,21 @@
 import Page from './page';
 import Catalogo from './catalogo';
 import Model, { Produto } from './models';
-import { createElement } from 'easy-coding';
+import { createElement, randomNumberBetween } from 'easy-coding';
 
 @Page('/catalogo/produtos', {
   globalInstance: true
 })
 export default class ProdutosCatalogo extends Catalogo<Produto> {
+  private readonly storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
+
   renderElement(item: Model<Produto>): void {
+    const imgUrl = item.fields.foto ?
+      this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
+    
     const element = createElement('div', {
       content: `
-        <img src="/static/img/sample/image--031.jpg" alt="Sample product image" class="item-img">
+        <img src="${imgUrl}" alt="Imagem do produto ${item.fields.nome}" class="item-img">
         <div class="stars-group"></div>
         <h3 class="item-name">${item.fields.nome}</h3>
         <p class="item-description">${item.fields.descricao}</p>
@@ -20,7 +25,9 @@ export default class ProdutosCatalogo extends Catalogo<Produto> {
     });
 
     /* Temporarily code (just for tests) */
-    for (let i = 0; i < 5; i++) {
+    const n = randomNumberBetween(1, 5);
+    
+    for (let i = 0; i < n; i++) {
       const star = createElement('img', {
         classes: ['star'],
         childOf: element.querySelector('.stars-group')

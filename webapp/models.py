@@ -90,6 +90,7 @@ class Produto(models.Model):
     medidas = models.CharField(max_length=32, blank=True, null=True)
     foto = models.FileField(upload_to='imagens_produtos', null=True)
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
+    ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
 
     def __str__(self):
         return self.nome
@@ -112,6 +113,7 @@ class Kit(models.Model):
     nome = models.CharField(max_length=48)
     descricao = models.CharField(max_length=200, blank=True, null=True, verbose_name='Descrição')
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
+    ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
 
     def __str__(self):
         return self.nome
