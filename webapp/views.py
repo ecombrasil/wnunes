@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
 from django.core.serializers import serialize
 from django.utils.safestring import SafeString
-from .models import User, Produto, ItemCarrinho, ItemKit
+from .models import (
+    User,
+    Produto,
+    ItemCarrinho,
+    ItemKit,
+    BlogPost,
+)
 from .forms import CriarContaForm
 
 
@@ -17,6 +23,10 @@ class SobreNos(TemplateView):
 
 class Videos(TemplateView):
     template_name = 'videos.html'
+
+class ArtigoBlog(DetailView):
+    template_name = 'artigo.html'
+    model = BlogPost
 
 class CatalogoProdutos(View):
     def get(self, request):

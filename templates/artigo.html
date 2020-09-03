@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load martortags %}
+
+{% block title %}{{ object.titulo }}{% endblock %}
+
+{% block content %}
+{{ object.conteudo|safe_markdown }}
+{% endblock %}

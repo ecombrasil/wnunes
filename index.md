@@ -1,5 +1,9 @@
 # Atividades concluídas
 
+## Qui, 3 de setembro
+
+>Passou a valer, a partir de agosto, a [Lei Geral de Proteção de Dados Pessoais (LGPD)](http://www.planalto.gov.br/ccivil_03/_Ato2015-2018/2018/Lei/L13709.htm), que traz uma série de normas para o armazenamento e manipulação de dados pessoais. Todo desenvolvedor de _software_ deve compreender apropriadamente o que orienta o texto da lei e como aplicar as normas. De modo a garantir que o e-commerce Wnunes não infrinja quaisquer regulamentos contemplados pela LGPD, estamos, no momento, nos aprofundando com relação ao assunto e trocando conhecimento com outros profissionais da área. Nossas atividades habituais devem retornar até sábado (5 de setembro).
+
 ## Ter, 1º de setembro
 
 - Tabela de artigos do blog
