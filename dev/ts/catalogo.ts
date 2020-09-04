@@ -57,9 +57,8 @@ abstract class CatalogoBase<T> {
     this.pages = [];
     let availableItems = [...this.items];
 
-    while (availableItems.length > 0) {
+    while (availableItems.length > 0)
       this.pages.push(availableItems.splice(0, itemsPerPage));
-    }
 
     this.currentPage = 0;
   }
