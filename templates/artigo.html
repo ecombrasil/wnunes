@@ -4,5 +4,13 @@
 {% block title %}{{ object.titulo }}{% endblock %}
 
 {% block content %}
-{{ object.conteudo|safe_markdown }}
+<div class="heading-box"></div>
+<img src="{{ object.imagem_capa.url }}" alt="{{ object.titulo }}" class="article-cover">
+
+<h1 class="article-title">{{ object.titulo }}</h1>
+<p class="publication-date">{{ object.data_criacao|date:"D d M Y" }}</p>
+
+<article class="article-content">
+  {{ object.conteudo|safe_markdown }}
+</article>
 {% endblock %}
