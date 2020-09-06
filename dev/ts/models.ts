@@ -4,7 +4,7 @@ export default interface Model<T> {
   model: string;
 }
 
-export interface Produto{
+export interface Produto {
   nome: string;
   preco: number;
   qntd_estoque: number;

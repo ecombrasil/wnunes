@@ -11,6 +11,7 @@ from .models import (
     ItemCarrinho,
     ItemKit,
     BlogPost,
+    AvaliacaoCliente,
 )
 from .forms import CriarContaForm
 
@@ -24,17 +25,27 @@ class SobreNos(TemplateView):
 class Videos(TemplateView):
     template_name = 'videos.html'
 
+class Blog(ListView):
+    template_name = 'blog.html'
+    model = BlogPost
+    ordering = ['-data_criacao']
+
 class ArtigoBlog(DetailView):
     template_name = 'artigo.html'
     model = BlogPost
 
 class CatalogoProdutos(View):
     def get(self, request):
-        queryset = Produto.objects.all().filter(ativo=True)
-        data = serialize('json', queryset)
-        produtos = SafeString(data)
-        
-        return render(request, 'catalogo.produtos.html', { 'produtos': produtos })
+        queryset_produtos = Produto.objects.filter(ativo=True)
+        queryset_avaliacoes = AvaliacaoCliente.objects.exclude(produto__isnull=True).values('produto', 'pontuacao')
+
+        produtos = SafeString(serialize('json', queryset_produtos))
+        avaliacoes = []
+
+        return render(request, 'catalogo.produtos.html', {
+            'produtos': produtos,
+            'avaliacoes': avaliacoes
+        })
 
 class Carrinho(LoginRequiredMixin, View):
     login_url = '/entrar'
