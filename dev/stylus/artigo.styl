@@ -71,3 +71,22 @@
       font-style italic
       background-color #f0f0f0
       border-top 1px solid #555
+
+.end-buttons
+  width 90em
+  margin 6em auto 0 auto
+  flex-parent(row, wrap, flex-start)
+
+  .opt-btn
+    font-size 1.7em
+    font-weight 700
+    padding 1.05em 1.7em .95em 1.7em
+    border-radius(.5em)
+    background-color #ddd
+
+    &:not(:last-child)
+      margin-right 1.75em
+
+    &.highlighted-btn
+      color reversed-text-color
+      background-color theme-color
