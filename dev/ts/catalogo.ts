@@ -2,7 +2,7 @@ import Page from './page';
 import Model, { Produto, Kit } from './models';
 import { createElement, randomNumberBetween } from 'easy-coding';
 
-@Page(['/catalogo/produtos', 'catalogo/kits'], {
+@Page(['/catalogo/produtos', '/catalogo/kits'], {
   globalInstance: true
 })
 export default class Catalogo {
@@ -38,7 +38,7 @@ export default class Catalogo {
 
   set items(value) {
     this.#items = value;
-    this.init();
+    value.length && this.init();
   }
 
   get pages() {
@@ -115,8 +115,8 @@ export default class Catalogo {
 
   private setActiveSection(): void {
     const availableSections = document.querySelector('.page-header')?.querySelectorAll('a');
-    const path = window.location.pathname;
-
+    const path = window.location.href;
+    
     availableSections?.forEach(a => {
       if (a.href === path) {
         const p = a.querySelector('.pg-header-option');

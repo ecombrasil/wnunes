@@ -81,7 +81,7 @@ let Catalogo = class Catalogo {
     }
     set items(value) {
         __classPrivateFieldSet(this, _items, value);
-        this.init();
+        value.length && this.init();
     }
     get pages() {
         return __classPrivateFieldGet(this, _pages);
@@ -145,7 +145,7 @@ let Catalogo = class Catalogo {
     setActiveSection() {
         var _a;
         const availableSections = (_a = document.querySelector('.page-header')) === null || _a === void 0 ? void 0 : _a.querySelectorAll('a');
-        const path = window.location.pathname;
+        const path = window.location.href;
         availableSections === null || availableSections === void 0 ? void 0 : availableSections.forEach(a => {
             if (a.href === path) {
                 const p = a.querySelector('.pg-header-option');
@@ -156,7 +156,7 @@ let Catalogo = class Catalogo {
 };
 _items = new WeakMap(), _pages = new WeakMap(), _currentPage = new WeakMap();
 Catalogo = __decorate([
-    page_1.default(['/catalogo/produtos', 'catalogo/kits'], {
+    page_1.default(['/catalogo/produtos', '/catalogo/kits'], {
         globalInstance: true
     })
 ], Catalogo);
