@@ -2,7 +2,7 @@
 
 ## Seg, 7 de setembro
 
-- Página do catálogo de kits (![segue este mesmo modelo](#seg-31-de-agosto))
+- Página do catálogo de kits ([segue este mesmo modelo](#seg-31-de-agosto))
 
 ## Dom, 6 de setembro
 
