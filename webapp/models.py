@@ -3,7 +3,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from martor.models import MartorField
-import datetime
+import datetime, statistics
+
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -82,21 +83,7 @@ class User(AbstractUser):
 
     objects = UserManager()
 
-class Produto(models.Model):
-    nome = models.CharField(max_length=128)
-    preco = models.FloatField(verbose_name='Preço')
-    qntd_estoque = models.PositiveIntegerField(default=0, verbose_name='Quantidade em estoque')
-    descricao = models.CharField(max_length=200, verbose_name='Descrição')
-    medidas = models.CharField(max_length=32, blank=True, null=True)
-    foto = models.FileField(upload_to='imagens_produtos', null=True)
-    data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
-    ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
-
-    def __str__(self):
-        return self.nome
-
 class AvaliacaoCliente(models.Model):
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=48, verbose_name='Título')
     texto = models.CharField(max_length=200)
@@ -104,30 +91,40 @@ class AvaliacaoCliente(models.Model):
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     def __str__(self):
-        return f"{self.produto}, por {self.cliente}"
+        return self.titulo
 
     class Meta:
         verbose_name_plural = 'Avaliações dos produtos'
 
-class Kit(models.Model):
-    nome = models.CharField(max_length=48)
-    descricao = models.CharField(max_length=200, blank=True, null=True, verbose_name='Descrição')
-    data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
+class Produto(models.Model):
+    nome = models.CharField(max_length=128)
+    preco = models.FloatField(verbose_name='Preço')
+    qntd_estoque = models.PositiveIntegerField(default=0, verbose_name='Quantidade em estoque')
+    descricao = models.CharField(max_length=200, verbose_name='Descrição')
+    medidas = models.CharField(max_length=32, blank=True, null=True)
+    foto = models.FileField(upload_to='imagens_produtos', null=True)
+    avaliacoes = models.ManyToManyField(AvaliacaoCliente)
     ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
+    data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
+
+    def get_pontuacao(self):
+        lista_avaliacoes = self.avaliacoes.all().values('pontuacao')
+        pontuacoes = [avaliacao['pontuacao'] for avaliacao in lista_avaliacoes]
+        return round(statistics.median(pontuacoes)) if len(pontuacoes) else None
 
     def __str__(self):
         return self.nome
-    
-class ItemKit(models.Model):
-    kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
-    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
-    qntd = models.PositiveIntegerField(default=1, verbose_name='Quantidade')
+
+class Kit(models.Model):
+    nome = models.CharField(max_length=48)
+    descricao = models.CharField(max_length=200, blank=True, null=True, verbose_name='Descrição')
+    produtos = models.ManyToManyField(Produto)
+    avaliacoes = models.ManyToManyField(AvaliacaoCliente)
+    ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
+    data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     def __str__(self):
-        return f"{self.produto} | {self.kit}"
-
-    class Meta:
-        verbose_name_plural = 'Itens em kits'
+        return self.nome
 
 class MensagemSite(models.Model):
     nome = models.CharField(max_length=128)

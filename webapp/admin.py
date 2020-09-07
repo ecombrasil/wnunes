@@ -5,10 +5,9 @@ from django.utils.translation import ugettext_lazy as _
 from martor.widgets import AdminMartorWidget
 from .models import (
     User,
-    Produto,
     AvaliacaoCliente,
+    Produto,
     Kit,
-    ItemKit,
     BlogPost,
 )
 
@@ -39,7 +38,12 @@ class UserAdmin(DjangoUserAdmin):
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
 
-admin.site.register(Produto)
+@admin.register(Produto)
+class ProdutoAdmin(admin.ModelAdmin):
+    exclude = ('avaliacoes',)
+
+@admin.register(Kit)
+class KitAdmin(admin.ModelAdmin):
+    exclude = ('avaliacoes',)
+
 admin.site.register(AvaliacaoCliente)
-admin.site.register(Kit)
-admin.site.register(ItemKit)

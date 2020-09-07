@@ -9,7 +9,6 @@ from .models import (
     User,
     Produto,
     ItemCarrinho,
-    ItemKit,
     BlogPost,
     AvaliacaoCliente,
 )
@@ -37,14 +36,16 @@ class ArtigoBlog(DetailView):
 class CatalogoProdutos(View):
     def get(self, request):
         queryset_produtos = Produto.objects.filter(ativo=True)
-        queryset_avaliacoes = AvaliacaoCliente.objects.exclude(produto__isnull=True).values('produto', 'pontuacao')
-
+        # Cria lista com pontuação média para cada produto baseando-se em suas avalições
+        avaliacoes_produtos = [{
+            'pk': produto.pk,
+            'pontuacao': produto.get_pontuacao()
+        } for produto in queryset_produtos]
+        # Serializa a QuerySet de produtos para renderizá-la em JSON no template
         produtos = SafeString(serialize('json', queryset_produtos))
-        avaliacoes = []
-
         return render(request, 'catalogo.produtos.html', {
             'produtos': produtos,
-            'avaliacoes': avaliacoes
+            'avaliacoes': avaliacoes_produtos
         })
 
 class Carrinho(LoginRequiredMixin, View):
@@ -52,23 +53,27 @@ class Carrinho(LoginRequiredMixin, View):
 
     def get(self, request):
         itens = ItemCarrinho.objects.filter(cliente=request.user)
+        # Valor total exibido no carrinho
         valor_total = 0
+        # Valor total de cada kit
         valores_kits = []
+        # Loop para somar os valores
         for item in itens:
+            # Soma valor do produto
             if item.produto is not None:
                 valor_total += item.produto.preco * item.qntd
+            # Soma valor de cada produto no kit
             elif item.kit is not None:
-                valor_kit = {
-                    'pk': item.kit.pk,
-                    'preco': 0
-                }
-                itens_kit = ItemKit.objects.filter(kit=item.kit)
-                for item_kit in itens_kit:
-                    valor_kit['preco'] += item_kit.produto.preco * item_kit.qntd
-                    
-                valor_total = valor_kit['preco']
+                valor_kit = 0
+                produtos_kit = item.kit.produtos.all()
+                for produto_kit in produtos_kit:
+                    valor_kit += produto_kit.preco * item.qntd
+
+                valor_total += valor_kit
+                # Guarda informação do valor total do kit para exibição no carrinho
+                valores_kits.append({ 'pk': item.kit.pk, 'total': valor_kit })
         
-        return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
+        return render(request, 'carrinho.html', {'carrinho': itens, 'total': valor_total })
 
 class Entrar(View):
     def get(self, request):
@@ -97,20 +102,21 @@ class CriarConta(View):
         form = CriarContaForm(request.POST, auto_id=False)
         
         if form.is_valid():
+            # Pega os campos do formulário
             nome = form.cleaned_data['nome']
             sobrenome = form.cleaned_data['sobrenome']
             cpf = form.cleaned_data['cpf']
             email = form.cleaned_data['email']
             senha = form.cleaned_data['senha']
-            
+            # Cria o novo usuário
             usuario = User.objects.create_user(email, senha)
             usuario.first_name = nome
             usuario.last_name = sobrenome
             usuario.cpf = cpf
             usuario.save()
-            
+            # Autentica o usuário
             usuario = authenticate(request, username=email, password=senha)
-
+            # Faz login do usuário
             if usuario is not None:
                 login(request, usuario)
                 return redirect('inicio')
