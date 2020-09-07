@@ -1,11 +1,16 @@
-import Model from './models';
+import Page from './page';
+import Model, { Produto, Kit } from './models';
+import { createElement, randomNumberBetween } from 'easy-coding';
 
-type CatalogItem<T> = Model<T & { preco: number }>;
-
-abstract class CatalogoBase<T> {
-  #items: CatalogItem<T>[] = [];
-  #pages: Model<T>[][] = [];
+@Page(['/catalogo/produtos', 'catalogo/kits'], {
+  globalInstance: true
+})
+export default class Catalogo {
+  #items: Model<Produto | Kit>[] = [];
+  #pages: Model<Produto | Kit>[][] = [];
   #currentPage = 0;
+
+  private readonly storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
 
   protected parentElement = document.getElementById('catalog-wrapper');
   protected loadMoreBtn = document.querySelector('.load-more-btn') as HTMLElement;
@@ -13,6 +18,7 @@ abstract class CatalogoBase<T> {
 
   constructor() {
     this.addListeners();
+    this.setActiveSection();
   }
 
   private addListeners(): void {
@@ -72,26 +78,50 @@ abstract class CatalogoBase<T> {
   }
 
   private sortItems(): void {
-    const by = this.orderingSelect.value as '-preco' | '+preco' | '+recentes';
+    const by = this.orderingSelect.value as '+recentes' | '-recentes';
 
-    switch(by) {
-      case '+recentes':
-        this.items.sort((a, b) => b.pk - a.pk);
-        break;
-      case '-preco':
-        this.items.sort((a, b) => a.fields.preco - b.fields.preco);
-        break;
-      case '+preco':
-        this.items.sort((a, b) => b.fields.preco - a.fields.preco);
-        break;
-    }
+    by === '+recentes' ?
+      this.items.sort((a, b) => b.pk - a.pk) :
+      this.items.sort((a, b) => a.pk - b.pk)
   };
 
-  /**
-   * Render an element from the `items` list in the DOM
-   * @param item {Model<T>} Model object
-   */
-  renderElement(item: Model<T>): void { }
-}
+  private renderElement(item: Model<Produto | Kit>): void {
+    const imgUrl = item.fields.foto ?
+      this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
+    
+    const element = createElement('div', {
+      content: `
+        <img src="${imgUrl}" alt="Imagem do produto ${item.fields.nome}" class="item-img">
+        <div class="stars-group"></div>
+        <h3 class="item-name">${item.fields.nome}</h3>
+        <p class="item-description">${item.fields.descricao}</p>
+      `,
+      classes: ['catalog-item'],
+      childOf: this.parentElement
+    });
 
-export default CatalogoBase;
+    /* Temporarily code (just for tests) */
+    const n = randomNumberBetween(1, 5);
+    
+    for (let i = 0; i < n; i++) {
+      const star = createElement('img', {
+        classes: ['star'],
+        childOf: element.querySelector('.stars-group')
+      });
+      star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
+      star.setAttribute('src', '/static/img/star.svg');
+    }
+  }
+
+  private setActiveSection(): void {
+    const availableSections = document.querySelector('.page-header')?.querySelectorAll('a');
+    const path = window.location.pathname;
+
+    availableSections?.forEach(a => {
+      if (a.href === path) {
+        const p = a.querySelector('.pg-header-option');
+        p?.classList.add('active-pg-option');
+      }
+    });
+  }
+}

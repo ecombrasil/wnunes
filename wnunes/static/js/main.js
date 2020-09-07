@@ -10,12 +10,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const easy_coding_1 = require("easy-coding");
 const main_1 = require("./main");
 const inicio_1 = require("./inicio");
-const produtos_catalogo_1 = require("./produtos.catalogo");
+const catalogo_1 = require("./catalogo");
 let App = class App {
     constructor() {
         this.declarations = [
             inicio_1.default,
-            produtos_catalogo_1.default
+            catalogo_1.default
         ];
         this.addListeners();
     }
@@ -30,8 +30,14 @@ App = __decorate([
     main_1.default
 ], App);
 
-},{"./inicio":3,"./main":4,"./produtos.catalogo":6,"easy-coding":10}],2:[function(require,module,exports){
+},{"./catalogo":2,"./inicio":3,"./main":4,"easy-coding":9}],2:[function(require,module,exports){
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
@@ -47,15 +53,19 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 };
 var _items, _pages, _currentPage;
 Object.defineProperty(exports, "__esModule", { value: true });
-class CatalogoBase {
+const page_1 = require("./page");
+const easy_coding_1 = require("easy-coding");
+let Catalogo = class Catalogo {
     constructor() {
         _items.set(this, []);
         _pages.set(this, []);
         _currentPage.set(this, 0);
+        this.storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
         this.parentElement = document.getElementById('catalog-wrapper');
         this.loadMoreBtn = document.querySelector('.load-more-btn');
         this.orderingSelect = document.querySelector('.ordering-btn');
         this.addListeners();
+        this.setActiveSection();
     }
     addListeners() {
         this.loadMoreBtn.addEventListener('click', () => this.nextPage());
@@ -103,29 +113,56 @@ class CatalogoBase {
     }
     sortItems() {
         const by = this.orderingSelect.value;
-        switch (by) {
-            case '+recentes':
-                this.items.sort((a, b) => b.pk - a.pk);
-                break;
-            case '-preco':
-                this.items.sort((a, b) => a.fields.preco - b.fields.preco);
-                break;
-            case '+preco':
-                this.items.sort((a, b) => b.fields.preco - a.fields.preco);
-                break;
-        }
+        by === '+recentes' ?
+            this.items.sort((a, b) => b.pk - a.pk) :
+            this.items.sort((a, b) => a.pk - b.pk);
     }
     ;
-    /**
-     * Render an element from the `items` list in the DOM
-     * @param item {Model<T>} Model object
-     */
-    renderElement(item) { }
-}
+    renderElement(item) {
+        const imgUrl = item.fields.foto ?
+            this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
+        const element = easy_coding_1.createElement('div', {
+            content: `
+        <img src="${imgUrl}" alt="Imagem do produto ${item.fields.nome}" class="item-img">
+        <div class="stars-group"></div>
+        <h3 class="item-name">${item.fields.nome}</h3>
+        <p class="item-description">${item.fields.descricao}</p>
+      `,
+            classes: ['catalog-item'],
+            childOf: this.parentElement
+        });
+        /* Temporarily code (just for tests) */
+        const n = easy_coding_1.randomNumberBetween(1, 5);
+        for (let i = 0; i < n; i++) {
+            const star = easy_coding_1.createElement('img', {
+                classes: ['star'],
+                childOf: element.querySelector('.stars-group')
+            });
+            star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
+            star.setAttribute('src', '/static/img/star.svg');
+        }
+    }
+    setActiveSection() {
+        var _a;
+        const availableSections = (_a = document.querySelector('.page-header')) === null || _a === void 0 ? void 0 : _a.querySelectorAll('a');
+        const path = window.location.pathname;
+        availableSections === null || availableSections === void 0 ? void 0 : availableSections.forEach(a => {
+            if (a.href === path) {
+                const p = a.querySelector('.pg-header-option');
+                p === null || p === void 0 ? void 0 : p.classList.add('active-pg-option');
+            }
+        });
+    }
+};
 _items = new WeakMap(), _pages = new WeakMap(), _currentPage = new WeakMap();
-exports.default = CatalogoBase;
+Catalogo = __decorate([
+    page_1.default(['/catalogo/produtos', 'catalogo/kits'], {
+        globalInstance: true
+    })
+], Catalogo);
+exports.default = Catalogo;
 
-},{}],3:[function(require,module,exports){
+},{"./page":5,"easy-coding":9}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -229,56 +266,6 @@ exports.default = Page;
 
 },{}],6:[function(require,module,exports){
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const page_1 = require("./page");
-const catalogo_1 = require("./catalogo");
-const easy_coding_1 = require("easy-coding");
-let ProdutosCatalogo = class ProdutosCatalogo extends catalogo_1.default {
-    constructor() {
-        super(...arguments);
-        this.storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
-    }
-    renderElement(item) {
-        const imgUrl = item.fields.foto ?
-            this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
-        const element = easy_coding_1.createElement('div', {
-            content: `
-        <img src="${imgUrl}" alt="Imagem do produto ${item.fields.nome}" class="item-img">
-        <div class="stars-group"></div>
-        <h3 class="item-name">${item.fields.nome}</h3>
-        <p class="item-description">${item.fields.descricao}</p>
-      `,
-            classes: ['catalog-item'],
-            childOf: this.parentElement
-        });
-        /* Temporarily code (just for tests) */
-        const n = easy_coding_1.randomNumberBetween(1, 5);
-        for (let i = 0; i < n; i++) {
-            const star = easy_coding_1.createElement('img', {
-                classes: ['star'],
-                childOf: element.querySelector('.stars-group')
-            });
-            star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
-            star.setAttribute('src', '/static/img/star.svg');
-        }
-        /* --- */
-    }
-};
-ProdutosCatalogo = __decorate([
-    page_1.default('/catalogo/produtos', {
-        globalInstance: true
-    })
-], ProdutosCatalogo);
-exports.default = ProdutosCatalogo;
-
-},{"./catalogo":2,"./page":5,"easy-coding":10}],7:[function(require,module,exports){
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
 /**
@@ -316,7 +303,7 @@ class Cookies {
 }
 exports.Cookies = Cookies;
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
@@ -326,7 +313,7 @@ exports.Global = void 0;
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.addGlobalEntries = exports.handleBindingAttr = exports.createElement = void 0;
@@ -413,7 +400,7 @@ exports.randomDateBetween = (date1, date2) => {
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -430,4 +417,4 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":7,"./decorators":8,"./functions":9}]},{},[1]);
+},{"./classes":6,"./decorators":7,"./functions":8}]},{},[1]);

@@ -2,13 +2,13 @@ import { Type } from 'easy-coding/lib/types';
 import { handleBindingAttr } from 'easy-coding';
 import Main from './main';
 import Inicio from './inicio';
-import ProdutosCatalogo from './produtos.catalogo';
+import Catalogo from './catalogo';
 
 @Main
 class App {
   declarations: Type[] = [
     Inicio,
-    ProdutosCatalogo
+    Catalogo
   ];
 
   constructor() {

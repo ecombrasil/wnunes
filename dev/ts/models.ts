@@ -16,6 +16,13 @@ export interface Produto {
   data_criacao: string;
 }
 
+export interface Kit {
+  nome: string;
+  descricao: string;
+  foto: string;
+  data_criacao: string;
+}
+
 export interface AvaliacaoProduto {
   pk: PrimaryKey;
   pontuacao: number;

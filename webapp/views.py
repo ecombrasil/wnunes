@@ -35,7 +35,6 @@ class ArtigoBlog(DetailView):
     model = BlogPost
 
 class _Catalogo(View):
-    template_name = None
     model = None
 
     def get(self, request):
@@ -46,17 +45,15 @@ class _Catalogo(View):
         } for item in queryset]
 
         lista_itens = SafeString(serialize('json', queryset))
-        return render(request, self.template_name, {
+        return render(request, 'catalogo.html', {
             'produtos': lista_itens,
             'avaliacoes': avaliacoes
         })
 
 class CatalogoProdutos(_Catalogo):
-    template_name = 'catalogo.produtos.html'
     model = Produto
 
 class CatalogoKits(_Catalogo):
-    template_name = 'catalogo.kits.html'
     model = Kit
 
 class Carrinho(LoginRequiredMixin, View):
