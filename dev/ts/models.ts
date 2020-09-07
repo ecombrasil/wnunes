@@ -1,5 +1,7 @@
+type PrimaryKey = number;
+
 export default interface Model<T> {
-  pk: number;
+  pk: PrimaryKey;
   fields: T;
   model: string;
 }
@@ -10,6 +12,11 @@ export interface Produto {
   qntd_estoque: number;
   descricao: string;
   medidas: string;
-  data_criacao: string;
   foto: string;
+  data_criacao: string;
+}
+
+export interface AvaliacaoProduto {
+  pk: PrimaryKey;
+  pontuacao: number;
 }
