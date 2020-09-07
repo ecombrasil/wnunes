@@ -8,6 +8,7 @@ from django.utils.safestring import SafeString
 from .models import (
     User,
     Produto,
+    Kit,
     ItemCarrinho,
     BlogPost,
     AvaliacaoCliente,
@@ -33,20 +34,31 @@ class ArtigoBlog(DetailView):
     template_name = 'artigo.html'
     model = BlogPost
 
-class CatalogoProdutos(View):
+class _Catalogo(View):
+    template_name = None
+    model = None
+
     def get(self, request):
-        queryset_produtos = Produto.objects.filter(ativo=True)
-        # Cria lista com pontuação média para cada produto baseando-se em suas avalições
-        avaliacoes_produtos = [{
-            'pk': produto.pk,
-            'pontuacao': produto.get_pontuacao()
-        } for produto in queryset_produtos]
-        # Serializa a QuerySet de produtos para renderizá-la em JSON no template
-        produtos = SafeString(serialize('json', queryset_produtos))
-        return render(request, 'catalogo.produtos.html', {
-            'produtos': produtos,
-            'avaliacoes': avaliacoes_produtos
+        queryset = self.model.objects.filter(ativo=True)
+
+        avaliacoes = [{
+            'pk': item.pk,
+            'pontuacao': item.get_pontuacao(),
+        } for item in queryset]
+
+        lista_itens = SafeString(serialize('json', queryset))
+        return render(request, self.template_name, {
+            'produtos': lista_itens,
+            'avaliacoes': avaliacoes
         })
+
+class CatalogoProdutos(_Catalogo):
+    template_name = 'catalogo.produtos.html'
+    model = Produto
+
+class CatalogoKits(_Catalogo):
+    template_name = 'catalogo.kits.html'
+    model = Kit
 
 class Carrinho(LoginRequiredMixin, View):
     login_url = '/entrar'
@@ -64,16 +76,12 @@ class Carrinho(LoginRequiredMixin, View):
                 valor_total += item.produto.preco * item.qntd
             # Soma valor de cada produto no kit
             elif item.kit is not None:
-                valor_kit = 0
-                produtos_kit = item.kit.produtos.all()
-                for produto_kit in produtos_kit:
-                    valor_kit += produto_kit.preco * item.qntd
-
+                valor_kit = item.kit.get_valor_total()
                 valor_total += valor_kit
                 # Guarda informação do valor total do kit para exibição no carrinho
                 valores_kits.append({ 'pk': item.kit.pk, 'total': valor_kit })
         
-        return render(request, 'carrinho.html', {'carrinho': itens, 'total': valor_total })
+        return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
 
 class Entrar(View):
     def get(self, request):

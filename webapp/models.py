@@ -96,7 +96,15 @@ class AvaliacaoCliente(models.Model):
     class Meta:
         verbose_name_plural = 'Avaliações dos produtos'
 
-class Produto(models.Model):
+class BaseProduto:
+    avaliacoes = None
+
+    def get_pontuacao(self):
+        lista_avaliacoes = self.avaliacoes.all().values('pontuacao')
+        pontuacoes = [avaliacao['pontuacao'] for avaliacao in lista_avaliacoes]
+        return round(statistics.median(pontuacoes)) if len(pontuacoes) else None
+
+class Produto(models.Model, BaseProduto):
     nome = models.CharField(max_length=128)
     preco = models.FloatField(verbose_name='Preço')
     qntd_estoque = models.PositiveIntegerField(default=0, verbose_name='Quantidade em estoque')
@@ -107,21 +115,25 @@ class Produto(models.Model):
     ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
-    def get_pontuacao(self):
-        lista_avaliacoes = self.avaliacoes.all().values('pontuacao')
-        pontuacoes = [avaliacao['pontuacao'] for avaliacao in lista_avaliacoes]
-        return round(statistics.median(pontuacoes)) if len(pontuacoes) else None
-
     def __str__(self):
         return self.nome
 
-class Kit(models.Model):
+class Kit(models.Model, BaseProduto):
     nome = models.CharField(max_length=48)
     descricao = models.CharField(max_length=200, blank=True, null=True, verbose_name='Descrição')
     produtos = models.ManyToManyField(Produto)
     avaliacoes = models.ManyToManyField(AvaliacaoCliente)
     ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
+
+    def get_valor_total(self):
+        lista_produtos = self.produtos.all().values('preco')
+        valor_total = 0
+
+        for produto in lista_produtos:
+            valor_total += produto['preco']
+        
+        return valor_total
 
     def __str__(self):
         return self.nome
