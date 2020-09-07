@@ -20,6 +20,12 @@
 
   @media (max-width 768px)
     margin-top 15em
+  
+  @media (max-width 600px)
+    width 86%
+    height auto
+    margin-top 12em
+    margin-left 7%
 
 .article-title
   width 20em // 90em / 4.2em (font-size)
@@ -39,6 +45,9 @@
     margin-top 1.5em
     font-size 3.5em
 
+  @media (max-width 600px)
+    width 86%
+
 .publication-date
   width 60em // 90em / 1.5em (font-size)
   margin 1.5em auto 6em auto
@@ -56,6 +65,9 @@
   @media (max-width 768px)
     margin 1.1em auto 4em auto
 
+  @media (max-width 600px)
+    width 86%
+
 .article-content
   width 90em
   margin 0 auto
@@ -65,6 +77,9 @@
 
   @media (max-width 900px)
     width 92%
+
+  @media (max-width 600px)
+    width 86%
 
   img
     max-width 100%
@@ -129,6 +144,10 @@
   @media (max-width 768px)
     margin-top 5em
 
+  @media (max-width 600px)
+    width 86%
+    justify-content space-between
+
   .opt-btn
     font-size 1.7em
     font-weight 700
@@ -136,8 +155,20 @@
     border-radius(.5em)
     background-color #ddd
 
-    &:not(:last-child)
-      margin-right 1.75em
+    @media (min-width 601px)
+      &:not(:last-child)
+        margin-right 1.75em
+
+    @media (max-width 600px)
+      padding .9em 0 .8em 0
+      flex-grow 1
+      text-align center
+
+      &:first-child
+        margin-right .45em
+
+      &:last-child
+        margin-left .45em
 
     &.highlighted-btn
       color reversed-text-color
