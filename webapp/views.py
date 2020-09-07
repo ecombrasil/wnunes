@@ -40,7 +40,6 @@ class _Catalogo(View):
 
     def get(self, request):
         queryset = self.model.objects.filter(ativo=True)
-
         avaliacoes = [{
             'pk': item.pk,
             'pontuacao': item.get_pontuacao(),
