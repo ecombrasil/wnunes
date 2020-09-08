@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Acesso negado - 403{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="error-page">
+  <div class="text-content">
+    <h1 class="error-title">O acesso a esta página foi negado a você</h1>
+    <p class="error-description">Isso pode acontecer quando você tenta acessar um recurso que pertence a outro usuário ou então quando ainda não <a href="{% url 'entrar' %}" class="inner-link">iniciou sessão</a> no site. Se não for o seu caso, por favor, entre em <a href="" class="inner-link">contato</a> conosco.</p>
+    <p class="error-action" clickAndGo="{% url 'inicio' %}"><a href="{% url 'inicio' %}">Voltar à página inicial</a></p>
+  </div>
+  <img src="{% static 'img/No-data-pana.svg' %}" alt="Ilustração de uma jovem tentando (sem sucesso) abrir um arquivo que possui um X escrito na capa" class="error-illustration">
+</div>
+{% endblock %}

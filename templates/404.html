@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Página não encontrada - 404{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="error-page">
+  <div class="text-content">
+    <h1 class="error-title">Página ou recurso não encontrado(a)!</h1>
+    <p class="error-description">Este erro acontece quando uma página que você procura não existe ou foi apagada.</p>
+    <div class="error-action" clickAndGo="{% url 'inicio' %}"><a href="{% url 'inicio' %}">Voltar à página inicial</a></div>
+  </div>
+  <img src="{% static 'img/404-Error-pana.svg' %}" alt="Ilustração com o número 404 escrito e uma jovem no centro observando o horizonte com receio" class="error-illustration">
+</div>
+{% endblock %}

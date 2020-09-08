@@ -1,0 +1,45 @@
+.error-page
+  width 80%
+  min-height 100vh
+  margin 0 auto
+  flex-parent(row, wrap, space-between)
+
+  .text-content
+    width 32%
+    height 56em
+    margin-top calc(50vh - 26em)
+    flex-parent(column, nowrap, center)
+
+    .error-title
+      margin-bottom 1.25em
+      font-size 3.6em
+      font-weight 900
+      color theme-color
+
+    .error-description
+      font-size 1.8em
+      font-weight 500
+      line-height 1.55em
+
+    .error-action
+      width 15em
+      margin-top 3.5em
+      padding 1.2em 0 1.1em 0
+      font-size 1.8em
+      font-weight 800
+      text-align center
+      color reversed-text-color
+      border-radius(2.5em)
+      margin-left 6px
+      box-shadow(-6px 9px 0 0 rgba(darker-theme-color, 1))
+      background-color theme-color
+      transition(400ms)
+      cursor pointer
+
+      &:hover
+        margin-left 0
+        box-shadow(6px 9px 0 0 rgba(darker-theme-color, 1))
+
+  .error-illustration
+    height 56em
+    margin-top calc(50vh - 26em)

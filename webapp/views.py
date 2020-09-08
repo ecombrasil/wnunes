@@ -16,6 +16,8 @@ from .models import (
 from .forms import CriarContaForm
 
 
+### Public
+
 class Inicio(TemplateView):
     template_name = 'inicio.html'
 
@@ -56,6 +58,8 @@ class CatalogoProdutos(_Catalogo):
 class CatalogoKits(_Catalogo):
     model = Kit
 
+### For logged users
+
 class Carrinho(LoginRequiredMixin, View):
     login_url = '/entrar'
 
@@ -78,6 +82,8 @@ class Carrinho(LoginRequiredMixin, View):
                 valores_kits.append({ 'pk': item.kit.pk, 'total': valor_kit })
         
         return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
+
+### Session
 
 class Entrar(View):
     def get(self, request):
@@ -132,3 +138,14 @@ class Sair(View):
         if request.user.is_authenticated:
             logout(request)
         return redirect('entrar')
+
+### Error handlers
+
+def handler403(request, exception):
+    return render(request, '403.html', status=403)
+
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
+
+def handler500(request):
+    return render(request, '500.html', status=500)

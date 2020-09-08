@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Falha na solicitação - 500{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="error-page">
+  <div class="text-content">
+    <h1 class="error-title">Houve um erro ao tratar sua solicitação</h1>
+    <p class="error-description">Nós também desejamos saber por que isso aconteceu. Por favor, entre em <a href="#" class="inner-link">contato</a> conosco e informe seu problema.</p>
+    <p class="error-action" clickAndGo="{% url 'inicio' %}"><a href="{% url 'inicio' %}">Voltar à página inicial</a></p>
+  </div>
+  <img src="{% static 'img/No-data-cuate.svg' %}" alt="Ilustração de um jovem procurando arquivos dentro de uma pasta, sem conseguir encontrar o que precisa" class="error-illustration">
+</div>
+{% endblock %}

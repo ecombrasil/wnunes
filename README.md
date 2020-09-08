@@ -37,3 +37,7 @@ Para rodar a aplicação localmente, execute o seguinte comando:
 ```bash
 python manage.py runserver
 ```
+
+## Dicas
+
+Se estiver rodando a aplicação **localmente** com `DEBUG = False` em `settings.py` e desejar carregar os arquivos estáticos normalmente, utilize o comando `python manage.py runserver --insecure`.
