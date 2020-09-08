@@ -1,5 +1,15 @@
 # Atividades concluídas
 
+## Ter, 8 de setembro
+
+- Página de erro 403 (acesso negado)
+- Página de erro 404 (não encontrado)
+- Página de erro 500 (erro no servidor)
+
+![Screenshot da tela Erro 403](https://i.imgur.com/qbAlpoQ.png)
+![Screenshot da tela Erro 404](https://i.imgur.com/K3dHeeB.png)
+![Screenshot da tela Erro 500](https://i.imgur.com/iaYu4r5.png)
+
 ## Seg, 7 de setembro
 
 - Página do catálogo de kits ([segue este mesmo modelo](#seg-31-de-agosto))
