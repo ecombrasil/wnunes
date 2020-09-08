@@ -4,8 +4,9 @@
 
 ### Requisitos:
 
-- Python 3
-- virtualenv
+- [Python 3](https://www.python.org)
+- [PostgreSQL](https://www.postgresql.org)
+- Pacote [virtualenv](https://pypi.org/project/virtualenv/)
 
 ### Passos
 
