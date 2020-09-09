@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from webapp import views as webapp_views
+from webapp.views import ErrorHandlers
 
 urlpatterns = [
     path('', include('webapp.urls')),
@@ -23,6 +23,7 @@ urlpatterns = [
     path('martor/', include('martor.urls')),
 ]
 
-handler403 = webapp_views.handler403
-handler404 = webapp_views.handler404
-handler500 = webapp_views.handler500
+handler400 = ErrorHandlers.handler400
+handler403 = ErrorHandlers.handler403
+handler404 = ErrorHandlers.handler404
+handler500 = ErrorHandlers.handler500

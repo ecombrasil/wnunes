@@ -16,7 +16,7 @@ from .models import (
 from .forms import CriarContaForm
 
 
-### Public
+### Compartilhado
 
 class Inicio(TemplateView):
     template_name = 'inicio.html'
@@ -58,7 +58,7 @@ class CatalogoProdutos(_Catalogo):
 class CatalogoKits(_Catalogo):
     model = Kit
 
-### For logged users
+### Somente com login
 
 class Carrinho(LoginRequiredMixin, View):
     login_url = '/entrar'
@@ -83,7 +83,7 @@ class Carrinho(LoginRequiredMixin, View):
         
         return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
 
-### Session
+### Sessão
 
 class Entrar(View):
     def get(self, request):
@@ -139,13 +139,38 @@ class Sair(View):
             logout(request)
         return redirect('entrar')
 
-### Error handlers
+### Testes
 
-def handler403(request, exception):
-    return render(request, '403.html', status=403)
+class Teste:
+    @staticmethod
+    def bad_request(request):
+        from django.core.exceptions import SuspiciousOperation
+        raise SuspiciousOperation
 
-def handler404(request, exception):
-    return render(request, '404.html', status=404)
+    @staticmethod
+    def forbidden(request):
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied
 
-def handler500(request):
-    return render(request, '500.html', status=500)
+    @staticmethod
+    def server_error(request):
+        1 / 'a'
+
+### Manipular erros
+
+class ErrorHandlers:
+    @staticmethod
+    def handler400(request, exception=None):
+        return render(request, '400.html', status=400)
+
+    @staticmethod
+    def handler403(request, exception=None):
+        return render(request, '403.html', status=403)
+
+    @staticmethod
+    def handler404(request, exception=None):
+        return render(request, '404.html', status=404)
+
+    @staticmethod
+    def handler500(request):
+        return render(request, '500.html', status=500)

@@ -4,11 +4,46 @@
   margin 0 auto
   flex-parent(row, wrap, space-between)
 
+  @media (max-width 1366px)
+    width 90%
+
+  @media (max-width 900px)
+    width 92%
+    justify-content center
+    min-height auto
+
+  @media (max-width 600px)
+    width 86%
+
   .text-content
-    width 32%
+    flex-basis 32%
     height 56em
     margin-top calc(50vh - 26em)
     flex-parent(column, nowrap, center)
+    justify-content center
+
+    @media (max-width 1600px)
+      height 50em
+      margin-top calc(50vh - 24em)
+
+    @media (max-width 1366px)
+      flex-grow 1
+      margin-right 4em
+      height 45em
+      margin-top calc(50vh - 22em)
+
+    @media (max-width 1160px)
+      margin-right 2em
+
+    @media (max-width 1024px)
+      margin-right .4em
+    
+    @media (max-width 900px)
+      flex-basis 100%
+      height auto
+      margin 0
+      order 2
+      margin-bottom 1em
 
     .error-title
       margin-bottom 1.25em
@@ -16,10 +51,53 @@
       font-weight 900
       color theme-color
 
+      @media (max-width 1600px)
+        font-size 3.55em
+
+      @media (max-width 1366px)
+        font-size 3.4em
+
+      @media (max-width 1160px)
+        font-size 2.5em
+
+      @media (max-width 1024px)
+        margin-bottom .9em
+      
+      @media (max-width 900px)
+        width 60%
+        margin-left auto
+        margin-right auto
+        font-size 3em
+        text-align center
+
+      @media (max-width 600px)
+        width 86%
+        font-size 2.4em
+
     .error-description
       font-size 1.8em
       font-weight 500
       line-height 1.55em
+
+      @media (max-width 1600px)
+        font-size 1.75em
+
+      @media (max-width 1366px)
+        font-size 1.65em
+
+      @media (max-width 1160px)
+        font-size 1.5em
+      
+      @media (max-width 900px)
+        width 70%
+        margin-left auto
+        margin-right auto
+        font-size 1.6em
+        text-align center
+
+      @media (max-width 600px)
+        width 86%
+        font-weight 400
 
     .error-action
       width 15em
@@ -36,10 +114,77 @@
       transition(400ms)
       cursor pointer
 
+      @media (max-width 1600px)
+        width 14em
+        margin-top 3.1em
+        padding 1.1em 0 1em 0
+        font-size 1.75em
+        margin-left 5px
+        box-shadow(-5px 8px 0 0 rgba(darker-theme-color, 1))
+
+      @media (max-width 1366px)
+        font-size 1.65em
+        margin-left 4px
+        box-shadow(-4px 7px 0 0 rgba(darker-theme-color, 1))
+
+      @media (max-width 1160px)
+        font-size 1.5em
+        padding 1em 0 .9em 0
+        margin-left 3px
+        box-shadow(-3px 6px 0 0 rgba(darker-theme-color, 1))
+
+      @media (max-width 1024px)
+        margin-top 2.5em
+
+      @media (max-width 900px)
+        margin 3.5em auto 0 auto
+        font-size 1.6em
+        padding 1.2em 0 1.1em 0
+
+      @media (max-width 600px)
+        margin-top 2.5em
+        padding 1.1em 0 1em 0
+
       &:hover
         margin-left 0
         box-shadow(6px 9px 0 0 rgba(darker-theme-color, 1))
 
+        @media (max-width 1600px)
+          box-shadow(5px 8px 0 0 rgba(darker-theme-color, 1))
+
+        @media (max-width 1366px)
+          box-shadow(4px 7px 0 0 rgba(darker-theme-color, 1))
+
+        @media (max-width 1160px)
+          box-shadow(3px 6px 0 0 rgba(darker-theme-color, 1))
+        
+        @media (max-width 900px)
+          margin-left auto
+
   .error-illustration
     height 56em
-    margin-top calc(50vh - 26em)
+    margin-top calc(50vh - 25em)
+
+    @media (max-width 1600px)
+      height 50em
+      margin-top calc(50vh - 22em)
+
+    @media (max-width 1366px)
+      height 45em
+
+    @media (max-width 1160px)
+      height 42em
+      margin-top calc(50vh - 17em)
+    
+    @media (max-width 1024px)
+      height 38em
+      margin-top calc(50vh - 16em)
+    
+    @media (max-width 900px)
+      order 1
+      height 55em
+      margin 14em 0 4.5em 0
+
+    @media (max-width 600px)
+      height 28em
+      margin 10em 0 0 0

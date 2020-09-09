@@ -11,6 +11,7 @@ from .views import (
     Carrinho,
     Blog,
     ArtigoBlog,
+    Teste,
 )
 
 urlpatterns = [
@@ -24,5 +25,8 @@ urlpatterns = [
     path('carrinho', Carrinho.as_view(), name='carrinho'),
     path('entrar', Entrar.as_view(), name='entrar'),
     path('criar-conta', CriarConta.as_view(), name='criar_conta'),
-    path('sair', Sair.as_view(), name='sair')
+    path('sair', Sair.as_view(), name='sair'),
+    path('teste/server-error', Teste.server_error, name='server_error'),
+    path('teste/forbidden', Teste.forbidden, name='forbidden'),
+    path('teste/bad-request', Teste.bad_request, name='bad_request'),
 ]
