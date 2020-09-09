@@ -1,14 +1,13 @@
 import Page from './page';
-import Model, { Produto, Kit } from './models';
-import { createElement, randomNumberBetween } from 'easy-coding';
+import Model, { Produto, Kit, AvaliacaoProduto } from './models';
+import { createElement } from 'easy-coding';
 
-@Page(['/catalogo/produtos', '/catalogo/kits'], {
-  globalInstance: true
-})
+@Page(['/catalogo/produtos', '/catalogo/kits'])
 export default class Catalogo {
   #items: Model<Produto | Kit>[] = [];
   #pages: Model<Produto | Kit>[][] = [];
   #currentPage = 0;
+  #ratings: AvaliacaoProduto[] = [];
 
   private readonly storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
 
@@ -19,6 +18,8 @@ export default class Catalogo {
   constructor() {
     this.addListeners();
     this.setActiveSection();
+    this.getRatingsList();
+    this.getItemsList();
   }
 
   private addListeners(): void {
@@ -26,7 +27,21 @@ export default class Catalogo {
     this.orderingSelect.addEventListener('change', () => this.init());
   }
 
-  init(): void {
+  private getItemsList(): void {
+    const json = document.getElementById('items-list').innerHTML;
+    const items = JSON.parse(json);
+    
+    this.items = items;
+  }
+
+  private getRatingsList(): void {
+    const json = document.getElementById('ratings-list').innerHTML;
+    const ratings = JSON.parse(json);
+    
+    this.#ratings = ratings;
+  }
+
+  private init(): void {
     this.parentElement.innerHTML = '';
     this.sortItems();
     this.createPages();
@@ -100,17 +115,17 @@ export default class Catalogo {
       childOf: this.parentElement
     });
 
-    /* Temporarily code (just for tests) */
-    const n = randomNumberBetween(1, 5);
-    
-    for (let i = 0; i < n; i++) {
-      const star = createElement('img', {
-        classes: ['star'],
-        childOf: element.querySelector('.stars-group')
-      });
-      star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
-      star.setAttribute('src', '/static/img/star.svg');
-    }
+    const itemRating = this.#ratings.find(rating => rating.pk === item.pk).pontuacao;
+
+    if (itemRating)
+      for (let i = 0; i < itemRating; i++) {
+        const star = createElement('img', {
+          classes: ['star'],
+          childOf: element.querySelector('.stars-group')
+        });
+        star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
+        star.setAttribute('src', '/static/img/star.svg');
+      }
   }
 
   private setActiveSection(): void {

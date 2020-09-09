@@ -47,6 +47,9 @@ class _Catalogo(View):
         } for item in queryset]
 
         lista_itens = SafeString(serialize('json', queryset))
+        import json
+        avaliacoes = json.dumps(avaliacoes)
+
         return render(request, 'catalogo.html', {
             'produtos': lista_itens,
             'avaliacoes': avaliacoes

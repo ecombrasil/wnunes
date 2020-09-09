@@ -3,6 +3,7 @@
 ## Qua, 9 de setembro
 
 - Página de erro 400 (problema na requisição)
+- Avaliações de clientes no catálogo (funcionando)
 
 ![Screenshot da tela Erro 400](https://i.imgur.com/zcasuIl.png)
 

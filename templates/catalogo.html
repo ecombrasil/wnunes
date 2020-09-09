@@ -18,8 +18,7 @@
 
 <div id="catalog-wrapper"></div>
 <div class="load-more-btn">Carregar mais</div>
-{% endblock %}
 
-{% block after_script %}
-<script type="text/javascript">catalogo.items = JSON.parse('{{ produtos }}');</script>
+<script type="application/json" id="items-list">{{ produtos }}</script>
+<script type="application/json" id="ratings-list">{{ avaliacoes | safe }}</script>
 {% endblock %}

@@ -38,12 +38,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-};
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -51,7 +45,13 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     privateMap.set(receiver, value);
     return value;
 };
-var _items, _pages, _currentPage;
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var _items, _pages, _currentPage, _ratings;
 Object.defineProperty(exports, "__esModule", { value: true });
 const page_1 = require("./page");
 const easy_coding_1 = require("easy-coding");
@@ -60,16 +60,29 @@ let Catalogo = class Catalogo {
         _items.set(this, []);
         _pages.set(this, []);
         _currentPage.set(this, 0);
+        _ratings.set(this, []);
         this.storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
         this.parentElement = document.getElementById('catalog-wrapper');
         this.loadMoreBtn = document.querySelector('.load-more-btn');
         this.orderingSelect = document.querySelector('.ordering-btn');
         this.addListeners();
         this.setActiveSection();
+        this.getRatingsList();
+        this.getItemsList();
     }
     addListeners() {
         this.loadMoreBtn.addEventListener('click', () => this.nextPage());
         this.orderingSelect.addEventListener('change', () => this.init());
+    }
+    getItemsList() {
+        const json = document.getElementById('items-list').innerHTML;
+        const items = JSON.parse(json);
+        this.items = items;
+    }
+    getRatingsList() {
+        const json = document.getElementById('ratings-list').innerHTML;
+        const ratings = JSON.parse(json);
+        __classPrivateFieldSet(this, _ratings, ratings);
     }
     init() {
         this.parentElement.innerHTML = '';
@@ -131,16 +144,16 @@ let Catalogo = class Catalogo {
             classes: ['catalog-item'],
             childOf: this.parentElement
         });
-        /* Temporarily code (just for tests) */
-        const n = easy_coding_1.randomNumberBetween(1, 5);
-        for (let i = 0; i < n; i++) {
-            const star = easy_coding_1.createElement('img', {
-                classes: ['star'],
-                childOf: element.querySelector('.stars-group')
-            });
-            star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
-            star.setAttribute('src', '/static/img/star.svg');
-        }
+        const itemRating = __classPrivateFieldGet(this, _ratings).find(rating => rating.pk === item.pk).pontuacao;
+        if (itemRating)
+            for (let i = 0; i < itemRating; i++) {
+                const star = easy_coding_1.createElement('img', {
+                    classes: ['star'],
+                    childOf: element.querySelector('.stars-group')
+                });
+                star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
+                star.setAttribute('src', '/static/img/star.svg');
+            }
     }
     setActiveSection() {
         var _a;
@@ -154,11 +167,9 @@ let Catalogo = class Catalogo {
         });
     }
 };
-_items = new WeakMap(), _pages = new WeakMap(), _currentPage = new WeakMap();
+_items = new WeakMap(), _pages = new WeakMap(), _currentPage = new WeakMap(), _ratings = new WeakMap();
 Catalogo = __decorate([
-    page_1.default(['/catalogo/produtos', '/catalogo/kits'], {
-        globalInstance: true
-    })
+    page_1.default(['/catalogo/produtos', '/catalogo/kits'])
 ], Catalogo);
 exports.default = Catalogo;
 
