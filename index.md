@@ -1,5 +1,11 @@
 # Atividades concluídas
 
+## Qua, 9 de setembro
+
+- Página de erro 400 (problema na requisição)
+
+![Screenshot da tela Erro 400](https://i.imgur.com/zcasuIl.png)
+
 ## Ter, 8 de setembro
 
 - Página de erro 403 (acesso negado)
