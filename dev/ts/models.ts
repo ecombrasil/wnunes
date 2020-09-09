@@ -1,4 +1,5 @@
 type PrimaryKey = number;
+type CreatedAt = string;
 
 export default interface Model<T> {
   pk: PrimaryKey;
@@ -13,14 +14,14 @@ export interface Produto {
   descricao: string;
   medidas: string;
   foto: string;
-  data_criacao: string;
+  data_criacao: CreatedAt;
 }
 
 export interface Kit {
   nome: string;
   descricao: string;
   foto: string;
-  data_criacao: string;
+  data_criacao: CreatedAt;
 }
 
 export interface AvaliacaoProduto {
