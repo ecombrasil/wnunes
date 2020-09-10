@@ -9,13 +9,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const easy_coding_1 = require("easy-coding");
 const main_1 = require("./main");
-const inicio_1 = require("./inicio");
-const catalogo_1 = require("./catalogo");
+const inicio_page_1 = require("./inicio.page");
+const catalogo_page_1 = require("./catalogo.page");
+const produto_page_1 = require("./produto.page");
 let App = class App {
     constructor() {
         this.declarations = [
-            inicio_1.default,
-            catalogo_1.default
+            inicio_page_1.default,
+            catalogo_page_1.default,
+            produto_page_1.default,
         ];
         this.addListeners();
     }
@@ -30,7 +32,7 @@ App = __decorate([
     main_1.default
 ], App);
 
-},{"./catalogo":2,"./inicio":3,"./main":4,"easy-coding":9}],2:[function(require,module,exports){
+},{"./catalogo.page":2,"./inicio.page":3,"./main":4,"./produto.page":6,"easy-coding":10}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -55,7 +57,7 @@ var _items, _pages, _currentPage, _ratings;
 Object.defineProperty(exports, "__esModule", { value: true });
 const page_1 = require("./page");
 const easy_coding_1 = require("easy-coding");
-let Catalogo = class Catalogo {
+let CatalogoPage = class CatalogoPage {
     constructor() {
         _items.set(this, []);
         _pages.set(this, []);
@@ -168,12 +170,12 @@ let Catalogo = class Catalogo {
     }
 };
 _items = new WeakMap(), _pages = new WeakMap(), _currentPage = new WeakMap(), _ratings = new WeakMap();
-Catalogo = __decorate([
-    page_1.default(['/catalogo/produtos', '/catalogo/kits'])
-], Catalogo);
-exports.default = Catalogo;
+CatalogoPage = __decorate([
+    page_1.default('/catalogo/*')
+], CatalogoPage);
+exports.default = CatalogoPage;
 
-},{"./page":5,"easy-coding":9}],3:[function(require,module,exports){
+},{"./page":5,"easy-coding":10}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -183,7 +185,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const page_1 = require("./page");
-let Inicio = class Inicio {
+let InicioPage = class InicioPage {
     constructor() {
         this.addListeners();
     }
@@ -229,17 +231,20 @@ let Inicio = class Inicio {
             slides.forEach(el => el.style.height = '25em');
     }
 };
-Inicio = __decorate([
+InicioPage = __decorate([
     page_1.default('/')
-], Inicio);
-exports.default = Inicio;
+], InicioPage);
+exports.default = InicioPage;
 
 },{"./page":5}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Main = (type) => {
+    // Create instance
     new type();
-    window.dispatchEvent(new Event('mainComponentLoaded'));
+    // Dispatch event
+    const event = new Event('mainComponentLoaded');
+    window.dispatchEvent(event);
     return type;
 };
 exports.default = Main;
@@ -248,16 +253,33 @@ exports.default = Main;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Page = (route, options) => (type) => {
+    const path = window.location.pathname;
     let properRoute;
+    /**
+     * Check if the route is the same as the current location
+     * @param str {string} Route
+     */
+    const checkRoute = (str) => {
+        if (str.endsWith('*')) {
+            str = str.slice(0, -1);
+            return path.startsWith(str);
+        }
+        else
+            return path === str;
+    };
+    // Check each route if `route` argument is array
     if (Array.isArray(route))
         for (const r of route) {
-            if (window.location.pathname === r) {
+            if (checkRoute(r)) {
                 properRoute = r;
                 break;
             }
         }
-    else if (window.location.pathname === route)
+    // Check route if `route` is a single string
+    else if (checkRoute(route))
         properRoute = route;
+    // Create new `type` instance if the provided route matches
+    // the current location
     if (properRoute) {
         const initialize = () => {
             const instance = new type();
@@ -276,6 +298,27 @@ const Page = (route, options) => (type) => {
 exports.default = Page;
 
 },{}],6:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const page_1 = require("./page");
+let ProdutoPage = class ProdutoPage {
+    constructor() {
+        this.addListeners();
+    }
+    addListeners() { }
+};
+ProdutoPage = __decorate([
+    page_1.default('/produto/*')
+], ProdutoPage);
+exports.default = ProdutoPage;
+
+},{"./page":5}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
@@ -314,7 +357,7 @@ class Cookies {
 }
 exports.Cookies = Cookies;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
@@ -324,7 +367,7 @@ exports.Global = void 0;
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.addGlobalEntries = exports.handleBindingAttr = exports.createElement = void 0;
@@ -411,7 +454,7 @@ exports.randomDateBetween = (date1, date2) => {
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -428,4 +471,4 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":6,"./decorators":7,"./functions":8}]},{},[1]);
+},{"./classes":7,"./decorators":8,"./functions":9}]},{},[1]);
