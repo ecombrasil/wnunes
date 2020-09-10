@@ -137,25 +137,30 @@ let CatalogoPage = class CatalogoPage {
         const imgUrl = item.fields.foto ?
             this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
         const element = easy_coding_1.createElement('div', {
+            classes: ['catalog-item'],
+            attributes: [['clickAndGo', `/produto/${item.pk}`]],
             content: `
         <img src="${imgUrl}" alt="Imagem do produto ${item.fields.nome}" class="item-img">
         <div class="stars-group"></div>
         <h3 class="item-name">${item.fields.nome}</h3>
         <p class="item-description">${item.fields.descricao}</p>
       `,
-            classes: ['catalog-item'],
             childOf: this.parentElement
         });
         const itemRating = __classPrivateFieldGet(this, _ratings).find(rating => rating.pk === item.pk).pontuacao;
-        if (itemRating)
-            for (let i = 0; i < itemRating; i++) {
-                const star = easy_coding_1.createElement('img', {
+        if (itemRating) {
+            const starsGroupElement = element.querySelector('.stars-group');
+            // Add stars according to the customers rating
+            for (let i = 0; i < itemRating; i++)
+                easy_coding_1.createElement('img', {
                     classes: ['star'],
-                    childOf: element.querySelector('.stars-group')
+                    attributes: [
+                        ['alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário'],
+                        ['src', '/static/img/star.svg']
+                    ],
+                    childOf: starsGroupElement
                 });
-                star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
-                star.setAttribute('src', '/static/img/star.svg');
-            }
+        }
     }
     setActiveSection() {
         var _a;
@@ -380,13 +385,14 @@ exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBet
 exports.createElement = (tag, options) => {
     var _a;
     const element = document.createElement(tag);
-    const { id, classes, content, listeners } = options;
+    const { id, classes, attributes, content, listeners } = options;
     if (id)
         element.id = id;
     if (classes)
         element.classList.add(...classes);
     if (content)
         element.innerHTML = content;
+    attributes === null || attributes === void 0 ? void 0 : attributes.forEach((arr) => element.setAttribute(arr[0], arr[1]));
     listeners === null || listeners === void 0 ? void 0 : listeners.forEach((listener) => element.addEventListener(...listener));
     (_a = options.childOf) === null || _a === void 0 ? void 0 : _a.appendChild(element);
     return element;

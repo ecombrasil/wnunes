@@ -105,27 +105,32 @@ export default class CatalogoPage {
       this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
     
     const element = createElement('div', {
+      classes: ['catalog-item'],
+      attributes: [['clickAndGo', `/produto/${item.pk}`]],
       content: `
         <img src="${imgUrl}" alt="Imagem do produto ${item.fields.nome}" class="item-img">
         <div class="stars-group"></div>
         <h3 class="item-name">${item.fields.nome}</h3>
         <p class="item-description">${item.fields.descricao}</p>
       `,
-      classes: ['catalog-item'],
       childOf: this.parentElement
     });
 
     const itemRating = this.#ratings.find(rating => rating.pk === item.pk).pontuacao;
 
-    if (itemRating)
-      for (let i = 0; i < itemRating; i++) {
-        const star = createElement('img', {
+    if (itemRating) {
+      const starsGroupElement = element.querySelector('.stars-group');
+      // Add stars according to the customers rating
+      for (let i = 0; i < itemRating; i++)
+        createElement('img', {
           classes: ['star'],
-          childOf: element.querySelector('.stars-group')
+          attributes: [
+            ['alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário'],
+            ['src', '/static/img/star.svg']
+          ],
+          childOf: starsGroupElement
         });
-        star.setAttribute('alt', 'Ilustração de estrela, utilizada na classicação do produto pelo usuário');
-        star.setAttribute('src', '/static/img/star.svg');
-      }
+    }
   }
 
   private setActiveSection(): void {

@@ -1,12 +1,28 @@
+update-height(padding-top)
+  padding-top padding-top
+  min-height calc(100vh - padding-top)
+
 #login-wrapper
-  padding-top 5em
-  min-height calc(100vh - 5em)
+  width 100%
+  update-height(17em)
   height auto
+  flex-parent(row, nowrap, center)
+  align-items flex-start
+
+  @media (max-width 1600px)
+    update-height(16em)
+
+  @media (max-width 1366px)
+    update-height(14em)
+
+  @media (max-width 1366px)
+    update-height(14em)
 
   @media (max-width 600px)
-    align-items flex-start
+    update-height(6em)
 
   #login-box
+    height auto
     padding 6em 4.5em 6em 4.5em
     border(1px, solid, #ddd)
     border-radius(4em)
@@ -55,7 +71,8 @@
 
       select
         &.login-field
-          width calc(90% - 3.2em)
+          padding-left pdn = 1.6em
+          padding-right pdn
 
       .validation-error
         margin-top .6em
