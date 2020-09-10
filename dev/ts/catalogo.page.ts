@@ -2,8 +2,8 @@ import Page from './page';
 import Model, { Produto, Kit, AvaliacaoProduto } from './models';
 import { createElement } from 'easy-coding';
 
-@Page(['/catalogo/produtos', '/catalogo/kits'])
-export default class Catalogo {
+@Page('/catalogo/*')
+export default class CatalogoPage {
   #items: Model<Produto | Kit>[] = [];
   #pages: Model<Produto | Kit>[][] = [];
   #currentPage = 0;

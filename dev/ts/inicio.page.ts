@@ -1,7 +1,7 @@
 import Page from './page';
 
 @Page('/')
-export default class Inicio {
+export default class InicioPage {
   constructor() {
     this.addListeners();
   }
