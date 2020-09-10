@@ -37,7 +37,7 @@ class ArtigoBlog(DetailView):
     template_name = 'artigo.html'
     model = BlogPost
 
-class Produto(DetailView):
+class ProdutoView(DetailView):
     template_name = 'produto.html'
     model = Produto
 
