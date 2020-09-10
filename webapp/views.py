@@ -14,6 +14,7 @@ from .models import (
     AvaliacaoCliente,
 )
 from .forms import CriarContaForm
+import json
 
 
 ### Compartilhado
@@ -51,7 +52,6 @@ class _Catalogo(View):
         } for item in queryset]
 
         lista_itens = SafeString(serialize('json', queryset))
-        import json
         avaliacoes = json.dumps(avaliacoes)
 
         return render(request, 'catalogo.html', {
@@ -161,7 +161,7 @@ class Teste:
 
     @staticmethod
     def server_error(request):
-        1 / 'a'
+        raise TypeError
 
 ### Manipular erros
 
