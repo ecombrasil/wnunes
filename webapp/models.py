@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from martor.models import MartorField
+from .utils import remove_acentos
 import datetime, statistics
 
 
@@ -164,11 +165,16 @@ class ItemCarrinho(models.Model):
         verbose_name_plural = 'Ítens em carrinhos'
 
 class BlogPost(models.Model):
-    imagem_capa = models.FileField(upload_to='capas_artigos', null=True)
-    titulo = models.CharField(max_length=96)
-    descricao = models.CharField(max_length=200, verbose_name='Descrição do artigo (200 caracteres)', default='')
+    imagem_capa = models.FileField(upload_to='capas_artigos', null=True, verbose_name='Imagem de capa')
+    titulo = models.CharField(max_length=96, verbose_name='Título')
+    descricao = models.CharField(max_length=200, default='', verbose_name='Descrição do artigo (200 caracteres)')
     conteudo = MartorField()
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
+
+    def titulo_como_url(self):
+        texto = f"{self.titulo}"
+        texto = remove_acentos(texto.lower())
+        return texto.replace(' ', '-')
 
     def __str__(self):
         return self.titulo
