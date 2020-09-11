@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+from django import forms
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 from martor.widgets import AdminMartorWidget
@@ -15,6 +16,7 @@ from .models import (
 class BlogPostAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: { 'widget': AdminMartorWidget },
+        models.CharField: { 'widget': forms.Textarea },
     }
 
 @admin.register(User)

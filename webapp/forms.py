@@ -1,6 +1,6 @@
 from django import forms
 from martor.fields import MartorFormField
-from .models import UF_CHOICES
+from .models import UF_CHOICES, BlogPost
 
 def create_attrs(placeholder=None, css_class=None):
     return {
