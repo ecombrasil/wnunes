@@ -3,12 +3,27 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-<div class="heading-box"></div>
+{% load static %}
+<div class="heading-box">
+  <div class="heading-1">Blog Wnunes</div>
+</div>
+<img src="{% static 'img/Blog-post-cuate.svg' %}" alt="" class="blog-illustration">
+
+<div class="blog-advantages-wrapper">
+  <div class="blog-advantage">
+    <img src="{% static 'img/badge.svg' %}" alt="Ilustração de medalha" class="blog-advantage-illustration">
+    <p class="blog-advantage-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+  </div>
+  <div class="blog-advantage">
+    <img src="{% static 'img/speaker.svg' %}" alt="Ilustração de autofalante" class="blog-advantage-illustration">
+    <p class="blog-advantage-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+  </div>
+</div>
 
 <h2 class="blog-section-name">Mais recentes</h2>
 <div class="articles-wrapper">
   {% for post in posts %}
-  <div class="article-wrapper" clickAndGo="{% url 'artigo_blog' pk=post.pk %}">
+  <div class="article-wrapper" clickAndGo="{% url 'artigo_blog' pk=post.pk titulo=post.titulo_como_url %}">
     <img src="{{ post.imagem_capa.url }}" alt="{{ post.titulo }}" class="article-cover">
     <h3 class="article-title">{{ post.titulo }}</h3>
     <p class="article-description">{{ post.descricao }}</p>

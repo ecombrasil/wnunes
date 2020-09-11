@@ -31,9 +31,41 @@ rezize-width(auto-margin = false)
   @media (max-width 600px)
     height 28em
 
+  .heading-1
+    padding-top 3.7em
+    font-size 5.25em
+    font-weight 900
+    color theme-color
+    text-align center
+
+.blog-illustration
+  position absolute
+  top 30em
+  left calc(50% - 30em)
+  width wdt = 60em
+  height wdt
+
+.blog-advantages-wrapper
+  rezize-width(true)
+  flex-parent(row, wrap, space-between)
+  margin-top 3em
+
+  .blog-advantage
+    flex-basis 21em
+
+    .blog-advantage-illustration
+      width 100%
+
+    .blog-advantage-text
+      margin-top .4em
+      font-size 1.6em
+      font-weight 600
+      text-align center
+      line-height 1.5em
+
 .blog-section-name
   rezize-width()
-  margin 2em auto 2.5em auto
+  margin 2.75em auto 2.5em auto
   font-size 4em
   font-weight 800
   color theme-color
@@ -61,7 +93,6 @@ rezize-width(auto-margin = false)
       font-size 2.75em
       font-weight 800
       line-height 1.35em
-      color theme-color
 
     .article-description
       width 100%
