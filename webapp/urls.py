@@ -12,7 +12,7 @@ from .views import (
     Carrinho,
     Blog,
     ArtigoBlog,
-    Teste,
+    ErrorTrigger,
 )
 
 urlpatterns = [
@@ -28,7 +28,7 @@ urlpatterns = [
     path('entrar', Entrar.as_view(), name='entrar'),
     path('criar-conta', CriarConta.as_view(), name='criar_conta'),
     path('sair', Sair.as_view(), name='sair'),
-    path('teste/server-error', Teste.server_error, name='server_error'),
-    path('teste/forbidden', Teste.forbidden, name='forbidden'),
-    path('teste/bad-request', Teste.bad_request, name='bad_request'),
+    path('teste/server-error', ErrorTrigger.server_error, name='server_error'),
+    path('teste/forbidden', ErrorTrigger.forbidden, name='forbidden'),
+    path('teste/bad-request', ErrorTrigger.bad_request, name='bad_request'),
 ]

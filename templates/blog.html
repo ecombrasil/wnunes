@@ -4,4 +4,15 @@
 
 {% block content %}
 <div class="heading-box"></div>
+
+<h2 class="blog-section-name">Mais recentes</h2>
+<div class="articles-wrapper">
+  {% for post in posts %}
+  <div class="article-wrapper" clickAndGo="{% url 'artigo_blog' pk=post.pk %}">
+    <img src="{{ post.imagem_capa.url }}" alt="{{ post.titulo }}" class="article-cover">
+    <h3 class="article-title">{{ post.titulo }}</h3>
+    <p class="article-description">{{ post.descricao }}</p>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}

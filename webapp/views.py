@@ -30,6 +30,7 @@ class Videos(TemplateView):
 
 class Blog(ListView):
     template_name = 'blog.html'
+    context_object_name = 'posts'
     model = BlogPost
     ordering = ['-data_criacao']
 
@@ -148,7 +149,7 @@ class Sair(View):
 
 ### Testes
 
-class Teste:
+class ErrorTrigger:
     @staticmethod
     def bad_request(request):
         from django.core.exceptions import SuspiciousOperation

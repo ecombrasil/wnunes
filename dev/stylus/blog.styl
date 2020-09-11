@@ -1,3 +1,22 @@
+// Mixin
+
+rezize-width(auto-margin = false)
+  width 80%
+  
+  if auto-margin
+    margin 0 auto
+
+  @media (max-width 1366px)
+    width 90%
+
+  @media (max-width 900px)
+    width 92%
+
+  @media (max-width 600px)
+    width 86%
+
+// Styles
+
 .heading-box
   width 100%
   height 55em
@@ -11,3 +30,43 @@
 
   @media (max-width 600px)
     height 28em
+
+.blog-section-name
+  rezize-width()
+  margin 2em auto 2.5em auto
+  font-size 4em
+  font-weight 800
+  color theme-color
+
+.articles-wrapper
+  rezize-width(true)
+  flex-parent(row, wrap, space-between)
+  align-items flex-start
+  cursor pointer
+
+  .article-wrapper
+    flex-basis 47.5%
+    margin-bottom 8em
+
+    .article-cover
+      width 100%
+      height 42em
+      margin 0
+      border-radius(2)
+      object-fit cover
+
+    .article-title
+      width 100%
+      margin-top 1em
+      font-size 2.75em
+      font-weight 800
+      line-height 1.35em
+      color theme-color
+
+    .article-description
+      width 100%
+      margin-top 1.2em
+      font-size 1.7em
+      font-weight 500
+      line-height 1.5em
+      color rgba(text-color, .5)

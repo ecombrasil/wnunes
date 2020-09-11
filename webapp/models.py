@@ -166,6 +166,7 @@ class ItemCarrinho(models.Model):
 class BlogPost(models.Model):
     imagem_capa = models.FileField(upload_to='capas_artigos', null=True)
     titulo = models.CharField(max_length=96)
+    descricao = models.CharField(max_length=200, verbose_name='Descrição do artigo (200 caracteres)', default='')
     conteudo = MartorField()
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
