@@ -1,5 +1,11 @@
 # Atividades concluídas
 
+## Sex, 11 de setembro
+
+- Página do blog
+
+![Screenshot da tela Blog Wnunes](https://i.imgur.com/pnEwoga.png)
+
 ## Qua, 9 de setembro
 
 - Página de erro 400 (problema na requisição)
