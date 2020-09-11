@@ -2,10 +2,12 @@ import Page from './page';
 import Model, { Produto, Kit, AvaliacaoProduto } from './models';
 import { createElement } from 'easy-coding';
 
+type Item = Model<Produto | Kit>;
+
 @Page('/catalogo/*')
 export default class CatalogoPage {
-  #items: Model<Produto | Kit>[] = [];
-  #pages: Model<Produto | Kit>[][] = [];
+  #items: Item[] = [];
+  #pages: Item[][] = [];
   #currentPage = 0;
   #ratings: AvaliacaoProduto[] = [];
 
@@ -100,7 +102,7 @@ export default class CatalogoPage {
       this.items.sort((a, b) => a.pk - b.pk)
   };
 
-  private renderElement(item: Model<Produto | Kit>): void {
+  private renderElement(item: Item): void {
     const imgUrl = item.fields.foto ?
       this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
     
@@ -134,14 +136,11 @@ export default class CatalogoPage {
   }
 
   private setActiveSection(): void {
-    const availableSections = document.querySelector('.page-header')?.querySelectorAll('a');
-    const path = window.location.href;
+    const availableSections = document.querySelector('.page-header').querySelectorAll('a');
     
-    availableSections?.forEach(a => {
-      if (a.href === path) {
-        const p = a.querySelector('.pg-header-option');
-        p?.classList.add('active-pg-option');
-      }
+    availableSections.forEach(a => {
+      if (a.href === window.location.href)
+        a.querySelector('.pg-header-option')?.classList.add('active-pg-option');
     });
   }
 }
