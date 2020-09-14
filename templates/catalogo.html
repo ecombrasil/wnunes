@@ -19,6 +19,7 @@
 <div id="catalog-wrapper"></div>
 <div class="load-more-btn">Carregar mais</div>
 
-<script type="application/json" id="items-list">{{ produtos }}</script>
-<script type="application/json" id="ratings-list">{{ avaliacoes | safe }}</script>
+{% load my_filters %}
+<script type="application/json" id="items-list">{{ produtos|json }}</script>
+<script type="application/json" id="ratings-list">{{ avaliacoes|safe }}</script>
 {% endblock %}

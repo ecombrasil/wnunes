@@ -3,8 +3,6 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
-from django.core.serializers import serialize
-from django.utils.safestring import SafeString
 from .models import (
     User,
     Produto,
@@ -51,12 +49,11 @@ class _Catalogo(View):
             'pk': item.pk,
             'pontuacao': item.get_pontuacao(),
         } for item in queryset]
-
-        lista_itens = SafeString(serialize('json', queryset))
+        
         avaliacoes = json.dumps(avaliacoes)
-
+        
         return render(request, 'catalogo.html', {
-            'produtos': lista_itens,
+            'produtos': queryset,
             'avaliacoes': avaliacoes
         })
 
