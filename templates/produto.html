@@ -8,6 +8,22 @@
   <div class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.</div>
   <img src="{{ object.foto.url }}" alt="{{ object.nome }}" class="product-image">
 
+  {% if object.avaliacoes.count %}
   <h3 class="product-section">O que outros clientes estão dizendo sobre este produto</h3>
+
+  {% for avaliacao in object.avaliacoes.all %}
+  <div class="customer-rating">
+    <p class="customer-name">Ana Clara de Fátima</p>
+    <div class="rating-stars">
+      {% load my_filters %}
+      {% for i in avaliacao.pontuacao|times %}
+        <img src="{% static 'img/star.svg' %}" alt="Ilustração de estrela" class="rating-star-icon">
+      {% endfor %}
+      <p class="rating-date">10/09/2020</p>
+    </div>
+    <p class="rating-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. </p>
+  </div>
+  {% endfor %}
+  {% endif %}
 </div>
 {% endblock %}

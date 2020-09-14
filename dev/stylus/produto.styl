@@ -1,21 +1,56 @@
 #product-wrapper
-  width 100%
+  width 40%
+  margin 0 auto
   text-align center
   
   .product-description
-    width 40%
-    margin 5em auto 0 auto
+    width 100%
+    margin-top 5em
     font-size 1.7em
     font-weight 400
     line-height 1.5em
 
   .product-image
-    max-width 40%
+    max-width 100%
     height auto
     margin 10em auto 10em auto
 
   .product-section
-    width 40%
-    margin 0 auto
+    width 100%
     font-size 3.5em
     font-weight 800
+    margin-bottom 2.75em
+
+  .customer-rating
+    padding pdg = 3.5em
+    width calc(100% - pdg - pdg - 2px)
+    border(1px, solid, #ddd)
+    border-radius(2em)
+    text-align center
+
+    .customer-name
+      font-size 2.5em
+      font-weight 700
+
+    .rating-stars
+      margin-top 1.75em
+      flex-parent(row, nowrap, center)
+
+      .rating-star-icon
+        flex-basis f-bs = 1.8em
+        height f-bs
+        margin .35em
+
+      .rating-date
+        align-self flex-end
+        margin-bottom .08em
+        margin-left .8em
+        font-size 1.5em
+        font-weight 500
+        color rgba(text-color, .6)
+
+    .rating-text
+      margin-top 1.7em
+      font-size 1.7em
+      font-weight 400
+      line-height 1.55em
