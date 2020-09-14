@@ -31,16 +31,12 @@ export default class CatalogoPage {
 
   private getItemsList(): void {
     const json = document.getElementById('items-list').innerHTML;
-    const items = JSON.parse(json);
-    
-    this.items = items;
+    this.items = JSON.parse(json) as Item[];
   }
 
   private getRatingsList(): void {
     const json = document.getElementById('ratings-list').innerHTML;
-    const ratings = JSON.parse(json);
-    
-    this.#ratings = ratings;
+    this.#ratings = JSON.parse(json) as AvaliacaoProduto[];
   }
 
   private init(): void {

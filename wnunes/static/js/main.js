@@ -78,13 +78,11 @@ let CatalogoPage = class CatalogoPage {
     }
     getItemsList() {
         const json = document.getElementById('items-list').innerHTML;
-        const items = JSON.parse(json);
-        this.items = items;
+        this.items = JSON.parse(json);
     }
     getRatingsList() {
         const json = document.getElementById('ratings-list').innerHTML;
-        const ratings = JSON.parse(json);
-        __classPrivateFieldSet(this, _ratings, ratings);
+        __classPrivateFieldSet(this, _ratings, JSON.parse(json));
     }
     init() {
         this.parentElement.innerHTML = '';
@@ -163,14 +161,11 @@ let CatalogoPage = class CatalogoPage {
         }
     }
     setActiveSection() {
-        var _a;
-        const availableSections = (_a = document.querySelector('.page-header')) === null || _a === void 0 ? void 0 : _a.querySelectorAll('a');
-        const path = window.location.href;
-        availableSections === null || availableSections === void 0 ? void 0 : availableSections.forEach(a => {
-            if (a.href === path) {
-                const p = a.querySelector('.pg-header-option');
-                p === null || p === void 0 ? void 0 : p.classList.add('active-pg-option');
-            }
+        const availableSections = document.querySelector('.page-header').querySelectorAll('a');
+        availableSections.forEach(a => {
+            var _a;
+            if (a.href === window.location.href)
+                (_a = a.querySelector('.pg-header-option')) === null || _a === void 0 ? void 0 : _a.classList.add('active-pg-option');
         });
     }
 };
@@ -401,14 +396,34 @@ exports.createElement = (tag, options) => {
  * Get DOM elements with the specified attribute and run a callback
  * function for each one, passing the element and its attribute value as
  * arguments
- * @param attr {string} Element attribute
+ * @param attribute {string} Element attribute
  * @param callback {(element: Element, value: string) => any} Callback function
  * that runs for each element with the specified attribute. The element and its
  * attribute value are the arguments for the function
  */
-exports.handleBindingAttr = (attr, callback) => {
-    const bindings = document.querySelectorAll(`[${attr}]`);
-    bindings.forEach((element) => callback(element, element.getAttribute(attr)));
+exports.handleBindingAttr = (attribute, callback) => {
+    // Get elements instantly generated
+    const bindingElements = [...document.querySelectorAll(`[${attribute}]`)];
+    bindingElements.forEach((element) => {
+        const attr = element.getAttribute(attribute);
+        if (attr)
+            callback(element, attr);
+    });
+    // Get elements dinamically generated
+    new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList')
+                mutation.addedNodes.forEach((node) => {
+                    const element = node;
+                    const attr = element.getAttribute(attribute);
+                    if (attr)
+                        callback(element, attr);
+                });
+        });
+    }).observe(document, {
+        childList: true,
+        subtree: true,
+    });
 };
 /**
  * Receive an object and add its properties to the `window` object

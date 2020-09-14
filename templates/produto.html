@@ -4,4 +4,10 @@
 
 {% block content %}
 {% load static %}
+<div id="product-wrapper">
+  <div class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.</div>
+  <img src="{{ object.foto.url }}" alt="{{ object.nome }}" class="product-image">
+
+  <h3 class="product-section">O que outros clientes estão dizendo sobre este produto</h3>
+</div>
 {% endblock %}
