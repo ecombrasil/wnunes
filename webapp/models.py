@@ -84,6 +84,9 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    def __str__(self):
+        return self.get_full_name()
+
 class AvaliacaoCliente(models.Model):
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=48, verbose_name='Título')
@@ -154,8 +157,8 @@ class MensagemSite(models.Model):
 
 class ItemCarrinho(models.Model):
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE, null=True)
-    kit = models.ForeignKey(Kit, on_delete=models.CASCADE, null=True)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE, blank=True, null=True)
+    kit = models.ForeignKey(Kit, on_delete=models.CASCADE, blank=True, null=True)
     qntd = models.PositiveIntegerField(default=1, verbose_name='Quantidade')
 
     def __str__(self):

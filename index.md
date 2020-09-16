@@ -1,5 +1,9 @@
 # Atividades concluídas
 
+## Qua, 16 de setembro
+
+- Revisão de código (refatoração)
+
 ## Sex, 11 de setembro
 
 - Página do blog

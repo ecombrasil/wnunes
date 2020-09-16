@@ -72,8 +72,6 @@ class Carrinho(LoginRequiredMixin, View):
         itens = ItemCarrinho.objects.filter(cliente=request.user)
         # Valor total exibido no carrinho
         valor_total = 0
-        # Valor total de cada kit
-        valores_kits = []
         # Loop para somar os valores
         for item in itens:
             # Soma valor do produto
@@ -83,8 +81,6 @@ class Carrinho(LoginRequiredMixin, View):
             elif item.kit is not None:
                 valor_kit = item.kit.get_valor_total()
                 valor_total += valor_kit
-                # Guarda informação do valor total do kit para exibição no carrinho
-                valores_kits.append({ 'pk': item.kit.pk, 'total': valor_kit })
         
         return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
 
@@ -103,11 +99,11 @@ class Entrar(View):
 
         if usuario is not None:
             login(request, usuario)
-            if proxima_pagina != 'None':
+            if proxima_pagina != 'None' and proxima_pagina != '':
                 return redirect(proxima_pagina)
             return redirect('inicio')
         else:
-            return render(request, 'entrar.html', { 'error': True })
+            return render(request, 'entrar.html', { 'error': True, 'next': proxima_pagina })
 
 class CriarConta(View):
     def get(self, request):

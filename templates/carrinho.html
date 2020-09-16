@@ -16,9 +16,9 @@
   {% for item in carrinho %}
     {% if item.produto %}
     <div class="cart-item">
-      <img src="{{ item.produto.foto }}" alt="Imagem do produto {{ item.produto.nome }}" class="cart-item-img">
+      <img src="{{ item.produto.foto.url }}" alt="Imagem do produto {{ item.produto.nome }}" class="cart-item-img">
       <div class="item-info-wrapper">
-        <h2 class="cart-item-name">{{ item.produto.nome }}</h2>
+        <h2 class="cart-item-name">{{ item.produto }}</h2>
         <div class="item-details-wrapper">
           <p class="cart-item-preco">R$ {{ item.produto.preco }}</p>
           <p class="cart-item-qntd">{{ item.qntd }} unidade</p>
@@ -32,15 +32,11 @@
     </div>
     {% elif item.kit %}
     <div class="cart-item">
-      <img src="{% static 'img/sample/image--031.jpg' %}" alt="Imagem do kit {{ item.kit.nome }}" class="cart-item-img">
+      <img src="{{ item.kit.foto.url }}" alt="Imagem do kit {{ item.kit.nome }}" class="cart-item-img">
       <div class="item-info-wrapper">
         <h2 class="cart-item-name">{{ item.kit }}</h2>
         <div class="item-details-wrapper">
-          {% for vl_kit in valores_kits %}
-          {% if vl_kit.pk == item.kit.pk %}
-          <p class="cart-item-preco">R$ {{ vl_kit.preco }}</p>
-          {% endif %}
-          {% endfor %}
+          <p class="cart-item-preco">R$ {{ item.get_valor_total }}</p>
           <p class="cart-item-qntd">1 unidade</p>
           <div class="cart-item-options">
             <div class="cart-item-option-btn"><span class="option-text-content disabled-item-option">-</span></div>

@@ -12,12 +12,14 @@ const main_1 = require("./main");
 const inicio_page_1 = require("./inicio.page");
 const catalogo_page_1 = require("./catalogo.page");
 const produto_page_1 = require("./produto.page");
+const carrinho_page_1 = require("./carrinho.page");
 let App = class App {
     constructor() {
         this.declarations = [
             inicio_page_1.default,
             catalogo_page_1.default,
             produto_page_1.default,
+            carrinho_page_1.default
         ];
         this.addListeners();
     }
@@ -32,7 +34,48 @@ App = __decorate([
     main_1.default
 ], App);
 
-},{"./catalogo.page":2,"./inicio.page":3,"./main":4,"./produto.page":6,"easy-coding":10}],2:[function(require,module,exports){
+},{"./carrinho.page":2,"./catalogo.page":3,"./inicio.page":4,"./main":5,"./produto.page":7,"easy-coding":11}],2:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+};
+var _carrinhoService;
+Object.defineProperty(exports, "__esModule", { value: true });
+const page_1 = require("./page");
+const http_service_ts_1 = require("http-service-ts");
+const easy_coding_1 = require("easy-coding");
+let CarrinhoPage = class CarrinhoPage {
+    constructor() {
+        _carrinhoService.set(this, void 0);
+        __classPrivateFieldSet(this, _carrinhoService, new http_service_ts_1.Service('/api/item-carrinho', {
+            headers: new Headers({
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': easy_coding_1.Cookies.get('csrftoken')
+            }),
+            appendSlash: true
+        }));
+        this.addListeners();
+    }
+    addListeners() { }
+};
+_carrinhoService = new WeakMap();
+CarrinhoPage = __decorate([
+    page_1.default('/carrinho')
+], CarrinhoPage);
+exports.default = CarrinhoPage;
+
+},{"./page":6,"easy-coding":11,"http-service-ts":12}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -175,7 +218,7 @@ CatalogoPage = __decorate([
 ], CatalogoPage);
 exports.default = CatalogoPage;
 
-},{"./page":5,"easy-coding":10}],3:[function(require,module,exports){
+},{"./page":6,"easy-coding":11}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -236,7 +279,7 @@ InicioPage = __decorate([
 ], InicioPage);
 exports.default = InicioPage;
 
-},{"./page":5}],4:[function(require,module,exports){
+},{"./page":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Main = (type) => {
@@ -249,7 +292,7 @@ const Main = (type) => {
 };
 exports.default = Main;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Page = (route, options) => (type) => {
@@ -297,7 +340,7 @@ const Page = (route, options) => (type) => {
 };
 exports.default = Page;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -318,7 +361,7 @@ ProdutoPage = __decorate([
 ], ProdutoPage);
 exports.default = ProdutoPage;
 
-},{"./page":5}],7:[function(require,module,exports){
+},{"./page":6}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
@@ -357,7 +400,7 @@ class Cookies {
 }
 exports.Cookies = Cookies;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
@@ -367,7 +410,7 @@ exports.Global = void 0;
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.addGlobalEntries = exports.handleBindingAttr = exports.createElement = void 0;
@@ -475,7 +518,7 @@ exports.randomDateBetween = (date1, date2) => {
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -492,4 +535,193 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":7,"./decorators":8,"./functions":9}]},{},[1]);
+},{"./classes":8,"./decorators":9,"./functions":10}],12:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const service_1 = require("./service");
+exports.Service = service_1.default;
+const request_parser_1 = require("./request.parser");
+exports.RequestParser = request_parser_1.default;
+
+},{"./request.parser":13,"./service":14}],13:[function(require,module,exports){
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @class
+ *
+ * Allows to make requests and save some configurations for future
+ * requests too. Accepts an API root at the constructor that can be used
+ * to fix an URL to fetch. If one be provided, every future request will
+ * fetch this URL + the URL passed in `RequestArgs` interface.
+ */
+class RequestParser {
+    /**
+     * @param {string} [root] You can provide a value for root property
+     * or simply pass one every time you access `request()` method.
+     * @param {HttpConfig} [config] Configurations that will be aplied
+     * in every request.
+     */
+    constructor(root, config) {
+        this.root = root;
+        /**
+         * @param {string} start First piece of URL (API root). E.g. `'https://api.example.com'`
+         * @param {string} [final] Last piece of URL. E.g. `'users/12'`
+         *
+         * @returns {string} URL with a slash between its first and last pieces or a slash at the end of the first.
+         */
+        this.hasSlash = (start, end) => end ? start.endsWith('/') || end.startsWith('/') : start.endsWith('/');
+        this.config = config || {
+            headers: new Headers(),
+            appendSlash: false,
+        };
+    }
+    /**
+     * @param {RequestArgs<T>} args Provide request configurations
+     *
+     * @returns {Promise<T>} Promise with parsed content
+     */
+    request(args) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = '';
+            // Add root if there's one
+            if (this.root)
+                url = this.root;
+            // Concat root with URI if they were provided
+            if (this.root && args.url)
+                url += this.hasSlash(this.root, args.url) ? args.url : `/${args.url}`;
+            // fetch URL provided in arguments
+            if (!this.root && args.url)
+                url = args.url;
+            // add a slash
+            if (this.config.appendSlash && !this.hasSlash(url))
+                url += '/';
+            // add ID
+            if (args.id)
+                url += this.config.appendSlash ? args.id + '/' : args.id.toString();
+            // Append search params to the end of URL
+            if (args.params) {
+                // Remove last slash and add a "?"
+                if (url.endsWith('/'))
+                    url = url.substring(0, url.length - 1);
+                url += '?';
+                // Add params and remove last "&"
+                for (const key in args.params)
+                    url += `${key}=${args.params[key]}&`;
+                url = url.substring(0, url.length - 1);
+            }
+            // Configure request
+            const requestInit = {
+                method: args.method.toUpperCase(),
+                headers: args.headers || this.config.headers,
+                mode: args.noCors === true ? 'no-cors' : 'cors',
+            };
+            // Add body if there is one
+            if (args.method !== 'get' && args.obj)
+                requestInit.body = JSON.stringify(args.obj);
+            // Request
+            const req = yield fetch(url, requestInit);
+            // Return promise with parsed content from response
+            return this.parse(req);
+        });
+    }
+    /**
+     * @param {Response} response Response to turn into JSON, Text or Blob
+     *
+     * @returns {Promise<T | string | null | Blob>} Promise with formatted content
+     */
+    parse(response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let p;
+            const contentType = response.headers.get('content-type');
+            if (contentType === 'application/json')
+                // Object
+                p = yield response.json();
+            else if (contentType && contentType.startsWith('text'))
+                // Text
+                p = yield response.text();
+            else if (!contentType)
+                // Null
+                p = null;
+            // Blob
+            else
+                p = yield response.blob();
+            return new Promise((resolve, reject) => (response.status >= 200 && response.status < 300 ? resolve(p) : reject(p)));
+        });
+    }
+}
+exports.default = RequestParser;
+
+},{}],14:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const request_parser_1 = require("./request.parser");
+/**
+ * @class
+ *
+ * Customizable service that allow to perform main HTTP requests.
+ * Extends `RequestParser` class. So it's possible to add more types of
+ * request when extending this class.
+ */
+class Service extends request_parser_1.default {
+    /**
+     * @param {string} apiRoot Collection path (e.g. `"https://api.example.com/users/"`)
+     */
+    constructor(apiRoot, config) {
+        super(apiRoot, config);
+    }
+    /**
+     * @returns {Promise<T[]>} Promise with array of objets
+     */
+    get() {
+        return this.request({ method: 'get' });
+    }
+    /**
+     * @param {number} id Object ID to fetch
+     * @returns {Promise<T>} A promise of object
+     */
+    getById(id) {
+        return this.request({ method: 'get', id });
+    }
+    /**
+     * @param {T} obj Object to post
+     * @returns {Promise<T>} Posted object
+     */
+    post(obj) {
+        return this.request({ method: 'post', obj });
+    }
+    /**
+     * @param {T} obj Object to update
+     * @param {number} id ID of object that will be updated
+     * @returns {Promise<T>} Updated object
+     */
+    put(obj, id) {
+        return this.request({ method: 'put', obj, id });
+    }
+    /**
+     * @param {Partial<T>} obj Object to update
+     * @param {number} id ID of object that will be updated
+     * @returns {Promise<Partial<T>>} Updated object part
+     */
+    patch(obj, id) {
+        return this.request({ method: 'patch', obj, id });
+    }
+    /**
+     * @param {number} id ID of object that will be deleted
+     * @returns {Promise<null>} Null
+     */
+    delete(id) {
+        return this.request({ method: 'delete', id });
+    }
+}
+exports.default = Service;
+
+},{"./request.parser":13}]},{},[1]);

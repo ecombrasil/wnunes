@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'storages', # for using AWS as default storage
     'webapp',
     'martor',
+    'rest_framework',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
@@ -137,6 +138,16 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'wnunes/static'),)
 
 AUTH_USER_MODEL = 'webapp.User'
 AUTHENTICATION_BACKENDS = ['webapp.backends.EmailBackend']
+
+# REST
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 
 # AWS Storage

@@ -5,6 +5,7 @@ import Main from './main';
 import InicioPage from './inicio.page';
 import CatalogoPage from './catalogo.page';
 import ProdutoPage from './produto.page';
+import CarrinhoPage from './carrinho.page';
 
 @Main
 class App {
@@ -12,6 +13,7 @@ class App {
     InicioPage,
     CatalogoPage,
     ProdutoPage,
+    CarrinhoPage
   ];
 
   constructor() {

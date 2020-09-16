@@ -28,3 +28,10 @@ export interface AvaliacaoProduto {
   pk: PrimaryKey;
   pontuacao: number;
 }
+
+export interface ItemCarrinho {
+  cliente: PrimaryKey;
+  produto?: PrimaryKey;
+  kit?: PrimaryKey;
+  qntd: number;
+}

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
     Entrar,
     CriarConta,
@@ -14,8 +14,10 @@ from .views import (
     ArtigoBlog,
     ErrorTrigger,
 )
+from .api import router
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('', Inicio.as_view(), name='inicio'),
     path('sobre-nos', SobreNos.as_view(), name='sobre_nos'),
     path('videos', Videos.as_view(), name='videos'),

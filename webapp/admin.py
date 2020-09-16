@@ -10,6 +10,7 @@ from .models import (
     Produto,
     Kit,
     BlogPost,
+    ItemCarrinho
 )
 
 @admin.register(BlogPost)
@@ -49,3 +50,4 @@ class KitAdmin(admin.ModelAdmin):
     exclude = ('avaliacoes',)
 
 admin.site.register(AvaliacaoCliente)
+admin.site.register(ItemCarrinho)
