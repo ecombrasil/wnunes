@@ -49,6 +49,12 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     privateMap.set(receiver, value);
     return value;
 };
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
 var _carrinhoService;
 Object.defineProperty(exports, "__esModule", { value: true });
 const page_1 = require("./page");
@@ -67,7 +73,43 @@ let CarrinhoPage = class CarrinhoPage {
         }));
         this.addListeners();
     }
-    addListeners() { }
+    addListeners() {
+        this.enableItemsControls();
+    }
+    enableItemsControls() {
+        // List of elements the represent cart items
+        const itemsAsElements = document.querySelectorAll('.cart-item');
+        // Iterate each element to add its proper listeners
+        itemsAsElements.forEach(element => {
+            const [removeBtn, addBtn, deleteBtn] = element.getElementsByClassName('cart-item-option-btn');
+            const errorMessage = element.querySelector('.cart-item-error-message');
+            const qntdElement = element.querySelector('.cart-item-qntd');
+            const qntd = Number(qntdElement.textContent.split(' ')[0]);
+            const id = Number(element.id);
+            const errorHandler = (message) => {
+                // Display error message
+                errorMessage.textContent = message;
+                errorMessage.style.visibility = 'visible';
+            };
+            const patchSuccessHandler = (partial) => {
+                // Display new quantity
+                qntdElement.textContent = String(partial.qntd) + ' unidade';
+                if (partial.qntd > 1)
+                    qntdElement.textContent += 's';
+                // Remove previous error message
+                errorMessage.style.visibility = 'invisible';
+            };
+            // Action when user clicks to remove an unity
+            removeBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: qntd - 1 }, id)
+                .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message)));
+            // Action when user clicks to add an unity
+            addBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: qntd + 1 }, id)
+                .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message)));
+            // Action when user clicks to delete the item
+            deleteBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).delete(id)
+                .then((sucess) => element.remove(), (error) => errorHandler('Houve um error ao tentar excluir este item.')));
+        });
+    }
 };
 _carrinhoService = new WeakMap();
 CarrinhoPage = __decorate([
@@ -282,6 +324,12 @@ exports.default = InicioPage;
 },{"./page":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Automatically creates an instance of the given class and
+ * dispatch an event called `mainComponentLoaded` that is used
+ * to say to other components that they can initialize now
+ * @param type {Type} Main class of the application
+ */
 const Main = (type) => {
     // Create instance
     new type();
@@ -295,6 +343,15 @@ exports.default = Main;
 },{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Automatically initialize an instance of the given class if one of the routes
+ * passed in the first parameter matches the current path
+ *
+ * @param route {string | string[]} Route or array of routes. If the currrent
+ * path matches one of them, an instance of the given class is initialized.
+ * @param options {PageOptions} Object with options about the instance
+ * and its initilization
+ */
 const Page = (route, options) => (type) => {
     const path = window.location.pathname;
     let properRoute;

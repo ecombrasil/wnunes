@@ -15,13 +15,13 @@
 <div class="cart-wrapper">
   {% for item in carrinho %}
     {% if item.produto %}
-    <div class="cart-item">
+    <div class="cart-item" id="{{ item.pk }}">
       <img src="{{ item.produto.foto.url }}" alt="Imagem do produto {{ item.produto.nome }}" class="cart-item-img">
       <div class="item-info-wrapper">
         <h2 class="cart-item-name">{{ item.produto }}</h2>
         <div class="item-details-wrapper">
           <p class="cart-item-preco">R$ {{ item.produto.preco }}</p>
-          <p class="cart-item-qntd">{{ item.qntd }} unidade</p>
+          <p class="cart-item-qntd">{{ item.qntd }} unidade{% if item.qntd > 1 %}s{% endif %}</p>
           <div class="cart-item-options">
             <div class="cart-item-option-btn"><span class="option-text-content{% if item.qntd < 2 %} disabled-item-option{% endif %}">-</span></div>
             <div class="cart-item-option-btn"><span class="option-text-content{% if item.qntd >= item.produto.qntd_estoque %} disabled-item-option{% endif %}">+</span></div>
@@ -31,7 +31,7 @@
       </div>
     </div>
     {% elif item.kit %}
-    <div class="cart-item">
+    <div class="cart-item" id="{{ item.pk }}">
       <img src="{{ item.kit.foto.url }}" alt="Imagem do kit {{ item.kit.nome }}" class="cart-item-img">
       <div class="item-info-wrapper">
         <h2 class="cart-item-name">{{ item.kit }}</h2>

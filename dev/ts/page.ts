@@ -1,10 +1,28 @@
 import { Type } from 'easy-coding/lib/types';
 
 interface PageOptions {
+  /**
+   * When `true`, the instance created becomes globally available.
+   * Its name will be the type name with the first character in lower case
+   */
   globalInstance?: true;
+  /**
+   * When `true`, it is not necessary to wait for the event `"mainComponentLoaded"`
+   * to inialize the instance. It is useful when dealing with an application
+   * that does not use the decorator `Main` in a class
+   */
   startAnytime?: true;
 }
 
+/**
+ * Automatically initialize an instance of the given class if one of the routes
+ * passed in the first parameter matches the current path
+ * 
+ * @param route {string | string[]} Route or array of routes. If the currrent
+ * path matches one of them, an instance of the given class is initialized.
+ * @param options {PageOptions} Object with options about the instance 
+ * and its initilization
+ */
 const Page = (route: string | string[], options?: PageOptions) => <T extends Type>(type: T): T => {
   const path = window.location.pathname;
   let properRoute: string;

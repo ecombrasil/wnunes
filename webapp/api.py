@@ -39,7 +39,7 @@ class ItemCarrinhoViewSet(viewsets.ModelViewSet):
         
         # Retorna Bad Request se não houver nem produto nem kit
         else:
-            return erro_com_mensagem('Não há produto ou kit neste item do carrinho')
+            return erro_com_mensagem('Não há produto ou kit neste item do carrinho.')
 
         # Faz a atualização do item e o retorna se estiver tudo certo
         if is_disponivel:
@@ -49,7 +49,7 @@ class ItemCarrinhoViewSet(viewsets.ModelViewSet):
                 return Response(serializer.data)
         
         # Retorna Bad Request se a quantidade solicitada não estiver disponível em estoque
-        return erro_com_mensagem('A quantidade solicitada não está disponível no momento')
+        return erro_com_mensagem('A quantidade solicitada não está disponível no momento.')
 
 # Router
 
