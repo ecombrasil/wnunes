@@ -11,15 +11,13 @@ const easy_coding_1 = require("easy-coding");
 const main_1 = require("./main");
 const inicio_page_1 = require("./inicio.page");
 const catalogo_page_1 = require("./catalogo.page");
-const produto_page_1 = require("./produto.page");
 const carrinho_page_1 = require("./carrinho.page");
 let App = class App {
     constructor() {
-        this.declarations = [
+        this.pages = [
             inicio_page_1.default,
             catalogo_page_1.default,
-            produto_page_1.default,
-            carrinho_page_1.default
+            carrinho_page_1.default,
         ];
         this.addListeners();
     }
@@ -34,7 +32,7 @@ App = __decorate([
     main_1.default
 ], App);
 
-},{"./carrinho.page":2,"./catalogo.page":3,"./inicio.page":4,"./main":5,"./produto.page":7,"easy-coding":11}],2:[function(require,module,exports){
+},{"./carrinho.page":2,"./catalogo.page":3,"./inicio.page":4,"./main":5,"easy-coding":10}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -71,44 +69,61 @@ let CarrinhoPage = class CarrinhoPage {
             }),
             appendSlash: true
         }));
-        this.addListeners();
-    }
-    addListeners() {
         this.enableItemsControls();
     }
     enableItemsControls() {
         // List of elements the represent cart items
         const itemsAsElements = document.querySelectorAll('.cart-item');
         // Iterate each element to add its proper listeners
-        itemsAsElements.forEach(element => {
+        itemsAsElements === null || itemsAsElements === void 0 ? void 0 : itemsAsElements.forEach(element => {
             const [removeBtn, addBtn, deleteBtn] = element.getElementsByClassName('cart-item-option-btn');
             const errorMessage = element.querySelector('.cart-item-error-message');
-            const qntdElement = element.querySelector('.cart-item-qntd');
-            const qntd = Number(qntdElement.textContent.split(' ')[0]);
             const id = Number(element.id);
             const errorHandler = (message) => {
                 // Display error message
                 errorMessage.textContent = message;
-                errorMessage.style.visibility = 'visible';
+                errorMessage.style.display = 'flex';
             };
             const patchSuccessHandler = (partial) => {
-                // Display new quantity
-                qntdElement.textContent = String(partial.qntd) + ' unidade';
-                if (partial.qntd > 1)
-                    qntdElement.textContent += 's';
+                this.setItemQuantity(element, partial.qntd);
+                this.updateCartPrice();
                 // Remove previous error message
-                errorMessage.style.visibility = 'invisible';
+                errorMessage.style.display = 'none';
             };
             // Action when user clicks to remove an unity
-            removeBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: qntd - 1 }, id)
+            removeBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) - 1 }, id)
                 .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message)));
             // Action when user clicks to add an unity
-            addBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: qntd + 1 }, id)
+            addBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) + 1 }, id)
                 .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message)));
             // Action when user clicks to delete the item
             deleteBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).delete(id)
-                .then((sucess) => element.remove(), (error) => errorHandler('Houve um error ao tentar excluir este item.')));
+                .then((success) => element.remove(), (error) => errorHandler('Houve um erro ao tentar excluir este item.')));
         });
+    }
+    getItemQuantity(element) {
+        return Number(element.querySelector('.cart-item-qntd').textContent.split(' ')[0]);
+    }
+    setItemQuantity(element, qntd) {
+        const qntdElement = element.querySelector('.cart-item-qntd');
+        qntdElement.textContent = qntd + ' unidade';
+        if (qntd > 1)
+            qntdElement.textContent += 's';
+    }
+    calcCartPrice() {
+        const parent = document.querySelector('.cart-wrapper');
+        const cartItems = parent.querySelectorAll('.cart-item');
+        let totalPrice = 0;
+        cartItems.forEach(element => {
+            const price = Number(element.querySelector('.cart-item-preco').textContent.split(' ')[1].replace(',', '.'));
+            const qntd = Number(element.querySelector('.cart-item-qntd').textContent.split(' ')[0]);
+            totalPrice += price * qntd;
+        });
+        return totalPrice;
+    }
+    updateCartPrice() {
+        const price = String(this.calcCartPrice()).replace('.', ',');
+        document.querySelector('#cart-price').textContent = 'R$ ' + price;
     }
 };
 _carrinhoService = new WeakMap();
@@ -117,7 +132,7 @@ CarrinhoPage = __decorate([
 ], CarrinhoPage);
 exports.default = CarrinhoPage;
 
-},{"./page":6,"easy-coding":11,"http-service-ts":12}],3:[function(require,module,exports){
+},{"./page":6,"easy-coding":10,"http-service-ts":11}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -260,7 +275,7 @@ CatalogoPage = __decorate([
 ], CatalogoPage);
 exports.default = CatalogoPage;
 
-},{"./page":6,"easy-coding":11}],4:[function(require,module,exports){
+},{"./page":6,"easy-coding":10}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -327,7 +342,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Automatically creates an instance of the given class and
  * dispatch an event called `mainComponentLoaded` that is used
- * to say to other components that they can initialize now
+ * to say to other components that they can be initialize now.
  * @param type {Type} Main class of the application
  */
 const Main = (type) => {
@@ -345,18 +360,18 @@ exports.default = Main;
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Automatically initialize an instance of the given class if one of the routes
- * passed in the first parameter matches the current path
+ * passed in the first parameter matches the current path.
  *
  * @param route {string | string[]} Route or array of routes. If the currrent
  * path matches one of them, an instance of the given class is initialized.
  * @param options {PageOptions} Object with options about the instance
- * and its initilization
+ * and its initilization.
  */
 const Page = (route, options) => (type) => {
     const path = window.location.pathname;
     let properRoute;
     /**
-     * Check if the route is the same as the current location
+     * Check if the route is the same as the current location.
      * @param str {string} Route
      */
     const checkRoute = (str) => {
@@ -399,27 +414,6 @@ exports.default = Page;
 
 },{}],7:[function(require,module,exports){
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const page_1 = require("./page");
-let ProdutoPage = class ProdutoPage {
-    constructor() {
-        this.addListeners();
-    }
-    addListeners() { }
-};
-ProdutoPage = __decorate([
-    page_1.default('/produto/*')
-], ProdutoPage);
-exports.default = ProdutoPage;
-
-},{"./page":6}],8:[function(require,module,exports){
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
 /**
@@ -457,7 +451,7 @@ class Cookies {
 }
 exports.Cookies = Cookies;
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
@@ -467,7 +461,7 @@ exports.Global = void 0;
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.addGlobalEntries = exports.handleBindingAttr = exports.createElement = void 0;
@@ -575,7 +569,7 @@ exports.randomDateBetween = (date1, date2) => {
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -592,7 +586,7 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":8,"./decorators":9,"./functions":10}],12:[function(require,module,exports){
+},{"./classes":7,"./decorators":8,"./functions":9}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const service_1 = require("./service");
@@ -600,7 +594,7 @@ exports.Service = service_1.default;
 const request_parser_1 = require("./request.parser");
 exports.RequestParser = request_parser_1.default;
 
-},{"./request.parser":13,"./service":14}],13:[function(require,module,exports){
+},{"./request.parser":12,"./service":13}],12:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -717,7 +711,7 @@ class RequestParser {
 }
 exports.default = RequestParser;
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const request_parser_1 = require("./request.parser");
@@ -781,4 +775,4 @@ class Service extends request_parser_1.default {
 }
 exports.default = Service;
 
-},{"./request.parser":13}]},{},[1]);
+},{"./request.parser":12}]},{},[1]);

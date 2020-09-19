@@ -8,7 +8,7 @@
 
 {% if carrinho.count %}
 <div class="page-header">
-  <p class="pg-header-option fixed-left">R$ {{ total }}</p>
+  <p class="pg-header-option fixed-left" id="cart-price">R$ {{ total }}</p>
   <p class="pg-header-option active-pg-option" style="margin-left: auto">Avançar</p>
 </div>
 
@@ -28,6 +28,7 @@
             <div class="cart-item-option-btn"><img src="{% static 'img/trash-icon.svg' %}" alt="Remover item do carrinho" class="delete-item-icon"></div>
           </div>
         </div>
+        <p class="cart-item-error-message"></p>
       </div>
     </div>
     {% elif item.kit %}
@@ -44,6 +45,7 @@
             <div class="cart-item-option-btn"><img src="{% static 'img/trash-icon.svg' %}" alt="Remover item do carrinho" class="delete-item-icon"></div>
           </div>
         </div>
+        <p class="cart-item-error-message"></p>
       </div>
     </div>
     {% endif %}

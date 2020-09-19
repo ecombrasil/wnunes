@@ -4,16 +4,14 @@ import { handleBindingAttr } from 'easy-coding';
 import Main from './main';
 import InicioPage from './inicio.page';
 import CatalogoPage from './catalogo.page';
-import ProdutoPage from './produto.page';
 import CarrinhoPage from './carrinho.page';
 
 @Main
 class App {
-  declarations: Type[] = [
+  pages: Type[] = [
     InicioPage,
     CatalogoPage,
-    ProdutoPage,
-    CarrinhoPage
+    CarrinhoPage,
   ];
 
   constructor() {

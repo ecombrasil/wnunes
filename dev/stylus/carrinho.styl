@@ -99,6 +99,7 @@
             flex-parent(row, nowrap, center)
             align-items center
             background-color #fcfcfc
+            cursor pointer
 
             &:first-child
               border-right-style none
@@ -121,6 +122,14 @@
             .delete-item-icon
               flex-basis auto
               height 48%
+
+      .cart-item-error-message
+        flex-basis 100%
+        display none
+        margin-top 1.2em
+        font-size 1.55em
+        font-weight 500
+        color orangered
 
 .empty-cart-message
   font-size 1.65em
