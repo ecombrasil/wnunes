@@ -5,13 +5,15 @@ import Main from './main';
 import InicioPage from './inicio.page';
 import CatalogoPage from './catalogo.page';
 import CarrinhoPage from './carrinho.page';
+import ProdutoPage from './produto';
 
 @Main
 class App {
   pages: Type[] = [
     InicioPage,
     CatalogoPage,
-    CarrinhoPage,
+    ProdutoPage,
+    CarrinhoPage
   ];
 
   constructor() {

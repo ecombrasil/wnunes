@@ -9,6 +9,7 @@ from .models import (
     AvaliacaoCliente,
     Produto,
     Kit,
+    ProdutoKit,
     BlogPost,
     ItemCarrinho
 )
@@ -51,3 +52,4 @@ class KitAdmin(admin.ModelAdmin):
 
 admin.site.register(AvaliacaoCliente)
 admin.site.register(ItemCarrinho)
+admin.site.register(ProdutoKit)

@@ -40,6 +40,10 @@ class ProdutoView(DetailView):
     template_name = 'produto.html'
     model = Produto
 
+class KitView(DetailView):
+    template_name = 'kit.html'
+    model = Kit
+
 class _Catalogo(View):
     model = None
 

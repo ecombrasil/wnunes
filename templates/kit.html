@@ -6,6 +6,7 @@
 {% load static %}
 <div id="product-wrapper">
   <p class="product-description">{{ object.descricao }}</p>
+  <p class="product-description">Ítens inclusos: {% for item in object.itens.all %}{{ item }}, {% endfor %}</p>
   <img src="{{ object.foto.url }}" alt="{{ object.nome }}" class="product-image">
 
   {% if object.avaliacoes.count %}

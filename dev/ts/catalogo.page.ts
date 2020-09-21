@@ -101,10 +101,13 @@ export default class CatalogoPage {
   private renderElement(item: Item): void {
     const imgUrl = item.fields.foto ?
       this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
+
+    let link = Object(item.fields).hasOwnProperty('itens') ? '/kit/' : '/produto/';
+    link += item.pk;
     
     const element = createElement('div', {
       classes: ['catalog-item'],
-      attributes: [['clickAndGo', `/produto/${item.pk}`]],
+      attributes: [['clickAndGo', link]],
       content: `
         <img src="${imgUrl}" alt="Imagem do produto ${item.fields.nome}" class="item-img">
         <div class="stars-group"></div>

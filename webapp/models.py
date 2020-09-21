@@ -122,22 +122,33 @@ class Produto(models.Model, BaseProduto):
     def __str__(self):
         return self.nome
 
+class ProdutoKit(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    qntd = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.produto} x {self.qntd}"
+
+    class Meta:
+        verbose_name = 'Produto em kit'
+        verbose_name_plural = 'Produtos em kits'
+
 class Kit(models.Model, BaseProduto):
     nome = models.CharField(max_length=48)
     descricao = models.CharField(max_length=200, blank=True, null=True, verbose_name='Descrição')
-    produtos = models.ManyToManyField(Produto)
+    itens = models.ManyToManyField(ProdutoKit)
     foto = models.FileField(upload_to='imagens_kits', null=True)
     avaliacoes = models.ManyToManyField(AvaliacaoCliente)
     ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     def get_valor_total(self):
-        lista_produtos = self.produtos.all().values('preco')
         valor_total = 0
+        lista_itens = self.itens.all()
 
-        for produto in lista_produtos:
-            valor_total += produto['preco']
-        
+        for item in lista_itens:
+            valor_total += item.produto.preco * item.qntd
+
         return valor_total
 
     def __str__(self):

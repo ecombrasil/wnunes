@@ -1,0 +1,8 @@
+- Dividir as palavras com JavaScript
+ - A primeira metade fica dentro de um span
+ - A segunda normal
+
+2 palavras - 1
+3 palavras - 2
+4 palavras - 3
+5 palavras - 4
