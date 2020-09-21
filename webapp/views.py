@@ -69,7 +69,8 @@ class Carrinho(LoginRequiredMixin, View):
     login_url = '/entrar'
 
     def get(self, request):
-        itens = ItemCarrinho.objects.filter(cliente=request.user)
+        itens = ItemCarrinho.objects.filter(cliente=request.user).exclude(produto__ativo=False).exclude(kit__ativo=False)
+
         # Valor total exibido no carrinho
         valor_total = 0
         # Loop para somar os valores
