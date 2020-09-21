@@ -17,7 +17,13 @@
 </div>
 
 <div id="catalog-wrapper"></div>
-<div class="load-more-btn">Carregar mais</div>
+
+<div class="load-more-btn-wrapper">
+  <div class="load-more-btn">
+    <p class="btn-content">Carregar mais</p>
+  </div>
+  <div class="btn-blur"></div>
+</div>
 
 {% load my_filters %}
 <script type="application/json" id="items-list">{{ produtos|json }}</script>
