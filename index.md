@@ -1,8 +1,12 @@
 # Atividades concluídas
 
+## Seg, 17 de setembro
+
+- Revisão de código (refatoração) - (2/4)
+
 ## Qua, 16 de setembro
 
-- Revisão de código (refatoração)
+- Revisão de código (refatoração) - (1/4)
 
 ## Sex, 11 de setembro
 

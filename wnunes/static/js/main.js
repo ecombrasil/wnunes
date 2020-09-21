@@ -165,7 +165,7 @@ let CatalogoPage = class CatalogoPage {
         _ratings.set(this, []);
         this.storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
         this.parentElement = document.getElementById('catalog-wrapper');
-        this.loadMoreBtn = document.querySelector('.load-more-btn');
+        this.loadMoreBtn = document.querySelector('.load-more-btn-wrapper');
         this.orderingSelect = document.querySelector('.ordering-btn');
         this.addListeners();
         this.setActiveSection();

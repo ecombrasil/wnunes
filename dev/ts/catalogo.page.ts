@@ -14,7 +14,7 @@ export default class CatalogoPage {
   private readonly storageRoot = 'https://wnunes.s3.sa-east-1.amazonaws.com/';
 
   protected parentElement = document.getElementById('catalog-wrapper');
-  protected loadMoreBtn = document.querySelector('.load-more-btn') as HTMLElement;
+  protected loadMoreBtn = document.querySelector('.load-more-btn-wrapper') as HTMLElement;
   protected orderingSelect = document.querySelector('.ordering-btn') as HTMLSelectElement;
 
   constructor() {
