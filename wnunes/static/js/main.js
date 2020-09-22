@@ -12,13 +12,13 @@ const main_1 = require("./main");
 const inicio_page_1 = require("./inicio.page");
 const catalogo_page_1 = require("./catalogo.page");
 const carrinho_page_1 = require("./carrinho.page");
-const produto_1 = require("./produto");
+const produto_page_1 = require("./produto.page");
 let App = class App {
     constructor() {
         this.pages = [
             inicio_page_1.default,
             catalogo_page_1.default,
-            produto_1.default,
+            produto_page_1.default,
             carrinho_page_1.default
         ];
         this.addListeners();
@@ -34,7 +34,7 @@ App = __decorate([
     main_1.default
 ], App);
 
-},{"./carrinho.page":2,"./catalogo.page":3,"./inicio.page":4,"./main":5,"./produto":7,"easy-coding":11}],2:[function(require,module,exports){
+},{"./carrinho.page":2,"./catalogo.page":3,"./inicio.page":4,"./main":5,"./produto.page":7,"easy-coding":11}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -452,8 +452,25 @@ let ProdutoPage = class ProdutoPage {
         this.createTitle();
     }
     createTitle() {
+        const nameElement = document.querySelector('.product-name');
         const words = this.title.split(' ');
-        console.log(this.title, words);
+        let properClass = 'title-size-';
+        if (words.length <= 3)
+            properClass += 1;
+        else if (words.length === 4)
+            properClass += 2;
+        else
+            properClass += 3;
+        nameElement.classList.add(properClass);
+        if (words.length === 1)
+            nameElement.innerHTML = `<span class="title-first-line">${words[0]}</span>`;
+        else {
+            const half = Math.floor(words.length / 2);
+            nameElement.innerHTML = `
+        <span class="title-first-line">${words.slice(0, half).join(' ')}</span><br>
+        ${words.slice(half).join(' ')}
+      `;
+        }
     }
 };
 _title = new WeakMap();

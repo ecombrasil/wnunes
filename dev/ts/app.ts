@@ -5,7 +5,7 @@ import Main from './main';
 import InicioPage from './inicio.page';
 import CatalogoPage from './catalogo.page';
 import CarrinhoPage from './carrinho.page';
-import ProdutoPage from './produto';
+import ProdutoPage from './produto.page';
 
 @Main
 class App {

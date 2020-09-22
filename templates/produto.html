@@ -5,6 +5,7 @@
 {% block content %}
 {% load static %}
 <div id="product-wrapper">
+  <p class="product-name"></p>
   <p class="product-description">{{ object.descricao }}</p>
   <img src="{{ object.foto.url }}" alt="{{ object.nome }}" class="product-image">
 
