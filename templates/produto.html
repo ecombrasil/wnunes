@@ -6,6 +6,10 @@
 {% load static %}
 <div id="product-wrapper">
   <p class="product-name"></p>
+  <div class="product-user-options">
+    {% if request.user.is_authenticated %}<span>R$ {{ object.preco }}/unidade</span>{% endif %}
+    <span><a href="{% url 'adicionar_carrinho' tipo='produto' pk=object.pk %}">Adicionar ao carrinho</a></span>
+  </div>
   <p class="product-description">{{ object.descricao }}</p>
   <img src="{{ object.foto.url }}" alt="{{ object.nome }}" class="product-image">
 

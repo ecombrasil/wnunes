@@ -1,12 +1,20 @@
 /**
  * Partial object.
+ * 
+ * @example
+ * interface User {
+ *   id: number;
+ *   firstName: string;
+ * }
+ * 
+ * const partialUser: Partial<User> = { id: 1 };
  */
 export type Partial<T> = {
   [P in keyof T]?: T[P];
 };
 
 /**
- * Object with keys as numbers
+ * Object with keys as numbers.
  * 
  * @example
  * const obj: EnumerableObject = {

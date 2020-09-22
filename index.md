@@ -1,6 +1,12 @@
 # Atividades concluídas
 
-## Seg, 17 de setembro
+## Ter, 22 de setembro
+
+- Página do produto/kit
+
+![Screenshot da tela Produto](https://i.imgur.com/ZwJtP6o.png)
+
+## Seg, 21 de setembro
 
 - Revisão de código (refatoração) - (2/4)
 

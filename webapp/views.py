@@ -89,6 +89,30 @@ class Carrinho(LoginRequiredMixin, View):
         
         return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
 
+
+class AdicionarCarrinho(LoginRequiredMixin, View):
+    login_url = '/entrar'
+
+    def get(self, request, tipo=None, pk=None):
+        # Se for produto e ele não existir no carrinho ainda, é adicionado
+        if tipo == 'produto':
+            produto = Produto.objects.get(pk=pk)
+            if produto is not None:
+                existe_no_carrinho = ItemCarrinho.objects.filter(cliente=request.user, produto=produto).exists()
+                if not existe_no_carrinho:
+                    ItemCarrinho.objects.create(cliente=request.user, produto=produto)
+
+        # Se for kit e ele não existir no carrinho ainda, é adicionado
+        elif tipo == 'kit':
+            kit = Kit.objects.get(pk=pk)
+            if kit is not None:
+                existe_no_carrinho = ItemCarrinho.objects.filter(cliente=request.user, kit=kit).exists()
+                if not existe_no_carrinho:
+                    ItemCarrinho.objects.create(cliente=request.user, kit=kit)
+
+        # Retorna a view de renderização, com toda a lógica para a amostra dos ítens
+        return redirect('carrinho')
+
 ### Sessão
 
 class Entrar(View):
