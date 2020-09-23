@@ -3,6 +3,15 @@
   margin 0 auto
   text-align center
 
+  @media (max-width 1366px)
+    width 90%
+
+  @media (max-width 900px)
+    width 92%
+
+  @media (max-width 600px)
+    width 86%
+
   .product-name
     width 100%
     margin-top 25vh
@@ -11,12 +20,38 @@
     line-height 1em
     text-transform uppercase
     color rgba(text-color, .2)
+    
+    @media (max-width 900px)
+      text-transform capitalize
+      margin-top 2em
+
+    @media (max-width 600px)
+      font-weight 800
+      margin-top 3.5em
 
     &.title-size-1
       font-size 18em
 
+      @media (max-width 1600px)
+        font-size 16em
+
+      @media (max-width 1366px)
+        font-size 14em
+
+      @media (max-width 1280px)
+        font-size 13em
+
     &.title-size-2
       font-size 16em
+
+      @media (max-width 1600px)
+        font-size 14em
+
+      @media (max-width 1366px)
+        font-size 12em
+
+      @media (max-width 1280px)
+        font-size 11em
 
     &.title-size-3
       font-size 10em
@@ -24,17 +59,51 @@
       line-height 1.05em
       letter-spacing .1em
 
+      @media (max-width 1600px)
+        font-size 9em
+
+      @media (max-width 1366px)
+        font-size 8em
+
+      @media (max-width 1280px)
+        font-size 7.5em
+
+    &.title-size-1
+    &.title-size-2
+    &.title-size-3
+      @media (max-width 900px)
+        font-size 8.5em
+      
+      @media (max-width 768px)
+        font-size 7em
+      
+      @media (max-width 600px)
+        font-size 4.5em
+
     .title-first-line
       color theme-color
 
   .product-user-options
     flex-parent(row, nowrap, center)
+    
+    @media (max-width 600px)
+      margin-top 1em
+      flex-wrap wrap
+      margin-bottom 4em
 
     span
       margin .75em .8em 3.5em .8em
       font-size 2em
       font-weight 600
       color rgba(text-color, .4)
+
+      @media (max-width 1366px)
+        font-size 1.8em
+
+      @media (max-width 600px)
+        flex-basis 100%
+        margin .5em 0 0 0
+        font-size 1.65em
   
   .product-description
     width 50%
@@ -46,10 +115,29 @@
     &:nth-child(1)
       margin-top 5em
 
+    @media (max-width 1366px)
+      font-size 1.7em
+
+    @media (max-width 900px)
+      width 80%
+
+    @media (max-width 600px)
+      width 90%
+
+    .inner-link
+      font-weight 600
+      color text-color
+
   .product-image
     max-width 50%
     height auto
     margin 10em auto 10em auto
+
+    @media (max-width 900px)
+      width 80%
+
+    @media (max-width 600px)
+      width 90%
 
   .product-section
     width 50%
@@ -57,6 +145,18 @@
     font-size 3.5em
     font-weight 800
     margin-bottom 2.75em
+
+    @media (max-width 1366px)
+      font-size 3.2em
+
+    @media (max-width 900px)
+      width 80%
+
+    @media (max-width 600px)
+      width 90%
+      font-size 2.2em
+      font-weight 700
+      margin-bottom 2em
 
   .customer-rating
     padding 3.5em
@@ -66,18 +166,44 @@
     border-radius(2em)
     text-align center
 
+    @media (max-width 1366px)
+      padding 3em
+
+    @media (max-width 900px)
+      width calc(80% - 7em - 2px)
+
+    @media (max-width 600px)
+      padding 2.5em
+      width calc(90% - 5em - 2px)
+
     .customer-name
       font-size 2.5em
       font-weight 700
+
+      @media (max-width 1366px)
+        font-size 2.2em
+
+      @media (max-width 600px)
+        font-size 1.65em
+        font-weight 800
 
     .rating-stars
       margin-top 1.75em
       flex-parent(row, nowrap, center)
 
+      @media (max-width 600px)
+        flex-wrap wrap
+        margin-top 1em
+
       .rating-star-icon
         flex-basis f-bs = 1.8em
         height f-bs
         margin .35em
+
+        @media (max-width 600px)
+          flex-basis f-bs = 1.7em
+          height f-bs
+          margin .3em
 
       .rating-date
         align-self flex-end
@@ -87,11 +213,23 @@
         font-weight 500
         color rgba(text-color, .6)
 
+        @media (max-width 1366px)
+          font-size 1.4em
+
+        @media (max-width 600px)
+          margin-top .5em
+
     .rating-text
       margin-top 1.7em
       font-size 1.7em
       font-weight 400
       line-height 1.55em
+
+      @media (max-width 1366px)
+        font-size 1.65em
+      
+      @media (max-width 600px)
+        margin-top 1.2em
   
   .help-box
     width 28em
@@ -103,10 +241,27 @@
     flex-parent(row, nowrap, center)
     align-items center
 
+    @media (max-width 1366px)
+      width 26.5em
+      padding 1.4em 3.2em 1.4em 3.2em
+
+    @media (max-width 600px)
+      width calc(80% - 2.8em)
+      margin-top 5em
+
     .help-text
       font-size 1.7em
       font-weight 900
       margin-right 2em
+
+      @media (max-width 1366px)
+        font-size 1.65em
     
     .help-illustration
       height 10em
+
+      @media (max-width 1366px)
+        height 9.5em
+
+      @media (max-width 600px)
+        height 9em

@@ -110,7 +110,7 @@ class AdicionarCarrinho(LoginRequiredMixin, View):
                 if not existe_no_carrinho:
                     ItemCarrinho.objects.create(cliente=request.user, kit=kit)
 
-        # Retorna a view de renderização, com toda a lógica para a amostra dos ítens
+        # Retorna a view de renderização com toda a lógica para a amostra dos ítens
         return redirect('carrinho')
 
 ### Sessão

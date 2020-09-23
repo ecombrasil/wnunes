@@ -11,7 +11,7 @@
     <span><a href="{% url 'adicionar_carrinho' tipo='kit' pk=object.pk %}">Adicionar ao carrinho</a></span>
   </div>
   <p class="product-description">{{ object.descricao }}</p>
-  <p class="product-description">Ítens inclusos: {% for item in object.itens.all %}{{ item }}, {% endfor %}</p>
+  <p class="product-description">Ítens inclusos: {% for item in object.itens.all %}<a href="{% url 'produto' pk=item.pk %}" class="inner-link">{{ item }}</a>, {% endfor %}</p>
   <img src="{{ object.foto.url }}" alt="{{ object.nome }}" class="product-image">
 
   {% if object.avaliacoes.count %}

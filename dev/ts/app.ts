@@ -6,6 +6,7 @@ import InicioPage from './inicio.page';
 import CatalogoPage from './catalogo.page';
 import CarrinhoPage from './carrinho.page';
 import ProdutoPage from './produto.page';
+import KitPage from './kit.page';
 
 @Main
 class App {
@@ -13,6 +14,7 @@ class App {
     InicioPage,
     CatalogoPage,
     ProdutoPage,
+    KitPage,
     CarrinhoPage
   ];
 
