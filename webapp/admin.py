@@ -14,6 +14,10 @@ from .models import (
     ItemCarrinho
 )
 
+admin.site.register(AvaliacaoCliente)
+admin.site.register(ItemCarrinho)
+admin.site.register(ProdutoKit)
+
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
     formfield_overrides = {
@@ -49,7 +53,3 @@ class ProdutoAdmin(admin.ModelAdmin):
 @admin.register(Kit)
 class KitAdmin(admin.ModelAdmin):
     exclude = ('avaliacoes',)
-
-admin.site.register(AvaliacaoCliente)
-admin.site.register(ItemCarrinho)
-admin.site.register(ProdutoKit)

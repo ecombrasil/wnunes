@@ -6,7 +6,7 @@ from .utils import erro_com_mensagem
 
 # Serializers
 
-class ItemCarrinhoSerializer(serializers.ModelSerializer):
+class ItemCarrinhoPartialSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemCarrinho
         fields = ['qntd']
@@ -15,7 +15,7 @@ class ItemCarrinhoSerializer(serializers.ModelSerializer):
 
 class ItemCarrinhoViewSet(viewsets.ModelViewSet):
     queryset = ItemCarrinho.objects.all()
-    serializer_class = ItemCarrinhoSerializer
+    serializer_class = ItemCarrinhoPartialSerializer
 
     def partial_update(self, request, pk=None):
         item = self.get_object()
