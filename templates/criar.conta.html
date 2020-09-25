@@ -8,7 +8,19 @@
     <h2 class="login-box-title">Registrar</h2>
     <form method="POST" class="login-form">
       {% csrf_token %}
-      {{ form }}
+
+      {{ form.nome }}<br>
+      <label class="label">Pessoa jurídica?</label>
+      {{ form.is_pessoa_juridica }}
+      <div class="uf-wrapper">
+        <p class="label">UF da sede:</p>
+        {{ form.uf }}
+      </div>
+      {{ form.sobrenome }}
+      {{ form.cpf }}
+      {{ form.email }}
+      {{ form.senha }}
+
       {% if error %}
       <p class="validation-error">Algum campo não foi devidamente preenchido!</p>
       {% endif %}
