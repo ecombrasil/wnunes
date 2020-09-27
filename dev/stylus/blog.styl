@@ -1,22 +1,3 @@
-// Mixin
-
-rezize-width(auto-margin = false)
-  width 80%
-  
-  if auto-margin
-    margin 0 auto
-
-  @media (max-width 1366px)
-    width 90%
-
-  @media (max-width 900px)
-    width 92%
-
-  @media (max-width 600px)
-    width 86%
-
-// Styles
-
 .heading-box
   width 100%
   height 55em
@@ -106,7 +87,7 @@ rezize-width(auto-margin = false)
     height auto
 
 .blog-advantages-wrapper
-  rezize-width(true)
+  resize-width(true)
   flex-parent(row, wrap, space-between)
   margin-top 3em
 
@@ -162,7 +143,7 @@ rezize-width(auto-margin = false)
         font-size 1.55em
 
 .blog-section-name
-  rezize-width()
+  resize-width()
   margin 3em auto 2.5em auto
   font-size 4em
   font-weight 800
@@ -187,7 +168,7 @@ rezize-width(auto-margin = false)
     font-size 2.7em
 
 .articles-wrapper
-  rezize-width(true)
+  resize-width(true)
   flex-parent(row, wrap, space-between)
   align-items flex-start
   cursor pointer
