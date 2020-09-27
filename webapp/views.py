@@ -85,8 +85,7 @@ class Carrinho(LoggedUserView):
                 valor_total += item.produto.preco * item.qntd
             # Soma valor de cada produto no kit
             elif item.kit is not None:
-                valor_kit = item.kit.get_valor_total()
-                valor_total += valor_kit
+                valor_total += item.kit.get_valor_total() * item.qntd
         
         return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
 
