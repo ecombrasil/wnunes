@@ -14,6 +14,7 @@ from .models import (
     ItemCarrinho
 )
 
+
 admin.site.register(AvaliacaoCliente)
 admin.site.register(ItemCarrinho)
 admin.site.register(ProdutoKit)
