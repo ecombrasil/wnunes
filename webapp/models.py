@@ -178,6 +178,30 @@ class ItemCarrinho(models.Model):
     class Meta:
         verbose_name_plural = 'Ítens em carrinhos'
 
+class ItemKitPersonalizado(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    qntd = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)], verbose_name='Quantidade')
+
+    def __str__(self):
+        return f"{self.qntd} x {self.produto}"
+
+    class Meta:
+        verbose_name = 'Item de kit personalizado'
+        verbose_name_plural = 'Ítens de kits personalizados'
+
+class KitPersonalizado(models.Model):
+    STATUS = (
+        ('aguardando', 'Aguardando aprovação'),
+        ('aprovado', 'Aprovado'),
+        ('negado', 'Negado'),
+    )
+
+    itens = models.ManyToManyField(ItemKitPersonalizado, verbose_name='Ítens no kit')
+    status = models.CharField(max_length=10, choices=STATUS)
+    email_cliente = models.EmailField(_('Email do cliente'))
+    whatsapp_cliente = models.CharField(max_length=20, verbose_name='WhatsApp do cliente')
+    telefone_cliente = models.CharField(max_length=20, verbose_name='Telefone do cliente')
+
 class BlogPost(models.Model):
     imagem_capa = models.FileField(upload_to='capas_artigos', null=True, verbose_name='Imagem de capa')
     titulo = models.CharField(max_length=96, verbose_name='Título')
