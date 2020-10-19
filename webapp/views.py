@@ -72,6 +72,9 @@ class CatalogoKits(_Catalogo):
 class LoggedUserView(LoginRequiredMixin, View):
     login_url = '/entrar'
 
+class LoggedUserTemplateView(LoginRequiredMixin, TemplateView):
+    login_url = '/entrar'
+
 class Carrinho(LoggedUserView):
     def get(self, request):
         itens = ItemCarrinho.objects.filter(cliente=request.user).exclude(produto__ativo=False).exclude(kit__ativo=False)
@@ -110,6 +113,9 @@ class AdicionarCarrinho(LoggedUserView):
 
         # Retorna a view de renderização com toda a lógica para a amostra dos ítens
         return redirect('carrinho')
+
+class SolicitacaoEnviadaMontarKit(LoggedUserTemplateView):
+    template_name = 'solicitacao.kit.enviada'
 
 ### Sessão
 
