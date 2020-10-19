@@ -143,13 +143,10 @@ class Kit(models.Model, BaseProduto):
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     def get_valor_total(self):
-        valor_total = 0
         lista_itens = self.itens.all()
+        valores = [valor_total += item.produto.preco * item.qntd for item in lista_itens]
 
-        for item in lista_itens:
-            valor_total += item.produto.preco * item.qntd
-
-        return valor_total
+        return sum(valores)
 
     def __str__(self):
         return self.nome
