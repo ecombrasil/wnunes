@@ -1,5 +1,5 @@
 #first-box
-  width 80%
+  resize-width()
   min-height calc(100vh - 14em)
   height auto
   padding 12em 10% 2em 10%
@@ -7,12 +7,10 @@
   flex-wrap nowrap
 
   @media (max-width 1366px)
-    width 90%
     padding-left 5%
     padding-right 5%
 
   @media (max-width 900px)
-    width 92%
     padding-left 4%
     padding-right 4%
     min-height auto
@@ -20,7 +18,6 @@
     justify-content center
 
   @media (max-width 600px)
-    width 86%
     padding-left 7%
     padding-right 7%
 

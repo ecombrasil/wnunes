@@ -69,13 +69,10 @@ class CatalogoKits(_Catalogo):
 
 ### Somente com login
 
-class LoggedUserView(LoginRequiredMixin, View):
+class LoggedOnly(LoginRequiredMixin):
     login_url = '/entrar'
 
-class LoggedUserTemplateView(LoginRequiredMixin, TemplateView):
-    login_url = '/entrar'
-
-class Carrinho(LoggedUserView):
+class Carrinho(LoggedOnly, View):
     def get(self, request):
         itens = ItemCarrinho.objects.filter(cliente=request.user).exclude(produto__ativo=False).exclude(kit__ativo=False)
 
@@ -93,7 +90,7 @@ class Carrinho(LoggedUserView):
         return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
 
 
-class AdicionarCarrinho(LoggedUserView):
+class AdicionarCarrinho(LoggedOnly, View):
     def get(self, request, tipo=None, pk=None):
         # Se for produto e ele não existir no carrinho ainda, é adicionado
         if tipo == 'produto':
@@ -114,8 +111,8 @@ class AdicionarCarrinho(LoggedUserView):
         # Retorna a view de renderização com toda a lógica para a amostra dos ítens
         return redirect('carrinho')
 
-class SolicitacaoEnviadaMontarKit(LoggedUserTemplateView):
-    template_name = 'solicitacao.kit.enviada'
+class SolicitacaoEnviadaMontarKit(LoggedOnly, TemplateView):
+    template_name = 'solicitacao.kit.enviada.html'
 
 ### Sessão
 

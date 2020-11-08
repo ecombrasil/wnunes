@@ -144,7 +144,7 @@ class Kit(models.Model, BaseProduto):
 
     def get_valor_total(self):
         lista_itens = self.itens.all()
-        valores = [valor_total += item.produto.preco * item.qntd for item in lista_itens]
+        valores = [item.produto.preco * item.qntd for item in lista_itens]
 
         return sum(valores)
 
