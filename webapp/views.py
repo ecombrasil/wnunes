@@ -21,7 +21,7 @@ class Inicio(TemplateView):
     template_name = 'inicio.html'
 
 class SobreNos(TemplateView):
-    template_name = 'sobre.nos.html'
+    template_name = 'sobre-nos.html'
 
 class Videos(TemplateView):
     template_name = 'videos.html'
@@ -111,8 +111,11 @@ class AdicionarCarrinho(LoggedOnly, View):
         # Retorna a view de renderização com toda a lógica para a amostra dos ítens
         return redirect('carrinho')
 
-class SolicitacaoEnviadaMontarKit(LoggedOnly, TemplateView):
-    template_name = 'solicitacao.kit.enviada.html'
+class MontarKitContato(LoggedOnly, TemplateView):
+    template_name = 'montar-kit/contato.html'
+
+class MontarKitSolicitacaoEnviada(LoggedOnly, TemplateView):
+    template_name = 'montar-kit/solicitacao-enviada.html'
 
 ### Sessão
 
@@ -137,7 +140,7 @@ class Entrar(View):
 
 class CriarConta(View):
     def get(self, request):
-        return render(request, 'criar.conta.html', { 'form': CriarContaForm(auto_id=False), 'error': False })
+        return render(request, 'criar-conta.html', { 'form': CriarContaForm(auto_id=False), 'error': False })
 
     def post(self, request):
         form = CriarContaForm(request.POST, auto_id=False)
@@ -162,7 +165,7 @@ class CriarConta(View):
                 login(request, usuario)
                 return redirect('inicio')
             
-        return render(request, 'criar.conta.html', { 'form': form, 'error': True })
+        return render(request, 'criar-conta.html', { 'form': form, 'error': True })
 
 class Sair(View):
     def get(self, request):

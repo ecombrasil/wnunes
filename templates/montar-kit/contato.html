@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Sua solicitação foi enviada{% endblock %}
+
+{% block content %}
+{% load static %}
+<h1 class="mount-your-kit-title">Como podemos entrar em contato com você?</h1>
+<p class="opening-page-paragraph">Escolha pelo menos um método pelo qual poderemos lhe notificar quando terminarmos de checar a disponibilidade para o seu kit:</p>
+
+
+
+<p class="redirect-link"><a href="{% url 'inicio' %}" class="inner-link">Voltar à página inicial</a></p>
+{% endblock %}
