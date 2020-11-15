@@ -8,7 +8,7 @@ def erro_com_mensagem(mensagem: str, status=400) -> JsonResponse:
         'data': {
             'message': mensagem
         }
-    }, status_code=status)
+    }, status=status)
 
 def remove_acentos(txt: str) -> str:
     """Remove todos os acentos da string fornecida."""

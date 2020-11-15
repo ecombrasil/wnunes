@@ -43,8 +43,7 @@ export default class CarrinhoPage {
         this.updateCartPrice();
 
         // Toggle remove button according to the new quantity
-        if (partial.qntd < 2) removeBtn.classList.add('disabled-item-option');
-        else removeBtn.classList.remove('disabled-item-option')
+        this.toggleButton(removeBtn as HTMLElement, !(partial.qntd < 2));
 
         // Remove previous error message
         errorMessage.style.display = 'none';
@@ -64,7 +63,7 @@ export default class CarrinhoPage {
             (error: APIErrorResponse) => errorHandler(error.data.message)
           )
       ));
-
+      
       // Action when user clicks to add an unity
       addBtn.addEventListener('click', (e) => userActionHandler(addBtn as HTMLElement, () =>
         this.#carrinhoService.patch({ qntd: this.getItemQuantity(element) + 1}, id)
@@ -98,7 +97,8 @@ export default class CarrinhoPage {
 
   private calcCartPrice(): number {
     const parent = document.querySelector('.cart-wrapper');
-    const cartItems = parent.querySelectorAll('.cart-item');
+    const cartItems = [...parent.querySelectorAll('.cart-item')];
+
     let totalPrice = 0;
 
     cartItems.forEach(element => {
@@ -114,5 +114,11 @@ export default class CarrinhoPage {
   private updateCartPrice(): void {
     const price = String(this.calcCartPrice()).replace('.', ',');
     document.querySelector('#cart-price').textContent = 'R$ ' + price;
+  }
+
+  private toggleButton(button: HTMLElement, condition = true): void {
+    !condition ?
+      button.classList.add('disabled-item-option'):
+      button.classList.remove('disabled-item-option');
   }
 }

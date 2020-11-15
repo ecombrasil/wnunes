@@ -18,7 +18,7 @@
     <div class="cart-item" id="{{ item.pk }}">
       <img src="{{ item.produto.foto.url }}" alt="Imagem do produto {{ item.produto.nome }}" class="cart-item-img">
       <div class="item-info-wrapper">
-        <h2 class="cart-item-name">{{ item.produto }}</h2>
+        <h2 class="cart-item-name"><a href="{% url 'produto' pk=item.produto.pk %}">{{ item.produto }}</a></h2>
         <div class="item-details-wrapper">
           <p class="cart-item-preco">R$ {{ item.produto.preco }}</p>
           <p class="cart-item-qntd">{{ item.qntd }} unidade{% if item.qntd > 1 %}s{% endif %}</p>
@@ -35,7 +35,7 @@
     <div class="cart-item" id="{{ item.pk }}">
       <img src="{{ item.kit.foto.url }}" alt="Imagem do kit {{ item.kit.nome }}" class="cart-item-img">
       <div class="item-info-wrapper">
-        <h2 class="cart-item-name">{{ item.kit }}</h2>
+        <h2 class="cart-item-name"><a href="{% url 'kit' pk=item.kit.pk %}">{{ item.kit }}</a></h2>
         <div class="item-details-wrapper">
           <p class="cart-item-preco">R$ {{ item.get_valor_total }}</p>
           <p class="cart-item-qntd">1 unidade</p>

@@ -94,10 +94,7 @@ let CarrinhoPage = class CarrinhoPage {
                 this.setItemQuantity(element, partial.qntd);
                 this.updateCartPrice();
                 // Toggle remove button according to the new quantity
-                if (partial.qntd < 2)
-                    removeBtn.classList.add('disabled-item-option');
-                else
-                    removeBtn.classList.remove('disabled-item-option');
+                this.toggleButton(removeBtn, !(partial.qntd < 2));
                 // Remove previous error message
                 errorMessage.style.display = 'none';
             };
@@ -128,7 +125,7 @@ let CarrinhoPage = class CarrinhoPage {
     }
     calcCartPrice() {
         const parent = document.querySelector('.cart-wrapper');
-        const cartItems = parent.querySelectorAll('.cart-item');
+        const cartItems = [...parent.querySelectorAll('.cart-item')];
         let totalPrice = 0;
         cartItems.forEach(element => {
             const price = Number(element.querySelector('.cart-item-preco').textContent.split(' ')[1].replace(',', '.'));
@@ -140,6 +137,11 @@ let CarrinhoPage = class CarrinhoPage {
     updateCartPrice() {
         const price = String(this.calcCartPrice()).replace('.', ',');
         document.querySelector('#cart-price').textContent = 'R$ ' + price;
+    }
+    toggleButton(button, condition = true) {
+        !condition ?
+            button.classList.add('disabled-item-option') :
+            button.classList.remove('disabled-item-option');
     }
 };
 _carrinhoService = new WeakMap();
