@@ -102,8 +102,7 @@ export default class CatalogoPage {
     const imgUrl = item.fields.foto ?
       this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
 
-    let link = Object(item.fields).hasOwnProperty('itens') ? '/kit/' : '/produto/';
-    link += item.pk;
+    const link = Object(item.fields).hasOwnProperty('itens') ? `/kit/${item.pk}` : `/produto/${item.pk}`;
     
     const element = createElement('div', {
       classes: ['catalog-item'],

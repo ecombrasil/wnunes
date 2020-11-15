@@ -30,7 +30,7 @@ export default class CarrinhoPage {
       const [ removeBtn, addBtn, deleteBtn ] = element.getElementsByClassName('cart-item-option-btn');
       
       const errorMessage = element.querySelector('.cart-item-error-message') as HTMLElement;
-      const id = Number(element.id);
+      const id = +element.id;
 
       const errorHandler = (message: string) => {
         // Display error message
@@ -45,29 +45,35 @@ export default class CarrinhoPage {
         errorMessage.style.display = 'none';
       };
 
+      const userActionHandler = (button: HTMLElement, callback: () => void) => {
+        const isEnabled = !button.classList.contains('disabled-item-option');
+        
+        if (isEnabled) callback();
+      };
+
       // Action when user clicks to remove an unity
-      removeBtn.addEventListener('click', () =>
+      removeBtn.addEventListener('click', (e) => userActionHandler(removeBtn as HTMLElement, () =>
         this.#carrinhoService.patch({ qntd: this.getItemQuantity(element) - 1}, id)
           .then(
             (partial) => patchSuccessHandler(partial),
             (error: APIErrorResponse) => errorHandler(error.data.message)
           )
-      );
+      ));
 
       // Action when user clicks to add an unity
-      addBtn.addEventListener('click', () => 
+      addBtn.addEventListener('click', (e) => userActionHandler(addBtn as HTMLElement, () =>
         this.#carrinhoService.patch({ qntd: this.getItemQuantity(element) + 1}, id)
           .then(
             (partial) => patchSuccessHandler(partial),
             (error: APIErrorResponse) => errorHandler(error.data.message)
           )
-      );
+      ));
 
       // Action when user clicks to delete the item
       deleteBtn.addEventListener('click', () =>
         this.#carrinhoService.delete(id)
           .then(
-            (success) => element.remove(),
+            (success) => window.location.reload(),
             (error) => errorHandler('Houve um erro ao tentar excluir este item.')
           )
       );
@@ -80,8 +86,8 @@ export default class CarrinhoPage {
 
   private setItemQuantity(element: Element, qntd: number): void {
     const qntdElement = element.querySelector('.cart-item-qntd');
-
     qntdElement.textContent = qntd + ' unidade';
+
     if (qntd > 1) qntdElement.textContent += 's';
   }
 

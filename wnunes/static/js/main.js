@@ -84,7 +84,7 @@ let CarrinhoPage = class CarrinhoPage {
         itemsAsElements === null || itemsAsElements === void 0 ? void 0 : itemsAsElements.forEach(element => {
             const [removeBtn, addBtn, deleteBtn] = element.getElementsByClassName('cart-item-option-btn');
             const errorMessage = element.querySelector('.cart-item-error-message');
-            const id = Number(element.id);
+            const id = +element.id;
             const errorHandler = (message) => {
                 // Display error message
                 errorMessage.textContent = message;
@@ -96,15 +96,20 @@ let CarrinhoPage = class CarrinhoPage {
                 // Remove previous error message
                 errorMessage.style.display = 'none';
             };
+            const userActionHandler = (button, callback) => {
+                const isEnabled = !button.classList.contains('disabled-item-option');
+                if (isEnabled)
+                    callback();
+            };
             // Action when user clicks to remove an unity
-            removeBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) - 1 }, id)
-                .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message)));
+            removeBtn.addEventListener('click', (e) => userActionHandler(removeBtn, () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) - 1 }, id)
+                .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message))));
             // Action when user clicks to add an unity
-            addBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) + 1 }, id)
-                .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message)));
+            addBtn.addEventListener('click', (e) => userActionHandler(addBtn, () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) + 1 }, id)
+                .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message))));
             // Action when user clicks to delete the item
             deleteBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).delete(id)
-                .then((success) => element.remove(), (error) => errorHandler('Houve um erro ao tentar excluir este item.')));
+                .then((success) => window.location.reload(), (error) => errorHandler('Houve um erro ao tentar excluir este item.')));
         });
     }
     getItemQuantity(element) {
@@ -240,8 +245,7 @@ let CatalogoPage = class CatalogoPage {
     renderElement(item) {
         const imgUrl = item.fields.foto ?
             this.storageRoot.concat(item.fields.foto) : '/static/img/loading-img.svg';
-        let link = Object(item.fields).hasOwnProperty('itens') ? '/kit/' : '/produto/';
-        link += item.pk;
+        const link = Object(item.fields).hasOwnProperty('itens') ? `/kit/${item.pk}` : `/produto/${item.pk}`;
         const element = easy_coding_1.createElement('div', {
             classes: ['catalog-item'],
             attributes: [['clickAndGo', link]],
