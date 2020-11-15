@@ -1,0 +1,38 @@
+#mount-kit-contact-form
+  width 50em
+  margin 6em 0 0 calc(50% - 25em)
+  border(1px, solid, #ddd)
+  border-radius(1.5em)
+
+  .contact-form-row
+    width calc(100% - 2em)
+    flex-parent(row, nowrap, center)
+    align-items center
+    padding 1em
+
+    &:not(:last-child)
+      border-bottom 1px solid #ddd
+
+    .contact-row-icon
+      flex-basis fb = 5em
+      height fb
+      margin-right 2em
+
+    .contact-row-field
+      font-size 1.75em
+      font-weight 500
+      color rgba(text-color, .7)
+      text-align center
+
+.continue-button
+  margin 0 auto
+  margin-top 5em
+  width 8em
+  padding .9em 1.6em .8em 1.6em
+  font-size 1.75em
+  font-weight 600
+  text-align center
+  color reversed-text-color
+  background-color theme-color
+  border-radius(.5em)
+  cursor pointer

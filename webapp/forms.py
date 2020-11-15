@@ -2,6 +2,7 @@ from django import forms
 from martor.fields import MartorFormField
 from .models import UF_CHOICES, BlogPost
 
+
 def create_attrs(placeholder=None, css_class=None):
     return {
         'placeholder': placeholder,
@@ -20,3 +21,8 @@ class CriarContaForm(forms.Form):
 class BlogPostForm(forms.Form):
     titulo = forms.CharField(max_length=48)
     conteudo = MartorFormField()
+
+class ContatoMontarKit(forms.Form):
+    email = forms.EmailField()
+    whatsapp = forms.CharField(max_length=20)
+    telefone = forms.CharField(max_length=20)

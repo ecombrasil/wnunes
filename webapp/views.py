@@ -7,11 +7,12 @@ from .models import (
     User,
     Produto,
     Kit,
+    KitPersonalizado,
     ItemCarrinho,
     BlogPost,
     AvaliacaoCliente,
 )
-from .forms import CriarContaForm
+from .forms import CriarContaForm, ContatoMontarKit
 import json
 
 
@@ -111,8 +112,19 @@ class AdicionarCarrinho(LoggedOnly, View):
         # Retorna a view de renderização com toda a lógica para a amostra dos ítens
         return redirect('carrinho')
 
-class MontarKitContato(LoggedOnly, TemplateView):
+class MontarKitContato(LoggedOnly, View):
     template_name = 'montar-kit/contato.html'
+
+    def get(self, request):
+        return render(request, self.template_name, { 'error': False })
+
+    def post(self, request):
+        form = ContatoMontarKit(request.POST)
+        if form.is_valid():
+            # salvar dados
+            return redirect('montar_kit_solicitacao_enviada')
+
+        return render(request, self.template_name, { 'error': True })
 
 class MontarKitSolicitacaoEnviada(LoggedOnly, TemplateView):
     template_name = 'montar-kit/solicitacao-enviada.html'

@@ -7,7 +7,20 @@
 <h1 class="mount-your-kit-title">Como podemos entrar em contato com você?</h1>
 <p class="opening-page-paragraph">Escolha pelo menos um método pelo qual poderemos lhe notificar quando terminarmos de checar a disponibilidade para o seu kit:</p>
 
+<form method="POST" id="mount-kit-contact-form">
+  <div class="contact-form-row">
+    <img src="{% static 'img/WhatsApp.svg' %}" alt="WhatsApp" class="contact-row-icon">
+    <input type="text" name="whatsapp" id="whatsapp" placeholder="(00) 9 0000-0000" class="contact-row-field">
+  </div>
+  <div class="contact-form-row">
+    <img src="{% static 'img/Gmail.svg' %}" alt="Email" class="contact-row-icon">
+    <input type="email" name="email" id="email" placeholder="email@exemplo.com.br" class="contact-row-field">
+  </div>
+  <div class="contact-form-row">
+    <img src="{% static 'img/phone.svg' %}" alt="Telefone/Celular" class="contact-row-icon">
+    <input type="text" name="telefone" id="telefone" placeholder="(00) 0000-0000" class="contact-row-field">
+  </div>
+</form>
 
-
-<p class="redirect-link"><a href="{% url 'inicio' %}" class="inner-link">Voltar à página inicial</a></p>
+<div class="continue-button" clickAndGo="{% url 'montar_kit_solicitacao_enviada' %}">Prosseguir</div>
 {% endblock %}
