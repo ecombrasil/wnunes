@@ -93,6 +93,11 @@ let CarrinhoPage = class CarrinhoPage {
             const patchSuccessHandler = (partial) => {
                 this.setItemQuantity(element, partial.qntd);
                 this.updateCartPrice();
+                // Toggle remove button according to the new quantity
+                if (partial.qntd < 2)
+                    removeBtn.classList.add('disabled-item-option');
+                else
+                    removeBtn.classList.remove('disabled-item-option');
                 // Remove previous error message
                 errorMessage.style.display = 'none';
             };
