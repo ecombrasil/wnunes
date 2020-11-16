@@ -91,10 +91,11 @@ let CarrinhoPage = class CarrinhoPage {
                 errorMessage.style.display = 'flex';
             };
             const patchSuccessHandler = (partial) => {
-                this.setItemQuantity(element, partial.qntd);
+                const newQntd = partial.qntd;
+                this.setItemQuantity(element, newQntd);
                 this.updateCartPrice();
                 // Toggle remove button according to the new quantity
-                this.toggleButton(removeBtn, !(partial.qntd < 2));
+                this.toggleButton(removeBtn, newQntd > 1);
                 // Remove previous error message
                 errorMessage.style.display = 'none';
             };
@@ -104,11 +105,14 @@ let CarrinhoPage = class CarrinhoPage {
                     callback();
             };
             // Action when user clicks to remove an unity
-            removeBtn.addEventListener('click', (e) => userActionHandler(removeBtn, () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) - 1 }, id)
-                .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message))));
+            removeBtn.addEventListener('click', () => userActionHandler(removeBtn, () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) - 1 }, id)
+                .then((partial) => {
+                patchSuccessHandler(partial);
+                this.toggleButton(addBtn);
+            }, (error) => errorHandler(error.data.message))));
             // Action when user clicks to add an unity
-            addBtn.addEventListener('click', (e) => userActionHandler(addBtn, () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) + 1 }, id)
-                .then((partial) => patchSuccessHandler(partial), (error) => errorHandler(error.data.message))));
+            addBtn.addEventListener('click', () => userActionHandler(addBtn, () => __classPrivateFieldGet(this, _carrinhoService).patch({ qntd: this.getItemQuantity(element) + 1 }, id)
+                .then((partial) => patchSuccessHandler(partial), (error) => this.toggleButton(addBtn, false))));
             // Action when user clicks to delete the item
             deleteBtn.addEventListener('click', () => __classPrivateFieldGet(this, _carrinhoService).delete(id)
                 .then((success) => window.location.reload(), (error) => errorHandler('Houve um erro ao tentar excluir este item.')));
@@ -139,9 +143,7 @@ let CarrinhoPage = class CarrinhoPage {
         document.querySelector('#cart-price').textContent = 'R$ ' + price;
     }
     toggleButton(button, condition = true) {
-        !condition ?
-            button.classList.add('disabled-item-option') :
-            button.classList.remove('disabled-item-option');
+        !condition ? button.classList.add('disabled-item-option') : button.classList.remove('disabled-item-option');
     }
 };
 _carrinhoService = new WeakMap();
