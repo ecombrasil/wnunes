@@ -19,7 +19,7 @@ export default class InicioPage {
     const controllers = document.getElementsByClassName('slider-btn-controller');
   
     const animate = (direction: 'left' | 'center' | 'right', btn?: HTMLElement) => {
-      switch(direction) {
+      switch (direction) {
         case 'left':
           slider.scrollLeft = 0;
           break;
@@ -28,7 +28,6 @@ export default class InicioPage {
           break;
         case 'right':
           slider.scrollLeft = slider.scrollWidth;
-          break;
       }
   
       if (btn)
