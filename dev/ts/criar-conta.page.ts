@@ -7,7 +7,7 @@ export default class CriarContaPage {
   }
 
   private toggleUFSelectMenu() {
-    const checkBox = document.getElementsByName('is_pessoa_juridica')[0] as HTMLInputElement;
+    const checkBox = document.querySelector('[name=is_pessoa_juridica]') as HTMLInputElement;
     const UFMenu = document.querySelector('.uf-wrapper') as HTMLElement;
 
     checkBox.addEventListener('change', () =>

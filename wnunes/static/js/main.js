@@ -298,7 +298,7 @@ let CriarContaPage = class CriarContaPage {
         this.toggleUFSelectMenu();
     }
     toggleUFSelectMenu() {
-        const checkBox = document.getElementsByName('is_pessoa_juridica')[0];
+        const checkBox = document.querySelector('[name=is_pessoa_juridica]');
         const UFMenu = document.querySelector('.uf-wrapper');
         checkBox.addEventListener('change', () => UFMenu.style.display = checkBox.checked ? 'inline-block' : 'none');
     }
