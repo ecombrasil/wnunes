@@ -218,3 +218,10 @@ resize-width(auto-margin = false)
 
   @media (max-width 600px)
     width 86%
+
+set-square-size(size, is_flex = true)
+  height size
+  if is_flex
+    flex-basis size
+  else
+    width size

@@ -1,38 +1,62 @@
-#mount-kit-contact-form
-  width 50em
-  margin 6em 0 0 calc(50% - 25em)
-  border(1px, solid, #ddd)
-  border-radius(1.5em)
+#contact-kit-wrapper
+  @media (max-width 600px)
+    resize-width(true)
 
-  .contact-form-row
-    width calc(100% - 2em)
-    flex-parent(row, nowrap, center)
-    align-items center
-    padding 1em
+  #mount-kit-contact-form
+    width 50em
+    margin 6em 0 0 calc(50% - 25em)
+    border(1px, solid, #ddd)
+    border-radius(1.5em)
 
-    &:not(:last-child)
-      border-bottom 1px solid #ddd
+    @media (max-width 600px)
+      width wdh = 100%
+      margin 4em 0 0 0
+      box-sizing border-box
 
-    .contact-row-icon
-      flex-basis fb = 5em
-      height fb
-      margin-right 2em
+    .contact-form-row
+      width calc(100% - 2em)
+      flex-parent(row, nowrap, center)
+      align-items center
+      padding 1em
 
-    .contact-row-field
-      font-size 1.75em
-      font-weight 500
-      color rgba(text-color, .7)
-      text-align center
+      &:not(:last-child)
+        border-bottom 1px solid #ddd
 
-.continue-button
-  margin 0 auto
-  margin-top 5em
-  width 8em
-  padding .9em 1.6em .8em 1.6em
-  font-size 1.75em
-  font-weight 600
-  text-align center
-  color reversed-text-color
-  background-color theme-color
-  border-radius(.5em)
-  cursor pointer
+      .contact-row-icon
+        set-square-size(5em)
+        margin-right 2em
+
+        @media (max-width 1600px)
+          set-square-size(4.5em)
+
+        @media (max-width 1366px)
+          set-square-size(4em)
+
+        @media (max-width 1280px)
+          set-square-size(3.75em)
+
+      .contact-row-field
+        font-size 1.75em
+        font-weight 500
+        color rgba(text-color, .7)
+        text-align center
+
+        @media (max-width 600px)
+          font-size 1.6em
+
+  .continue-button
+    margin 0 auto
+    margin-top 5em
+    width 8em
+    padding .9em 1.6em .8em 1.6em
+    font-size 1.75em
+    font-weight 600
+    text-align center
+    color reversed-text-color
+    background-color theme-color
+    border-radius(.5em)
+    cursor pointer
+
+    @media (max-width 600px)
+      margin-top 3em
+      font-size 1.6em
