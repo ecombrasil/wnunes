@@ -120,6 +120,7 @@ class MontarKitContato(LoggedOnly, View):
 
     def post(self, request):
         form = ContatoMontarKit(request.POST)
+        
         if form.is_valid():
             # salvar dados
             return redirect('montar_kit_solicitacao_enviada')

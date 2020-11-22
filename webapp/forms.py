@@ -23,6 +23,14 @@ class BlogPostForm(forms.Form):
     conteudo = MartorFormField()
 
 class ContatoMontarKit(forms.Form):
-    email = forms.EmailField()
-    whatsapp = forms.CharField(max_length=20)
-    telefone = forms.CharField(max_length=20)
+    email = forms.EmailField(required=False)
+    whatsapp = forms.CharField(max_length=20, required=False)
+    telefone = forms.CharField(max_length=20, required=False)
+
+    def is_valid(self):
+        if super().is_valid():
+            for key, value in self.cleaned_data.items():
+                if value:
+                    return True
+
+        return False

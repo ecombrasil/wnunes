@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Sua solicitação foi enviada{% endblock %}
+{% block title %}Escolha um meio de contato{% endblock %}
 
 {% block content %}
 {% load static %}
@@ -8,21 +8,28 @@
   <h1 class="mount-your-kit-title">Como podemos entrar em contato com você?</h1>
   <p class="opening-page-paragraph">Escolha pelo menos um método pelo qual poderemos notificar você quando terminarmos de checar a disponibilidade para o seu kit:</p>
 
-  <form method="POST" id="mount-kit-contact-form">
-    <div class="contact-form-row">
-      <img src="{% static 'img/WhatsApp.svg' %}" alt="WhatsApp" class="contact-row-icon">
-      <input type="text" name="whatsapp" id="whatsapp" placeholder="(00) 9 0000-0000" class="contact-row-field">
+  <form method="POST">
+    {% csrf_token %}
+    <div id="mount-kit-contact-form">
+      <div class="contact-form-row">
+        <img src="{% static 'img/WhatsApp.svg' %}" alt="WhatsApp" class="contact-row-icon">
+        <input type="text" name="whatsapp" id="whatsapp" placeholder="(00) 9 0000-0000" class="contact-row-field">
+      </div>
+      <div class="contact-form-row">
+        <img src="{% static 'img/Gmail.svg' %}" alt="Email" class="contact-row-icon">
+        <input type="email" name="email" id="email" placeholder="email@exemplo.com.br" class="contact-row-field">
+      </div>
+      <div class="contact-form-row">
+        <img src="{% static 'img/phone.svg' %}" alt="Telefone/Celular" class="contact-row-icon">
+        <input type="text" name="telefone" id="telefone" placeholder="(00) 0000-0000" class="contact-row-field">
+      </div>
     </div>
-    <div class="contact-form-row">
-      <img src="{% static 'img/Gmail.svg' %}" alt="Email" class="contact-row-icon">
-      <input type="email" name="email" id="email" placeholder="email@exemplo.com.br" class="contact-row-field">
-    </div>
-    <div class="contact-form-row">
-      <img src="{% static 'img/phone.svg' %}" alt="Telefone/Celular" class="contact-row-icon">
-      <input type="text" name="telefone" id="telefone" placeholder="(00) 0000-0000" class="contact-row-field">
-    </div>
-  </form>
 
-  <div class="continue-button" clickAndGo="{% url 'montar_kit_solicitacao_enviada' %}">Prosseguir</div>
+    {% if error %}
+      <p class="form-error-message">Preencha corretamente pelo menos um dos campos acima!</p>
+    {% endif %}
+
+    <center><button class="continue-button" type="submit">Prosseguir</button></center>
+  </form>
 </div>
 {% endblock %}
