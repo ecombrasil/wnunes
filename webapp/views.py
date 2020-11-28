@@ -90,7 +90,6 @@ class Carrinho(LoggedOnly, View):
         
         return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
 
-
 class AdicionarCarrinho(LoggedOnly, View):
     def get(self, request, tipo=None, pk=None):
         # Se for produto e ele não existir no carrinho ainda, é adicionado

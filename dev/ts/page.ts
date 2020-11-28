@@ -20,9 +20,9 @@ interface PageOptions {
  * Automatically initialize an instance of the given class if one of the routes
  * passed in the first parameter matches the current path.
  * 
- * @param route {string | string[]} Route or array of routes. If the currrent
+ * @param {string | string[]} route Route or array of routes. If the currrent
  * path matches one of them, an instance of the given class is initialized.
- * @param options {PageOptions} Object with options about the instance 
+ * @param {PageOptions} options Object with options about the instance 
  * and its initilization.
  */
 const Page = (route: string | string[], options?: PageOptions) => <T extends Type>(type: T): T => {
@@ -31,14 +31,10 @@ const Page = (route: string | string[], options?: PageOptions) => <T extends Typ
 
   /**
    * Check if the route is the same as the current location.
-   * @param str {string} Route
+   * @param {string} str Route
+   * @return {boolean}
    */
-  const checkRoute = (str: string): boolean => {
-    if (str.endsWith('*')) {
-      str = str.slice(0, -1);
-      return path.startsWith(str);
-    } else return path === str;
-  };
+  const checkRoute = (str: string) => str.endsWith('*') ? path.startsWith(str.slice(0, -1)) : path === str;
 
   // Check each route if `route` argument is array
   if (Array.isArray(route))
