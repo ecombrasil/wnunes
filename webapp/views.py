@@ -111,6 +111,18 @@ class AdicionarCarrinho(LoggedOnly, View):
         # Retorna a view de renderização com toda a lógica para a amostra dos ítens
         return redirect('carrinho')
 
+class MontarKitFormulario(LoggedOnly, View):
+    template_name = 'montar-kit/formulario.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        # sanitize form and init MontarKit class
+        
+        return render(request, self.template_name)
+
+
 class MontarKitConfirmar(LoggedOnly, View):
     template_name = 'montar-kit/confirmar.html'
 

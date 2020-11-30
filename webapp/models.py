@@ -187,6 +187,7 @@ class ItemKitPersonalizado(models.Model):
         verbose_name_plural = 'Ítens de kits personalizados'
 
 class KitPersonalizado(models.Model):
+    STATUS_INICIAL = 'aguardando'
     STATUS = (
         ('aguardando', 'Aguardando aprovação'),
         ('aprovado', 'Aprovado'),
@@ -194,7 +195,7 @@ class KitPersonalizado(models.Model):
     )
 
     itens = models.ManyToManyField(ItemKitPersonalizado, verbose_name='Ítens no kit')
-    status = models.CharField(max_length=10, choices=STATUS)
+    status = models.CharField(max_length=10, choices=STATUS, default=STATUS_INICIAL)
     email_cliente = models.EmailField(_('Email do cliente'))
     whatsapp_cliente = models.CharField(max_length=20, verbose_name='WhatsApp do cliente')
     telefone_cliente = models.CharField(max_length=20, verbose_name='Telefone do cliente')
