@@ -6,6 +6,7 @@ from .models import (
     KitPersonalizado
 )
 
+
 class Altura:
     """Enumerador para as opções de altura."""
 
@@ -27,14 +28,14 @@ class Telhado:
 class DistanciaAncoragem:
     """Enumerador para as opções de distância entre ancoragens."""
 
-    _60mm = 60
-    _80mm = 80
-    _100mm = 100
-    _120mm = 120
-    _130mm = 130
-    _150mm = 150
-    _180mm = 180
-    _200mm = 200
+    _60cm = 60
+    _80cm = 80
+    _100cm = 100
+    _120cm = 120
+    _130cm = 130
+    _150cm = 150
+    _180cm = 180
+    _200cm = 200
 
 class Orientacao:
     """Enumerador para as opções de orientacao."""
@@ -64,30 +65,23 @@ class MontadorKit:
         self.minitrilho = minitrilho
 
     def montar(self):
-        """Monta o kit com os parâmetros passados."""
+        """Monta o kit conforme os parâmetros passados."""
 
-        # Selecionar produtos de acordo com a altura
+        # Cálculos padrão para todos os kits
 
-        if self.altura == Altura._35mm:
-            terminal.log('Add produto 18 35mm')
-            terminal.log('Add produto 19 35mm')
-        elif self.altura == Altura._40mm:
-            terminal.log('Add produto 18 40mm')
-            terminal.log('Add produto 19 40mm')
+        self.__calcular_kit_lateral()
+        self.__calcular_kit_interno()
 
-        # Tratar telhado mini trilho e retornar
+        # Cálculos mini trilho (retorna)
 
         if (self.telhado == Telhado.MetalicoTrapezoidalMiniTrilhoAlto or
             self.telhado == Telhado.MetalicoTrapezoidalMiniTrilhoBaixo):
-            terminal.log('Quantidade de mini trilho')
+            self.__calcular_quantidade_minitrilho()
             return
 
-        # Definir quantidade de perfil
+        # Cálculos perfil
 
-        if self.orientacao == Orientacao.Retrato:
-            terminal.log('Cálculo quantidade de perfil para retrato')
-        elif self.orientacao == Orientacao.Paisagem:
-            terminal.log('Cálculo quantidade de perfil para paisagem')
+       self.__calcular_quantidade_perfil()
 
         # Tratar tratar telhados perfil corrido e retornar
 
@@ -118,25 +112,86 @@ class MontadorKit:
             return
 
     def criar_pedido(self):
-        """Cria um registro para o kit customizado no banco de dados."""
+        """Registra o kit no banco de dados."""
+        
         self.__registrar_items()
         self.pedido = KitPersonalizado()
         self.pedido.save()
         self.pedido.itens.add(...self.itens)
 
     def __adicionar_item(self, produto: Produto, qntd: int):
-        """Adicionar na lista novo objeto de item do kit."""
+        """Adiciona um novo item do kit à lista."""
+
         self.itens.append(ItemKitPersonalizado(produto=produto, qntd=qntd))
     
     def __registrar_items(self):
-        """Salvar todos os objetos dos ítens do kit no banco de dados."""
+        """Salva todos ítens do kit no banco de dados."""
+
         [item.save() for item in self.itens]
+
+    def __calcular_kit_lateral(self) -> int:
+        """Faz o cálculo do kit lateral."""
+
+        numero_filas = len(self.filas)
+        produto = None
+        qntd = numero_filas * 4
+
+        if self.altura == Altura._35mm:
+            # Adiciona o kit 18 35mm
+            produto = None
+        elif self.altura == Altura._40mm:
+            # Adiciona o kit 18 40mm
+            produto = None
+
+        self.__adicionar_item(produto, qntd)
+        return qntd
+
+    def __calcular_kit_interno(self) -> int:
+        """Faz o cálculo do kit interno."""
+
+        numero_placas = sum(self.filas)
+        produto = None
+        qntd = (numero_placas - 1) * 2
+
+        if self.altura == Altura._35mm:
+            # Adiciona o kit 19 35mm
+            produto = None
+        elif self.altura == Altura._40mm:
+            # Adiciona o kit 19 40mm
+            produto = None
+
+        self.__adicionar_item(produto, qntd)
+        return qntd
+
+    def __calcular_quantidade_minitrilho(self):
+        """Calcula a quantidade de minitrilho."""
+        pass
+
+    def __calcular_quantidade_perfil(self) -> int:
+        """Calcula a quantidade de perfil."""
+        
+        numero_placas = sum(self.filas)
+        produto = None
+        qntd = 0
+
+        if self.orientacao == Orientacao.Paisagem:
+            qntd = 2 * numero_placas
+        elif self.orientacao == Orientacao.Retrato:
+            qntd = numero_placas
+
+        self.__adicionar_item(produto, qntd)
+        return qntd
+
+    def __calcular_quantidade_kit_fixacao(self):
+        """Calcula a quantidade necessária de kits de fixação."""
+        
+        produto = None
 
 
 montador_kit = MontadorKit(
     altura=Altura._35mm,
     telhado=Telhado.T1,
-    distancia_ancoragens=80,
+    distancia_ancoragens=DistanciaAncoragem._80cm,
     filas=[4, 3, 3],
     orientacao=Orientacao.Paisagem,
 )
