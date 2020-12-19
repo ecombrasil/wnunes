@@ -118,10 +118,20 @@ class MontarKitFormulario(LoggedOnly, View):
         return render(request, self.template_name)
 
     def post(self, request):
-        # sanitize form and init MontarKit class
+        # sanitize form
         
         return render(request, self.template_name)
 
+class MontarKitFilas(LoggedOnly, View):
+    template_name = 'montar-kit/filas.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        # sanitize form and init MontarKit class
+        
+        return render(request, self.template_name)
 
 class MontarKitConfirmar(LoggedOnly, View):
     template_name = 'montar-kit/confirmar.html'

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Monte seu kit{% endblock %}
+
+{% block content %}
+<form action="" method="post" id="montar-kit-form">
+  <h1 class="form-title">Montar kit</h1>
+  <p class="form-description">Nos ítens abaixo, selecione as opções que mais se adequem às suas necessidades.</p>
+
+  <div class="fields-wrapper">
+    <!--ALTURA-->
+    <div class="form-field">
+      <label class="field-label">Altura</label>
+      <div class="label-cleaner"></div>
+
+      <div class="option-wrapper">
+        <input type="radio" name="altura" value="35" class="radio-input" checked>
+        <label class="option-label">35mm</label>
+      </div>
+      <div class="option-wrapper">
+        <input type="radio" name="altura" value="40" class="radio-input">
+        <label class="option-label">40mm</label>
+      </div>
+    </div>
+    <!--TELHADO-->
+    <div class="form-field">
+      <label class="field-label">Tipo de telhado</label>
+      <div class="label-cleaner"></div>
+
+      <select name="altura" class="select-field" id="telhado">
+        <option value="T1">Cerâmico</option>
+        <option value="T2">Fibrocimento</option>
+        <option value="T3">Shingle</option>
+        <option value="T4">Metálico trapezoidal</option>
+        <option value="T5">Metálico trapezoidal mini trilho baixo</option>
+        <option value="T6">Metálico trapezoidal mini trilho alto</option>
+        <option value="T7">Metálico perfil corrido baixo</option>
+        <option value="T8">Metálico perfil corrido alto</option>
+      </select>
+    </div>
+    <!--DISTÂNCIA ANCORAGENS-->
+    <div class="form-field" id="distancia-ancoragens-field">
+      <label class="field-label">Distância entre ancoragens</label>
+      <div class="label-cleaner"></div>
+
+      <select name="distancia_ancoragens" class="select-field">
+        <option value="60">60cm</option>
+        <option value="80">80cm</option>
+        <option value="100">100cm</option>
+        <option value="120">120cm</option>
+        <option value="130">130cm</option>
+        <option value="150">150cm</option>
+        <option value="180">180cm</option>
+        <option value="200">200cm</option>
+      </select>
+    </div>
+  </div>
+</form>
+{% endblock %}

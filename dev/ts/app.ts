@@ -8,6 +8,7 @@ import CarrinhoPage from './carrinho.page';
 import ProdutoPage from './produto.page';
 import KitPage from './kit.page';
 import CriarContaPage from './criar-conta.page';
+import MontarKitPage from './montar-kit';
 
 @Main
 class App {
@@ -16,6 +17,7 @@ class App {
     CatalogoPage,
     ProdutoPage,
     KitPage,
+    MontarKitPage,
     CarrinhoPage,
     CriarContaPage
   ];

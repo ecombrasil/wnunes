@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from lets_debug import terminal
 from .models import (
     Produto,
@@ -56,10 +56,9 @@ class MontadorKit:
     itens = []
     pedido = None
 
-    def __init__(self, altura: int, telhado: str, distancia_ancoragens: int, filas: List[int], orientacao: str):
+    def __init__(self, altura: int, telhado: str, distancia_ancoragens: int, filas: List[Dict]):
         self.altura = altura
         self.telhado = telhado
-        self.orientacao = orientacao
         self.distancia_ancoragens = distancia_ancoragens
         self.filas = filas
         self.minitrilho = minitrilho
@@ -69,14 +68,14 @@ class MontadorKit:
 
         # Cálculos padrão para todos os kits
 
-        self.__calcular_kit_lateral()
-        self.__calcular_kit_interno()
+        calculo_lateral = self.__calcular_kit_lateral()
+        calculo_interno = self.__calcular_kit_interno()
 
         # Cálculos mini trilho (retorna)
 
         if (self.telhado == Telhado.MetalicoTrapezoidalMiniTrilhoAlto or
             self.telhado == Telhado.MetalicoTrapezoidalMiniTrilhoBaixo):
-            self.__calcular_quantidade_minitrilho()
+            self.__calcular_quantidade_minitrilho(calculo_lateral, calculo_interno)
             return
 
         # Cálculos perfil
@@ -114,9 +113,10 @@ class MontadorKit:
     def criar_pedido(self):
         """Registra o kit no banco de dados."""
         
-        self.__registrar_items()
         self.pedido = KitPersonalizado()
         self.pedido.save()
+
+        self.__registrar_items()
         self.pedido.itens.add(...self.itens)
 
     def __adicionar_item(self, produto: Produto, qntd: int):
@@ -163,9 +163,15 @@ class MontadorKit:
         self.__adicionar_item(produto, qntd)
         return qntd
 
-    def __calcular_quantidade_minitrilho(self):
+    def __calcular_quantidade_minitrilho(self, qntd_lateral, qntd_minitrilho):
         """Calcula a quantidade de minitrilho."""
-        pass
+
+        qntd = qntd_lateral + qntd_minitrilho
+        produto = None
+
+        # Não sei qual(is) produto(s) selecionar
+
+        self.__adicionar_item(produto, qntd)
 
     def __calcular_quantidade_perfil(self) -> int:
         """Calcula a quantidade de perfil."""
@@ -190,8 +196,16 @@ class MontadorKit:
 
 montador_kit = MontadorKit(
     altura=Altura._35mm,
-    telhado=Telhado.T1,
+    telhado=Telhado.Ceramico,
     distancia_ancoragens=DistanciaAncoragem._80cm,
-    filas=[4, 3, 3],
-    orientacao=Orientacao.Paisagem,
+    filas=[
+        {
+            'qntd_placas': 10,
+            'orientacao': Orientacao.Retrato
+        },
+        {
+            'qntd_placas': 2,
+            'orientacao': Orientacao.Paisagem
+        }
+    ]
 )
