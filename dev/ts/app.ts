@@ -30,7 +30,7 @@ class App {
     // Avoid images from getting dragged by the user
     document.body.ondragstart = () => false;
 
-    // Enable elements with the atribute clickAndGo to open links by clicking them
+    // Enable elements with the attribute clickAndGo to open links by clicking them
     handleBindingAttr('clickAndGo', (element, value) =>
       element.addEventListener('click', () => window.location.href = value)
     );

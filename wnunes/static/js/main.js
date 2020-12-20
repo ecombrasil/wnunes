@@ -32,7 +32,7 @@ let App = class App {
     addListeners() {
         // Avoid images from getting dragged by the user
         document.body.ondragstart = () => false;
-        // Enable elements with the atribute clickAndGo to open links by clicking them
+        // Enable elements with the attribute clickAndGo to open links by clicking them
         easy_coding_1.handleBindingAttr('clickAndGo', (element, value) => element.addEventListener('click', () => window.location.href = value));
     }
 };
@@ -427,20 +427,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const easy_coding_1 = require("easy-coding");
 const page_1 = require("./page");
 let MontarKitPage = class MontarKitPage {
     constructor() {
         this.addListeners();
     }
+    /**
+     * Adds the proper event listeners to the document.
+     */
     addListeners() {
-        this.toggleDistanciaAncoragens();
-        this.addFilaField();
+        this.toggleDistanceField();
+        this.addRowField();
     }
+    /**
+     * Toggles the display of an element.
+     *
+     * @param {HTMLElement} element Element to be toggled.
+     * @param {boolean} boolean Optional boolean used to force the element to be displayed.
+     * @param {string} displayAs Display type. Can be anyone of the acceptable values for the
+     * CSS property `display` (except for `"none"`).
+     */
     toggleElement(element, boolean = true, displayAs = 'block') {
         element.style.display = boolean ? displayAs : 'none';
     }
-    toggleDistanciaAncoragens() {
+    /**
+     * Adds the proper listener for toggling the distance between achorages field
+     * according to the roof type chosen by the user.
+     */
+    toggleDistanceField() {
         const inputTelhado = document.querySelector('#telhado');
         const fieldDistanciaAncoragens = document.querySelector('#distancia-ancoragens-field');
         inputTelhado === null || inputTelhado === void 0 ? void 0 : inputTelhado.addEventListener('change', () => {
@@ -448,13 +462,16 @@ let MontarKitPage = class MontarKitPage {
             this.toggleElement(fieldDistanciaAncoragens, isMiniTrilho);
         });
     }
-    addFilaField() {
-        const addFilaBtn = document.querySelector('#add-fila-btn');
-        addFilaBtn === null || addFilaBtn === void 0 ? void 0 : addFilaBtn.addEventListener('click', () => easy_coding_1.createElement('div', {
-            classes: ['form-field', 'fila-field'],
-            content: ``,
-            childOf: document.querySelector('.fields-wrapper')
-        }));
+    /**
+     * Adds the proper listeners for adding a new row field to the view.
+     */
+    addRowField() {
+        var _a;
+        const wrapper = document.querySelector('.fields-wrapper');
+        const template = document.querySelector('#fila');
+        const addRow = () => wrapper.appendChild(template.content.cloneNode(true));
+        document.addEventListener('DOMContentLoaded', addRow);
+        (_a = document.querySelector('#add-fila-btn')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', addRow);
     }
 };
 MontarKitPage = __decorate([
@@ -462,7 +479,7 @@ MontarKitPage = __decorate([
 ], MontarKitPage);
 exports.default = MontarKitPage;
 
-},{"./page":9,"easy-coding":15}],9:[function(require,module,exports){
+},{"./page":9}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
