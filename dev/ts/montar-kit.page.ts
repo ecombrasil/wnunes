@@ -1,6 +1,6 @@
 import Page from './page';
 
-@Page('/montar-kit*')
+@Page('/montar-kit')
 export default class MontarKitPage {
   constructor() {
     this.addListeners();
@@ -11,7 +11,7 @@ export default class MontarKitPage {
    */
   private addListeners(): void {
     this.toggleDistanceField();
-    this.addRowField();
+    this.sendForm();
   }
 
   /**
@@ -41,14 +41,12 @@ export default class MontarKitPage {
   }
 
   /**
-   * Adds the proper listeners for adding a new row field to the view.
+   * Adds the proper listener for sending the form after clicking its submit button.
    */
-  private addRowField(): void {
-    const wrapper = document.querySelector('.fields-wrapper');
-    const template = document.querySelector('#fila') as HTMLTemplateElement;
-    const addRow = () => wrapper.appendChild(template.content.cloneNode(true));
+  private sendForm(): void {
+    const form = document.querySelector('#montar-kit-form') as HTMLFormElement;
+    const submitBtn = document.querySelector('.primary-btn');
 
-    document.addEventListener('DOMContentLoaded', addRow);
-    document.querySelector('#add-fila-btn')?.addEventListener('click', addRow);
+    submitBtn.addEventListener('click', () => form.submit());
   }
 }

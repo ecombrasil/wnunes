@@ -8,7 +8,7 @@ interface PageOptions {
   globalInstance?: true;
   /**
    * When `true`, it is not necessary to wait for the event `"mainComponentLoaded"`
-   * to inialize the instance. It is useful when dealing with an application
+   * to initialize the instance. It is useful when dealing with an application
    * that does not use the decorator `Main` in a class or when it does not matter
    * if the instance is created before an instance for the main class of the
    * application.

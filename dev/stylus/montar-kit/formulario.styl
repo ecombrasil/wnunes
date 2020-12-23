@@ -73,14 +73,25 @@
               text-align center
 
         .fila-actions
-          flex-parent(row, wrap, flex-start)
+          flex-basis 10em
+          flex-parent(row, wrap, flex-end)
           align-items center
           margin-left auto
 
           .action-delete
-            set-square-size(2em)
-            border-radius(.25em)
-            background-color rgba(#dc3545, .25)
+            flex-parent(row, nowrap, center)
+            align-items center
+            set-square-size(4.25em)
+            border-radius(.5em)
+            transition(300ms)
+            background-color rgba(#dc3545, .15)
+            cursor pointer
+
+            &:hover
+              background-color rgba(#dc3545, .3)
+
+            .delete-icon
+              set-square-size(2em)
 
       &#distancia-ancoragens-field
         display none
@@ -124,21 +135,37 @@
           font-weight 600
           margin-left 1.5em
 
-#add-fila-btn
-  width 20em
-  margin-top 6em
-  padding-top 1.6em
-  padding-bottom 1.6em
-  border-radius(1.2em)
-  background-color rgba(text-color, .05)
-  transition(400ms)
-  cursor pointer
+.form-footer-wrapper
+  flex-parent(row, nowrap, flex-start)
+  margin-top 8em
 
-  p
-    width 100%
-    font-size 1.75em
-    font-weight 600
-    text-align center
+  .form-footer-btn
+    width 20em
+    padding-top 1.6em
+    padding-bottom 1.6em
+    border-radius(1.2em)
+    transition(400ms)
+    cursor pointer
 
-  &:hover
-    background-color rgba(text-color, .1)
+    &.option-btn
+      background-color rgba(text-color, .05)
+
+      &:not(:last-child)
+        margin-right 2em
+
+      &:hover
+        background-color rgba(text-color, .1)
+
+    &.primary-btn
+      margin-left auto
+      color reversed-text-color
+      background-color theme-color
+
+      &:hover
+        box-shadow(0px 10px 20px 0px rgba(theme-color, .3))
+
+    p
+      width 100%
+      font-size 1.75em
+      font-weight 600
+      text-align center

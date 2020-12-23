@@ -12,9 +12,31 @@ from .models import (
     BlogPost,
     AvaliacaoCliente,
 )
-from .forms import CriarContaForm, ContatoMontarKit
+from .forms import (
+    CriarContaForm,
+    ContatoMontarKit,
+    MontarKitForm
+)
+from lets_debug import terminal
 import json
 
+
+### Testes
+
+class ErrorTrigger:
+    @staticmethod
+    def bad_request(request):
+        from django.core.exceptions import SuspiciousOperation
+        raise SuspiciousOperation
+
+    @staticmethod
+    def forbidden(request):
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied
+
+    @staticmethod
+    def server_error(request):
+        raise TypeError
 
 ### Compartilhado
 
@@ -117,21 +139,17 @@ class MontarKitFormulario(LoggedOnly, View):
     def get(self, request):
         return render(request, self.template_name)
 
-    def post(self, request):
-        # sanitize form
-        
-        return render(request, self.template_name)
-
 class MontarKitFilas(LoggedOnly, View):
     template_name = 'montar-kit/filas.html'
 
-    def get(self, request):
-        return render(request, self.template_name)
-
     def post(self, request):
-        # sanitize form and init MontarKit class
-        
-        return render(request, self.template_name)
+        form = MontarKitForm(request.POST)
+        if form.is_valid():
+            return render(request, self.template_name, {
+                'previous_data': form.cleaned_data
+            })
+
+        ErrorTrigger.bad_request()
 
 class MontarKitConfirmar(LoggedOnly, View):
     template_name = 'montar-kit/confirmar.html'
@@ -216,23 +234,6 @@ class Sair(View):
         if request.user.is_authenticated:
             logout(request)
         return redirect('entrar')
-
-### Testes
-
-class ErrorTrigger:
-    @staticmethod
-    def bad_request(request):
-        from django.core.exceptions import SuspiciousOperation
-        raise SuspiciousOperation
-
-    @staticmethod
-    def forbidden(request):
-        from django.core.exceptions import PermissionDenied
-        raise PermissionDenied
-
-    @staticmethod
-    def server_error(request):
-        raise TypeError
 
 ### Manipular erros
 

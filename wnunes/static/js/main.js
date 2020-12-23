@@ -15,7 +15,8 @@ const carrinho_page_1 = require("./carrinho.page");
 const produto_page_1 = require("./produto.page");
 const kit_page_1 = require("./kit.page");
 const criar_conta_page_1 = require("./criar-conta.page");
-const montar_kit_1 = require("./montar-kit");
+const montar_kit_page_1 = require("./montar-kit.page");
+const montar_kit_filas_page_1 = require("./montar-kit-filas.page");
 let App = class App {
     constructor() {
         this.pages = [
@@ -23,7 +24,8 @@ let App = class App {
             catalogo_page_1.default,
             produto_page_1.default,
             kit_page_1.default,
-            montar_kit_1.default,
+            montar_kit_page_1.default,
+            montar_kit_filas_page_1.default,
             carrinho_page_1.default,
             criar_conta_page_1.default
         ];
@@ -40,7 +42,7 @@ App = __decorate([
     main_1.default
 ], App);
 
-},{"./carrinho.page":2,"./catalogo.page":3,"./criar-conta.page":4,"./inicio.page":5,"./kit.page":6,"./main":7,"./montar-kit":8,"./produto.page":10,"easy-coding":15}],2:[function(require,module,exports){
+},{"./carrinho.page":2,"./catalogo.page":3,"./criar-conta.page":4,"./inicio.page":5,"./kit.page":6,"./main":7,"./montar-kit-filas.page":8,"./montar-kit.page":9,"./produto.page":11,"easy-coding":16}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -140,7 +142,7 @@ CarrinhoPage = __decorate([
 ], CarrinhoPage);
 exports.default = CarrinhoPage;
 
-},{"./page":9,"easy-coding":15,"http-service-ts":16}],3:[function(require,module,exports){
+},{"./page":10,"easy-coding":16,"http-service-ts":17}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -285,7 +287,7 @@ CatalogoPage = __decorate([
 ], CatalogoPage);
 exports.default = CatalogoPage;
 
-},{"./page":9,"easy-coding":15}],4:[function(require,module,exports){
+},{"./page":10,"easy-coding":16}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -310,7 +312,7 @@ CriarContaPage = __decorate([
 ], CriarContaPage);
 exports.default = CriarContaPage;
 
-},{"./page":9}],5:[function(require,module,exports){
+},{"./page":10}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -371,7 +373,7 @@ InicioPage = __decorate([
 ], InicioPage);
 exports.default = InicioPage;
 
-},{"./page":9}],6:[function(require,module,exports){
+},{"./page":10}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -399,7 +401,7 @@ KitPage = __decorate([
 ], KitPage);
 exports.default = KitPage;
 
-},{"./page":9,"./utils":11}],7:[function(require,module,exports){
+},{"./page":10,"./utils":12}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -427,6 +429,76 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const easy_coding_1 = require("easy-coding");
+const page_1 = require("./page");
+let MontarKitFilasPage = class MontarKitFilasPage {
+    constructor() {
+        this.addListeners();
+    }
+    /**
+     * Adds the proper event listeners to the document.
+     */
+    addListeners() {
+        this.addRowField();
+    }
+    /**
+     * Adds the proper listeners for adding a new row field to the view and for
+     * deleting it too.
+     */
+    addRowField() {
+        var _a;
+        document.addEventListener('DOMContentLoaded', () => this.createRowField());
+        (_a = document.querySelector('#add-fila-btn')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => this.createRowField());
+    }
+    /**
+     * Creates a new row field.
+     */
+    createRowField() {
+        const element = easy_coding_1.createElement('div', {
+            classes: ['form-field', 'fila-field'],
+            content: `
+        <div class="fila-drawning"></div>
+        <div class="fila-options">
+          <div class="wrapper">
+            <div class="fila-input-wrapper">
+              <label>Quantidade de placas:</label>
+              <input type="number" value="1" name="qntd_placas">
+            </div>
+            <div class="fila-input-wrapper">
+              <label>Orientação:</label>
+              <select name="orientacao" class="select-field">
+                <option value="P" selected>Paisagem</option>
+                <option value="R">Retrato</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="fila-actions">
+          <div class="action-delete" title="Remover fila">
+            <img src="/static/img/red-trash.png" alt="Remover fila" class="delete-icon">
+          </div>
+        </div>
+      `,
+            childOf: document.querySelector('.fields-wrapper')
+        });
+        const deleteBtn = element.querySelector('.action-delete');
+        deleteBtn.addEventListener('click', () => element.remove());
+    }
+};
+MontarKitFilasPage = __decorate([
+    page_1.default('/montar-kit/filas')
+], MontarKitFilasPage);
+exports.default = MontarKitFilasPage;
+
+},{"./page":10,"easy-coding":16}],9:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 const page_1 = require("./page");
 let MontarKitPage = class MontarKitPage {
     constructor() {
@@ -437,7 +509,7 @@ let MontarKitPage = class MontarKitPage {
      */
     addListeners() {
         this.toggleDistanceField();
-        this.addRowField();
+        this.sendForm();
     }
     /**
      * Toggles the display of an element.
@@ -463,23 +535,20 @@ let MontarKitPage = class MontarKitPage {
         });
     }
     /**
-     * Adds the proper listeners for adding a new row field to the view.
+     * Adds the proper listener for sending the form after clicking its submit button.
      */
-    addRowField() {
-        var _a;
-        const wrapper = document.querySelector('.fields-wrapper');
-        const template = document.querySelector('#fila');
-        const addRow = () => wrapper.appendChild(template.content.cloneNode(true));
-        document.addEventListener('DOMContentLoaded', addRow);
-        (_a = document.querySelector('#add-fila-btn')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', addRow);
+    sendForm() {
+        const form = document.querySelector('#montar-kit-form');
+        const submitBtn = document.querySelector('.primary-btn');
+        submitBtn.addEventListener('click', () => form.submit());
     }
 };
 MontarKitPage = __decorate([
-    page_1.default('/montar-kit*')
+    page_1.default('/montar-kit')
 ], MontarKitPage);
 exports.default = MontarKitPage;
 
-},{"./page":9}],9:[function(require,module,exports){
+},{"./page":10}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -530,7 +599,7 @@ const Page = (route, options) => (type) => {
 };
 exports.default = Page;
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -595,7 +664,7 @@ ProdutoPage = __decorate([
 ], ProdutoPage);
 exports.default = ProdutoPage;
 
-},{"./page":9}],11:[function(require,module,exports){
+},{"./page":10}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.replaceLast = void 0;
@@ -616,7 +685,7 @@ function replaceLast(find, replace, string) {
 }
 exports.replaceLast = replaceLast;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
@@ -655,7 +724,7 @@ class Cookies {
 }
 exports.Cookies = Cookies;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
@@ -665,7 +734,7 @@ exports.Global = void 0;
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.addGlobalEntries = exports.handleBindingAttr = exports.createElement = void 0;
@@ -773,7 +842,7 @@ exports.randomDateBetween = (date1, date2) => {
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -790,7 +859,7 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":12,"./decorators":13,"./functions":14}],16:[function(require,module,exports){
+},{"./classes":13,"./decorators":14,"./functions":15}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const service_1 = require("./service");
@@ -798,7 +867,7 @@ exports.Service = service_1.default;
 const request_parser_1 = require("./request.parser");
 exports.RequestParser = request_parser_1.default;
 
-},{"./request.parser":17,"./service":18}],17:[function(require,module,exports){
+},{"./request.parser":18,"./service":19}],18:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -915,7 +984,7 @@ class RequestParser {
 }
 exports.default = RequestParser;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const request_parser_1 = require("./request.parser");
@@ -979,4 +1048,4 @@ class Service extends request_parser_1.default {
 }
 exports.default = Service;
 
-},{"./request.parser":17}]},{},[1]);
+},{"./request.parser":18}]},{},[1]);

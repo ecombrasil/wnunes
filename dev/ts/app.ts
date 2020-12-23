@@ -8,7 +8,8 @@ import CarrinhoPage from './carrinho.page';
 import ProdutoPage from './produto.page';
 import KitPage from './kit.page';
 import CriarContaPage from './criar-conta.page';
-import MontarKitPage from './montar-kit';
+import MontarKitPage from './montar-kit.page';
+import MontarKitFilasPage from './montar-kit-filas.page';
 
 @Main
 class App {
@@ -18,6 +19,7 @@ class App {
     ProdutoPage,
     KitPage,
     MontarKitPage,
+    MontarKitFilasPage,
     CarrinhoPage,
     CriarContaPage
   ];

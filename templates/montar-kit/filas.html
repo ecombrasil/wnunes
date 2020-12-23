@@ -3,35 +3,22 @@
 {% block title %}Monte seu kit{% endblock %}
 
 {% block content %}
-<div id="montar-kit-form">
+<form action="" method="post" id="montar-kit-form">
   <h1 class="form-title">Selecionar filas</h1>
   <p class="form-description">Abaixo, você pode inserir múltiplas filas, determinando a orientação e a quantidade de placas para cada uma.</p>
 
   <div class="fields-wrapper"></div>
-  <div id="add-fila-btn"><p>Adicionar fila</p></div>
-</div>
-
-<template id="fila">
-  <div class="form-field fila-field">
-    <div class="fila-drawning"></div>
-    <div class="fila-options">
-      <div class="wrapper">
-        <div class="fila-input-wrapper">
-          <label>Quantidade de placas:</label>
-          <input type="number" value="1" name="qntd_placas">
-        </div>
-        <div class="fila-input-wrapper">
-          <label>Orientação:</label>
-          <select name="orientacao" class="select-field">
-            <option value="P" selected>Paisagem</option>
-            <option value="R">Retrato</option>
-          </select>
-        </div>
-      </div>
+  <div class="form-footer-wrapper">
+    <div class="form-footer-btn option-btn" id="add-fila-btn">
+      <p>Adicionar fila</p>
     </div>
-    <div class="fila-actions">
-      <div class="action-delete"></div>
+    <div class="form-footer-btn primary-btn">
+      <p>Continuar</p>
     </div>
   </div>
-</template>
+
+  <input type="hidden" name="data">
+</form>
+{% load my_filters %}
+<script type="application/json" id="previous-data">{{ previous_data|json }}</script>
 {% endblock %}

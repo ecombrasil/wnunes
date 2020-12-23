@@ -47,15 +47,9 @@ class MontarKitForm(forms.Form):
         (200, '200cm',),
     )
 
-    ORIENTACAO = (
-        ('P', 'Paisagem',),
-        ('R', 'Retrato',),
-    )
-
     altura = forms.ChoiceField(choices=ALTURA, required=True)
     telhado = forms.ChoiceField(choices=TELHADO, required=True)
-    distancia_ancoragem = forms.ChoiceField(choices=DISTANCIA_ANCORAGEM, required=False)
-    orientacao = forms.ChoiceField(choices=ORIENTACAO, required=True)
+    distancia_ancoragens = forms.ChoiceField(choices=DISTANCIA_ANCORAGEM, required=False)
 
 class ContatoMontarKit(forms.Form):
     email = forms.EmailField(required=False)

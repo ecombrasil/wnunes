@@ -3,7 +3,8 @@
 {% block title %}Monte seu kit{% endblock %}
 
 {% block content %}
-<form action="" method="post" id="montar-kit-form">
+<form action="{% url 'montar_kit_filas' %}" method="post" id="montar-kit-form">
+  {% csrf_token %}
   <h1 class="form-title">Montar kit</h1>
   <p class="form-description">Nos ítens abaixo, selecione as opções que mais se adequem às suas necessidades.</p>
 
@@ -27,7 +28,7 @@
       <label class="field-label">Tipo de telhado</label>
       <div class="label-cleaner"></div>
 
-      <select name="altura" class="select-field" id="telhado">
+      <select name="telhado" class="select-field" id="telhado">
         <option value="T1">Cerâmico</option>
         <option value="T2">Fibrocimento</option>
         <option value="T3">Shingle</option>
@@ -53,6 +54,12 @@
         <option value="180">180cm</option>
         <option value="200">200cm</option>
       </select>
+    </div>
+  </div>
+
+  <div class="form-footer-wrapper">
+    <div class="form-footer-btn primary-btn">
+      <p>Continuar</p>
     </div>
   </div>
 </form>
