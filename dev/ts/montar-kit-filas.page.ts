@@ -83,8 +83,7 @@ export default class MontarKitFilasPage {
       const dataField = form.querySelector('[name="data"]') as HTMLInputElement;
 
       dataField.value = JSON.stringify(data);
-      console.log(data);
-      //form.submit();
+      form.submit();
     })
   }
 }

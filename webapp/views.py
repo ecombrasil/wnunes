@@ -25,17 +25,17 @@ import json
 
 class ErrorTrigger:
     @staticmethod
-    def bad_request(request):
+    def bad_request():
         from django.core.exceptions import SuspiciousOperation
         raise SuspiciousOperation
 
     @staticmethod
-    def forbidden(request):
+    def forbidden():
         from django.core.exceptions import PermissionDenied
         raise PermissionDenied
 
     @staticmethod
-    def server_error(request):
+    def server_error():
         raise TypeError
 
 ### Compartilhado
@@ -145,8 +145,9 @@ class MontarKitFilas(LoggedOnly, View):
     def post(self, request):
         form = MontarKitForm(request.POST)
         if form.is_valid():
+            form.sanitize()
             return render(request, self.template_name, {
-                'previous_data': form.cleaned_data
+                'previous_data': json.dumps(form.cleaned_data)
             })
 
         ErrorTrigger.bad_request()

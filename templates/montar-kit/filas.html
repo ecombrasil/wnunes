@@ -3,7 +3,9 @@
 {% block title %}Monte seu kit{% endblock %}
 
 {% block content %}
+<!--Formulário-->
 <form action="" method="post" id="montar-kit-form">
+  {% csrf_token %}
   <h1 class="form-title">Selecionar filas</h1>
   <p class="form-description">Abaixo, você pode inserir múltiplas filas, determinando a orientação e a quantidade de placas para cada uma.</p>
 
@@ -19,6 +21,7 @@
 
   <input type="hidden" name="data">
 </form>
-{% load my_filters %}
-<script type="application/json" id="previous-data">{{ previous_data|json }}</script>
+
+<!--Dados do formulário anterior-->
+<script type="application/json" id="previous-data">{{ previous_data|safe }}</script>
 {% endblock %}

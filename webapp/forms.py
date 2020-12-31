@@ -51,6 +51,13 @@ class MontarKitForm(forms.Form):
     telhado = forms.ChoiceField(choices=TELHADO, required=True)
     distancia_ancoragens = forms.ChoiceField(choices=DISTANCIA_ANCORAGEM, required=False)
 
+    def sanitize(self):
+        self.to_int(['altura', 'distancia_ancoragens'])
+
+    def to_int(self, keys = []):
+        for key in keys:
+            self.cleaned_data[key] = int(self.cleaned_data[key])
+
 class ContatoMontarKit(forms.Form):
     email = forms.EmailField(required=False)
     whatsapp = forms.CharField(max_length=20, required=False)
