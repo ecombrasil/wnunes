@@ -9,7 +9,7 @@
 
     <form method="POST" class="login-form">
       {% csrf_token %}
-      <input type="email" name="email" placeholder="Email" required class="login-field">
+      <input type="email" name="email" placeholder="Email" value="{{ email }}" required class="login-field">
       <input type="password" name="senha" placeholder="Senha" required class="login-field">
       <input type="hidden" name="next" value="{{ next }}">
       {% if error %}

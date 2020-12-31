@@ -115,8 +115,11 @@ class AdicionarCarrinho(LoggedUserView):
 
 class Entrar(View):
     def get(self, request):
-        proxima_pagina = request.GET.get('next')
-        return render(request, 'entrar.html', { 'error': False, 'next': proxima_pagina })
+        return render(request, 'entrar.html', {
+            'email': '',
+            'error': False,
+            'next': request.GET.get('next')
+        })
 
     def post(self, request):
         email = request.POST['email']
@@ -130,7 +133,11 @@ class Entrar(View):
                 return redirect(proxima_pagina)
             return redirect('inicio')
         else:
-            return render(request, 'entrar.html', { 'error': True, 'next': proxima_pagina })
+            return render(request, 'entrar.html', {
+                'email': email,
+                'error': True,
+                'next': proxima_pagina
+            })
 
 class CriarConta(View):
     def get(self, request):
