@@ -9,14 +9,13 @@
     <form method="POST" class="login-form">
       {% csrf_token %}
 
-      {{ form.nome }}<br>
+      {{ form.nome_completo }}<br>
       <label class="label">Pessoa jurídica?</label>
       {{ form.is_pessoa_juridica }}
       <div class="uf-wrapper">
         <p class="label">UF da sede:</p>
         {{ form.uf }}
       </div>
-      {{ form.sobrenome }}
       {{ form.cpf }}
       {{ form.email }}
       {{ form.senha }}

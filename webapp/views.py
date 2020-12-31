@@ -141,15 +141,13 @@ class CriarConta(View):
         
         if form.is_valid():
             # Pega os campos do formulário
-            nome = form.cleaned_data['nome']
-            sobrenome = form.cleaned_data['sobrenome']
+            nome = form.cleaned_data['nome_completo']
             cpf = form.cleaned_data['cpf']
             email = form.cleaned_data['email']
             senha = form.cleaned_data['senha']
             # Cria o novo usuário
             usuario = User.objects.create_user(email, senha)
             usuario.first_name = nome
-            usuario.last_name = sobrenome
             usuario.cpf = cpf
             usuario.save()
             # Autentica o usuário
