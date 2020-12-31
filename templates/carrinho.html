@@ -37,8 +37,8 @@
       <div class="item-info-wrapper">
         <h2 class="cart-item-name"><a href="{% url 'kit' pk=item.kit.pk %}">{{ item.kit }}</a></h2>
         <div class="item-details-wrapper">
-          <p class="cart-item-preco">R$ {{ item.get_valor_total }}</p>
-          <p class="cart-item-qntd">1 unidade</p>
+          <p class="cart-item-preco">R$ {{ item.kit.get_valor_total }}</p>
+          <p class="cart-item-qntd">{{ item.qntd }} unidade{% if item.qntd > 1 %}s{% endif %}</p>
           <div class="cart-item-options">
             <div class="cart-item-option-btn"><span class="option-text-content disabled-item-option">-</span></div>
             <div class="cart-item-option-btn"><span class="option-text-content">+</span></div>

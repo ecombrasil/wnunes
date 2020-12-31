@@ -139,8 +139,8 @@ let CarrinhoPage = class CarrinhoPage {
         return totalPrice;
     }
     updateCartPrice() {
-        const price = String(this.calcCartPrice()).replace('.', ',');
-        document.querySelector('#cart-price').textContent = 'R$ ' + price;
+        const formattedPrice = this.calcCartPrice().toFixed(2).replace('.', ',');
+        document.querySelector('#cart-price').textContent = 'R$ ' + formattedPrice;
     }
     toggleButton(button, condition = true) {
         !condition ? button.classList.add('disabled-item-option') : button.classList.remove('disabled-item-option');
@@ -355,7 +355,6 @@ let InicioPage = class InicioPage {
                     break;
                 case 'right':
                     slider.scrollLeft = slider.scrollWidth;
-                    break;
             }
             if (btn)
                 for (const c of controllers)
@@ -577,28 +576,31 @@ exports.replaceLast = replaceLast;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
 /**
- * Basic cookie handler for setting and reading cookies
+ * Cookie handler.
  */
 class Cookies {
     /**
-     * Allows to set a cookie
-     * @param cname {string} Cookie name
-     * @param cvalue {string} Cookie value
-     * @param exdays {string} Cookie duration in days
+     * Sets a cookie.
+     *
+     * @param {string} name Cookie name.
+     * @param {string} value Cookie value.
+     * @param {string} exdays Cookie duration in days.
      */
-    static set(cookieName, value, exdays) {
+    static set(name, value, exdays) {
         const d = new Date();
         d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
         const expires = 'expires=' + d.toUTCString();
-        document.cookie = `${cookieName}=${value};${expires};path=/`;
+        document.cookie = `${name}=${value};${expires};path=/`;
     }
     /**
-     * Returns cookie value
-     * @param cname {string} Cookie name
-     * @returns {string} Value for the given cookie name
+     * Returns the cookie value.
+     *
+     * @param {string} name Cookie name.
+     *
+     * @returns {string} Value for the given cookie name.
      */
-    static get(cookieName) {
-        const name = cookieName + '=';
+    static get(name) {
+        name += '=';
         const ca = document.cookie.split(';');
         for (let c of ca) {
             while (c.charAt(0) === ' ')
@@ -616,8 +618,9 @@ exports.Cookies = Cookies;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
 /**
- * Decorator function that add the given class to `globalThis`
- * @param type {Type} Class that will be added to `globalThis`
+ * Decorator function that adds the given class to `globalThis`.
+ *
+ * @param {Type} type Class to be added to `globalThis`.
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
@@ -626,34 +629,41 @@ exports.Global = (type) => (globalThis[type.name] = type);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.addGlobalEntries = exports.handleBindingAttr = exports.createElement = void 0;
 /**
- * Create a new element with custom options and return it
- * @param tag {keyof HTMLElementTagNameMap} Element tag
- * @param options {NewElementOptions} Options for the new element, such as id, classes and event listeners
- * @returns New HTMLElement
+ * Creates a new element with custom options and returns it.
+ *
+ * @param {keyof HTMLElementTagNameMap} tag Element tag.
+ * @param {NewElementOptions} [options] Options for the new element, such as id, classes and event listeners.
+ *
+ * @returns {HTMLElement} New HTMLElement.
  */
-exports.createElement = (tag, options) => {
-    var _a;
-    const element = document.createElement(tag);
-    const { id, classes, attributes, content, listeners } = options;
+exports.createElement = (tagName, { id, classes, style, attributes, content, listeners, childOf } = {}) => {
+    const element = document.createElement(tagName);
     if (id)
         element.id = id;
     if (classes)
         element.classList.add(...classes);
     if (content)
         element.innerHTML = content;
-    attributes === null || attributes === void 0 ? void 0 : attributes.forEach((arr) => element.setAttribute(arr[0], arr[1]));
+    if (style) {
+        for (const [key, value] of Object.entries(style)) {
+            if (key in element.style)
+                element.style[key] = value;
+        }
+    }
+    attributes === null || attributes === void 0 ? void 0 : attributes.forEach(([key, value]) => element.setAttribute(key, value));
     listeners === null || listeners === void 0 ? void 0 : listeners.forEach((listener) => element.addEventListener(...listener));
-    (_a = options.childOf) === null || _a === void 0 ? void 0 : _a.appendChild(element);
+    childOf === null || childOf === void 0 ? void 0 : childOf.appendChild(element);
     return element;
 };
 /**
- * Get DOM elements with the specified attribute and run a callback
+ * Gets DOM elements with the specified attribute and runs a callback
  * function for each one, passing the element and its attribute value as
- * arguments
- * @param attribute {string} Element attribute
- * @param callback {(element: Element, value: string) => any} Callback function
+ * arguments.
+ *
+ * @param {string} attribute Element attribute.
+ * @param {(element: Element, value: string) => any} callback Callback function
  * that runs for each element with the specified attribute. The element and its
- * attribute value are the arguments for the function
+ * attribute value are the arguments for the function.
  */
 exports.handleBindingAttr = (attribute, callback) => {
     // Get elements instantly generated
@@ -668,10 +678,12 @@ exports.handleBindingAttr = (attribute, callback) => {
         mutations.forEach((mutation) => {
             if (mutation.type === 'childList')
                 mutation.addedNodes.forEach((node) => {
-                    const element = node;
-                    const attr = element.getAttribute(attribute);
-                    if (attr)
-                        callback(element, attr);
+                    if (node instanceof Element) {
+                        const element = node;
+                        const attr = element.getAttribute(attribute);
+                        if (attr)
+                            callback(element, attr);
+                    }
                 });
         });
     }).observe(document, {
@@ -680,38 +692,45 @@ exports.handleBindingAttr = (attribute, callback) => {
     });
 };
 /**
- * Receive an object and add its properties to the `window` object
- * @param set {object} Object with properties that will be added to the `window` object
+ * Receives an object and adds its properties to the `window` object.
+ *
+ * @param {object} set Object with properties that will be added to the `window` object.
  */
-exports.addGlobalEntries = (set) => Object.entries(set).forEach((entry) => (window[entry[0]] = entry[1]));
+exports.addGlobalEntries = (set) => Object.entries(set).forEach(([key, value]) => (window[key] = value));
 /**
- * Add a new property to the `window` object
- * @param key {string} Property name
- * @param value {any} Property value
+ * Adds a new property to the `window` object.
+ *
+ * @param {string} key Property name.
+ * @param {any} value Property value.
  */
 exports.makeGlobal = (key, value) => (window[key] = value);
 /**
- * Return x where `a` is equivalent to `b` and `c` is equivalent to x
+ * Returns x where `a` is equivalent to `b` and `c` is equivalent to x.
  */
 exports.ruleOfThree = (a, b, c) => (b * c) / a;
 /* tslint:disable:no-bitwise */
 /**
- * Return an index value from the given array
- * @param arr {T[]} Any type of array
- * @returns {T} Random index value from the given array
+ * Returns a random value from the given array.
+ *
+ * @param {T[]} arr Any type of array.
+ *
+ * @returns {T} Random index value from the given array.
  */
 exports.getRandomValueFrom = (arr) => arr[~~(Math.random() * arr.length)];
 /* tslint:enable:no-bitwise */
 /**
- * Returns a random number between the two given parameters
- * @param min {number}
- * @param max {number}
- * @returns {number} Random number between min and max
+ * Returns a random number between the two given parameters.
+ *
+ * @param {number} min Minimum value.
+ * @param {number} max Maximum value.
+ *
+ * @returns {number} Random number between min and max.
  */
 exports.randomNumberBetween = (min, max) => Math.random() * (max - min) + min;
 /**
- * Returns random date between two other dates
- * @returns {string} Random date
+ * Returns a random date between two other dates.
+ *
+ * @returns {string} Random date.
  */
 exports.randomDateBetween = (date1, date2) => {
     date1 = date1 || '01-01-1970';
@@ -723,9 +742,11 @@ exports.randomDateBetween = (date1, date2) => {
         : new Date(exports.randomNumberBetween(date1, date2)).toLocaleDateString();
 };
 /**
- * Returns the given string without special chars
- * @param str {string} Initial string
- * @returns {string} The given string without special chars
+ * Returns the given string without special chars.
+ *
+ * @param {string} str Initial string.
+ *
+ * @returns {string} The given string without special chars.
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 

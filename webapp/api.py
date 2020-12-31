@@ -32,8 +32,9 @@ class ItemCarrinhoViewSet(viewsets.ModelViewSet):
         elif item.kit is not None:
             is_disponivel = True
 
-            for produto in item.kit.produtos.all():
-                if not produto.ativo or not produto.qntd_estoque > 0:
+            for kit_item in item.kit.itens.all():
+                qntd_necessaria = qntd * kit_item.qntd
+                if not kit_item.produto.ativo or kit_item.produto.qntd_estoque < qntd_necessaria:
                     is_disponivel = False
                     break
         

@@ -87,7 +87,7 @@ class Carrinho(LoggedUserView):
             elif item.kit is not None:
                 valor_total += item.kit.get_valor_total() * item.qntd
         
-        return render(request, 'carrinho.html', { 'carrinho': itens, 'total': valor_total })
+        return render(request, 'carrinho.html', { 'carrinho': itens, 'total': round(valor_total, 2) })
 
 
 class AdicionarCarrinho(LoggedUserView):

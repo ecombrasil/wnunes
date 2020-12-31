@@ -117,8 +117,8 @@ export default class CarrinhoPage {
   }
 
   private updateCartPrice(): void {
-    const price = String(this.calcCartPrice()).replace('.', ',');
-    document.querySelector('#cart-price').textContent = 'R$ ' + price;
+    const formattedPrice = this.calcCartPrice().toFixed(2).replace('.', ',');
+    document.querySelector('#cart-price').textContent = 'R$ ' + formattedPrice;
   }
 
   private toggleButton(button: HTMLElement, condition: boolean = true): void {
