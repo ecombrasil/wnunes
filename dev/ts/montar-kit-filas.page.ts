@@ -31,7 +31,10 @@ export default class MontarKitFilasPage {
     const element = createElement('div', {
       classes: ['form-field', 'fila-field'],
       content: `
-        <div class="fila-drawning"></div>
+        <div class="fila-drawning">
+          <div class="row-drawning"></div>
+          <div class="row-drawning"></div>
+        </div>
         <div class="fila-options">
           <div class="wrapper">
             <div class="fila-input-wrapper">
@@ -56,7 +59,11 @@ export default class MontarKitFilasPage {
       childOf: document.querySelector('.fields-wrapper')
     });
 
+    const drawning = element.querySelector('.fila-drawning');
+    const orientationSelect = element.querySelector('[name="orientacao"]');
     const deleteBtn = element.querySelector('.action-delete');
+
+    orientationSelect.addEventListener('change', () => drawning.classList.toggle('vertical-display'));
     deleteBtn.addEventListener('click', () => element.remove());
   }
 

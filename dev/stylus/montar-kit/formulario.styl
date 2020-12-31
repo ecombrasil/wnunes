@@ -35,17 +35,33 @@
           margin-bottom 3.5em
 
         .fila-drawning
+          flex-parent(row, wrap, center)
+          align-items center
           margin-right 3em
           border(2px, solid, #ddd)
           border-radius(1.5em)
-          box-sizing border-box
+          box-sizing()
           flex-basis 15em
           height 12em
+
+          .row-drawning
+            flex-basis 3.5em
+            height 50%
+            border(2px, solid, #ccc)
+            box-sizing()
+            background-color darken(theme-color, 30%)
+
+          &.vertical-display
+            flex-direction column
+            flex-wrap nowrap
+            
+            .row-drawning
+              width 2.5em
+              height 45%
 
         .fila-options
           flex-parent(row, wrap, flex-start)
           align-items center
-          //flex-grow 1
 
           .fila-input-wrapper
             flex-parent(row, wrap, flex-start)
