@@ -160,14 +160,27 @@
         opacity .6
 
   #initial-illustration
-    flex-basis 50%
+    flex-square(size)
+      flex-basis size
+      height size
+
+    flex-square(800px)
+
+    @media (max-width 1600px)
+      flex-square(700px)
+
+    @media (max-width 1366px)
+      flex-square(560px)
+
+    @media (max-width 1280px)
+      flex-square(500px)
 
     @media (max-width 900px)
       order 1
       flex-basis 90%
+      height auto
       margin-top -2em
 
     @media (max-width 600px)
-      flex-basis auto
-      height 32em
+      flex-square(32em)
       margin-top -4em
