@@ -14,6 +14,10 @@ interface ModalInit {
    */
   modal: HTMLElement;
   /**
+   * Transition time (in milisseconds).
+   */
+  transition?: number;
+  /**
    * Query selector of the main application wrapper. Default is the documents's body.
    */
   root?: string;
@@ -51,32 +55,49 @@ export default class Modal {
   #modal: HTMLElement;
 
   /**
+   * Transition time.
+   */
+  transition: number = 200;
+
+  /**
    * Main application's element wrapper.
    */
   #root: HTMLElement;
 
-  constructor({ trigger, modal, root, event, eventTarget }: ModalInit) {
+  constructor({ trigger, modal, transition, root, event, eventTarget }: ModalInit) {
+    this.#modal = modal;
     this.#root = document.querySelector(root) ?? document.body;
-    this.#modal = createElement('div', {
-      id: 'modal' + uniqueId(),
-      content: modal.innerHTML,
-      style: {
-        position: 'fixed',
-        zIndex: '9999',
-        top: '0',
-        left: '0',
-        display: 'none',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: '100vh',
-        opacity: '0',
-        backgroundColor: 'rgba(255, 255, 255, .9)'
-      },
-      childOf: this.#root
+
+    if (transition !== null) this.transition = transition;
+
+    this.stylize();
+    this.addListeners({ trigger, event, eventTarget })
+  }
+
+  /**
+   * Merge default modal styles with its inline CSS.
+   */
+  private stylize() {
+    const customStyle = this.#modal.style.cssText;
+    const defaultStyle = {
+      position: 'fixed',
+      zIndex: '9999',
+      top: '0',
+      left: '0',
+      display: 'none',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      height: '100vh',
+      opacity: '0',
+      backgroundColor: 'rgba(245, 245, 245, 0.9)'
+    };
+    
+    Object.entries(defaultStyle).forEach(([key, value]) => {
+      if (key in this.#modal.style) this.#modal.style[key] = value;
     });
 
-    this.addListeners({ trigger, event, eventTarget })
+    this.#modal.style.cssText += customStyle;
   }
 
   /**
@@ -131,7 +152,7 @@ export default class Modal {
    * 
    * @param {number} [time] Animation time in milisseconds.
    */
-  private fadeIn(time = 200): void {
+  private fadeIn(): void {
     let opacity = 0;
 
     this.modalOpacity(opacity);
@@ -144,7 +165,7 @@ export default class Modal {
       } else {
         clearInterval(interval);
       }
-    }, time / 10);
+    }, this.transition / 10);
   }
 
   /**
@@ -152,7 +173,7 @@ export default class Modal {
    * 
    * @param {number} [time] Animation time in milisseconds.
    */
-  private fadeOut(time = 200): void {
+  private fadeOut(): void {
     let opacity = 1;
 
     const interval = setInterval(() => {
@@ -163,7 +184,7 @@ export default class Modal {
         this.modalDisplay('none');
         clearInterval(interval);
       }
-    }, time / 10);
+    }, this.transition / 10);
   }
 
   /**
@@ -217,10 +238,11 @@ export default class Modal {
    */
   private static extractParams(modal: HTMLElement): ModalInit {
     const trigger = document.querySelector(modal.getAttribute('data-trigger')) as HTMLElement;
+    const transition = modal.getAttribute('data-transition') !== null ? +modal.getAttribute('data-transition') : null;
     const event = modal.getAttribute('data-event');
     const root = modal.getAttribute('data-root');
     const eventTarget = modal.getAttribute('data-event-target');
 
-    return { trigger, modal, event, root, eventTarget };
+    return { trigger, modal, transition, event, root, eventTarget };
   }
 }

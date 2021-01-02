@@ -15,8 +15,6 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _modal, _root;
 Object.defineProperty(exports, "__esModule", { value: true });
-const easy_coding_1 = require("easy-coding");
-const utils_1 = require("./utils");
 /**
  * Enables creating a modal in the DOM using pure HTML or JavaScript code.
  *
@@ -35,36 +33,50 @@ const utils_1 = require("./utils");
  * });
  */
 class Modal {
-    constructor({ trigger, modal, root, event, eventTarget }) {
+    constructor({ trigger, modal, transition, root, event, eventTarget }) {
         var _a;
         /**
          * Modal's HTML element.
          */
         _modal.set(this, void 0);
         /**
+         * Transition time.
+         */
+        this.transition = 200;
+        /**
          * Main application's element wrapper.
          */
         _root.set(this, void 0);
+        __classPrivateFieldSet(this, _modal, modal);
         __classPrivateFieldSet(this, _root, (_a = document.querySelector(root)) !== null && _a !== void 0 ? _a : document.body);
-        __classPrivateFieldSet(this, _modal, easy_coding_1.createElement('div', {
-            id: 'modal' + utils_1.uniqueId(),
-            content: modal.innerHTML,
-            style: {
-                position: 'fixed',
-                zIndex: '9999',
-                top: '0',
-                left: '0',
-                display: 'none',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100vh',
-                opacity: '0',
-                backgroundColor: 'rgba(255, 255, 255, .9)'
-            },
-            childOf: __classPrivateFieldGet(this, _root)
-        }));
+        if (transition !== null)
+            this.transition = transition;
+        this.stylize();
         this.addListeners({ trigger, event, eventTarget });
+    }
+    /**
+     * Merge default modal styles with its inline CSS.
+     */
+    stylize() {
+        const customStyle = __classPrivateFieldGet(this, _modal).style.cssText;
+        const defaultStyle = {
+            position: 'fixed',
+            zIndex: '9999',
+            top: '0',
+            left: '0',
+            display: 'none',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: '100vh',
+            opacity: '0',
+            backgroundColor: 'rgba(245, 245, 245, 0.9)'
+        };
+        Object.entries(defaultStyle).forEach(([key, value]) => {
+            if (key in __classPrivateFieldGet(this, _modal).style)
+                __classPrivateFieldGet(this, _modal).style[key] = value;
+        });
+        __classPrivateFieldGet(this, _modal).style.cssText += customStyle;
     }
     /**
      * Add the proper listeners for toggling the modal's display.
@@ -111,7 +123,7 @@ class Modal {
      *
      * @param {number} [time] Animation time in milisseconds.
      */
-    fadeIn(time = 200) {
+    fadeIn() {
         let opacity = 0;
         this.modalOpacity(opacity);
         this.modalDisplay('flex');
@@ -123,14 +135,14 @@ class Modal {
             else {
                 clearInterval(interval);
             }
-        }, time / 10);
+        }, this.transition / 10);
     }
     /**
      * Hides the modal.
      *
      * @param {number} [time] Animation time in milisseconds.
      */
-    fadeOut(time = 200) {
+    fadeOut() {
         let opacity = 1;
         const interval = setInterval(() => {
             if (opacity > 0) {
@@ -141,7 +153,7 @@ class Modal {
                 this.modalDisplay('none');
                 clearInterval(interval);
             }
-        }, time / 10);
+        }, this.transition / 10);
     }
     /**
      * Getter/setter of the modal's display.
@@ -188,16 +200,17 @@ class Modal {
      */
     static extractParams(modal) {
         const trigger = document.querySelector(modal.getAttribute('data-trigger'));
+        const transition = modal.getAttribute('data-transition') !== null ? +modal.getAttribute('data-transition') : null;
         const event = modal.getAttribute('data-event');
         const root = modal.getAttribute('data-root');
         const eventTarget = modal.getAttribute('data-event-target');
-        return { trigger, modal, event, root, eventTarget };
+        return { trigger, modal, transition, event, root, eventTarget };
     }
 }
 exports.default = Modal;
 _modal = new WeakMap(), _root = new WeakMap();
 
-},{"./utils":11,"easy-coding":15}],2:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

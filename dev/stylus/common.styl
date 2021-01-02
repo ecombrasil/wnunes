@@ -163,6 +163,65 @@ main
       margin-top 1.2em
       padding-right 0
 
+.modal-box
+  border-radius(5em)
+  box-shadow(0px 20px 40px 0px rgba(224, 224, 224, 1))
+  background-color #fff
+
+  &#share-modal
+    width 44em
+
+  .modal-head
+    width 100%
+    padding-top 4.5em
+    padding-bottom 2em
+    border-bottom 1px solid #efefef
+
+    .modal-title
+      width 80%
+      margin 0 auto
+      font-size 1.65em
+      font-weight 700
+      text-align center
+
+  .modal-body
+    width calc(100% - 12em)
+    padding 4.5em 6em
+
+    #share-buttons
+      width 100%
+      flex-parent(row, wrap, space-between)
+
+      .share-btn
+        flex-basis 8em
+        cursor pointer
+
+        .share-btn-icon
+          width 80%
+          margin-left 10%
+          margin-bottom 1.25em
+        
+        .share-btn-label
+          width 100%
+          font-size 1.55em
+          font-weight 600
+          text-align center
+
+    #copy-link
+      width calc(100% - 1.1em)
+      margin-top 2.5em
+      padding .6em .75em .5em .75em
+      border-radius(5px)
+      one-line-text()
+      font-size 1.55em
+      color #a7a7a7
+      background-color #f2f2f2
+      cursor pointer
+      transition(300ms)
+
+      &:hover
+        color text-color
+
 @media (max-width 1600px)
   body
     font-size 62%
