@@ -1,5 +1,204 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var _modal, _root;
+Object.defineProperty(exports, "__esModule", { value: true });
+const easy_coding_1 = require("easy-coding");
+const utils_1 = require("./utils");
+/**
+ * Enables creating a modal in the DOM using pure HTML or JavaScript code.
+ *
+ * @example
+ * new Modal({
+ *   trigger: document.querySelector('#my-button'),
+ *   modal: document.querySelector('#my-modal'),
+ *   root: 'main'
+ * });
+ *
+ * @example
+ * new Modal({
+ *   modal: document.querySelector('#my-modal'),
+ *   event: 'DOMContentLoaded',
+ *   eventTarget: 'document'
+ * });
+ */
+class Modal {
+    constructor({ trigger, modal, root, event, eventTarget }) {
+        var _a;
+        /**
+         * Modal's HTML element.
+         */
+        _modal.set(this, void 0);
+        /**
+         * Main application's element wrapper.
+         */
+        _root.set(this, void 0);
+        __classPrivateFieldSet(this, _root, (_a = document.querySelector(root)) !== null && _a !== void 0 ? _a : document.body);
+        __classPrivateFieldSet(this, _modal, easy_coding_1.createElement('div', {
+            id: 'modal' + utils_1.uniqueId(),
+            content: modal.innerHTML,
+            style: {
+                position: 'fixed',
+                zIndex: '9999',
+                top: '0',
+                left: '0',
+                display: 'none',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100vh',
+                opacity: '0',
+                backgroundColor: 'rgba(255, 255, 255, .9)'
+            },
+            childOf: __classPrivateFieldGet(this, _root)
+        }));
+        this.addListeners({ trigger, event, eventTarget });
+    }
+    /**
+     * Add the proper listeners for toggling the modal's display.
+     */
+    addListeners({ trigger, event, eventTarget }) {
+        /*
+          Add a listener for the optional event.
+        */
+        event && (eventTarget ?
+            eventTarget === 'document' ? document : document.querySelector(eventTarget) :
+            window).addEventListener(event, () => this.toggle());
+        /*
+          Add a click listener for the optional trigger button.
+        */
+        trigger === null || trigger === void 0 ? void 0 : trigger.addEventListener('click', () => this.toggle());
+        /*
+          Add a click listener for closing the modal when it is open.
+        */
+        __classPrivateFieldGet(this, _modal).addEventListener('click', (e) => {
+            if (e.target === __classPrivateFieldGet(this, _modal))
+                this.toggle();
+        });
+    }
+    /**
+     * ID of the modal element.
+     *
+     * @public
+     */
+    get id() {
+        return __classPrivateFieldGet(this, _modal).id;
+    }
+    /**
+     * Toggles the modal's display.
+     *
+     * @public
+     */
+    toggle() {
+        const mustShow = this.modalDisplay() === 'none';
+        mustShow ? this.fadeIn() : this.fadeOut();
+        __classPrivateFieldGet(this, _root).style.overflow = mustShow ? 'hidden' : 'auto';
+    }
+    /**
+     * Shows the modal.
+     *
+     * @param {number} [time] Animation time in milisseconds.
+     */
+    fadeIn(time = 200) {
+        let opacity = 0;
+        this.modalOpacity(opacity);
+        this.modalDisplay('flex');
+        const interval = setInterval(() => {
+            if (opacity < 1) {
+                opacity = opacity + 0.1;
+                this.modalOpacity(opacity);
+            }
+            else {
+                clearInterval(interval);
+            }
+        }, time / 10);
+    }
+    /**
+     * Hides the modal.
+     *
+     * @param {number} [time] Animation time in milisseconds.
+     */
+    fadeOut(time = 200) {
+        let opacity = 1;
+        const interval = setInterval(() => {
+            if (opacity > 0) {
+                opacity = opacity - 0.1;
+                this.modalOpacity(opacity);
+            }
+            else {
+                this.modalDisplay('none');
+                clearInterval(interval);
+            }
+        }, time / 10);
+    }
+    /**
+     * Getter/setter of the modal's display.
+     *
+     * @param {string} [value] New value for the modal's display.
+     *
+     * @returns {string}
+     */
+    modalDisplay(value) {
+        return value ? __classPrivateFieldGet(this, _modal).style.display = value : __classPrivateFieldGet(this, _modal).style.display;
+    }
+    /**
+     * Getter/setter of the modal's opacity.
+     *
+     * @param {number|string} [value] New value for the modal's opacity.
+     *
+     * @returns {string}
+     */
+    modalOpacity(value) {
+        return value ? __classPrivateFieldGet(this, _modal).style.opacity = String(value) : __classPrivateFieldGet(this, _modal).style.opacity;
+    }
+    /**
+     * Searches for every Modal element in the page and starts listening to the
+     * events for toggling its display type. Returns all the created instances.
+     *
+     * @param {Partial<ModalInit>} [globalSettings] Parameters to be applied at the
+     * constructor function of every modal.
+     *
+     * @returns {Modal[]} All the created instances.
+     *
+     * @static
+     */
+    static initAll(globalSettings) {
+        const modals = [...document.querySelectorAll('[data-modal]')];
+        return modals.map((modal) => new Modal({ ...this.extractParams(modal), ...globalSettings }));
+    }
+    /**
+     * Extract the modal parameters from its attributes in the DOM
+     * and return them as an `ModalInit` object.
+     *
+     * @param {HTMLElement} modal Modal element in DOM.
+     *
+     * @returns {ModalInit} Object with the modal parameters.
+     */
+    static extractParams(modal) {
+        const trigger = document.querySelector(modal.getAttribute('data-trigger'));
+        const event = modal.getAttribute('data-event');
+        const root = modal.getAttribute('data-root');
+        const eventTarget = modal.getAttribute('data-event-target');
+        return { trigger, modal, event, root, eventTarget };
+    }
+}
+exports.default = Modal;
+_modal = new WeakMap(), _root = new WeakMap();
+
+},{"./utils":11,"easy-coding":15}],2:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,6 +208,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const easy_coding_1 = require("easy-coding");
 const main_1 = require("./main");
+const Modal_1 = require("./Modal");
 const inicio_page_1 = require("./inicio.page");
 const catalogo_page_1 = require("./catalogo.page");
 const carrinho_page_1 = require("./carrinho.page");
@@ -28,17 +228,30 @@ let App = class App {
         this.addListeners();
     }
     addListeners() {
-        // Avoid images from getting dragged by the user
+        /*
+          Avoid images from getting dragged by the user.
+        */
         document.body.ondragstart = () => false;
-        // Enable elements with the atribute clickAndGo to open links by clicking them
-        easy_coding_1.handleBindingAttr('clickAndGo', (element, value) => element.addEventListener('click', () => window.location.href = value));
+        /*
+          Enable elements with the attribute "clickAndGo" to open links by clicking them.
+        */
+        easy_coding_1.handleBindingAttr('clickAndGo', (element, url) => element.addEventListener('click', () => window.location.href = url));
+        /*
+          Enable elements with the attribute "clickAndGoBlank" to open links in a new tab
+          by clicking them.
+        */
+        easy_coding_1.handleBindingAttr('clickAndGoBlank', (element, url) => element.addEventListener('click', () => window.open(url, '_blank')));
+        /**
+         * Initialize all modal instances set in the DOM.
+         */
+        Modal_1.default.initAll({ root: 'main' });
     }
 };
 App = __decorate([
     main_1.default
 ], App);
 
-},{"./carrinho.page":2,"./catalogo.page":3,"./criar-conta.page":4,"./inicio.page":5,"./kit.page":6,"./main":7,"./produto.page":9,"easy-coding":14}],2:[function(require,module,exports){
+},{"./Modal":1,"./carrinho.page":3,"./catalogo.page":4,"./criar-conta.page":5,"./inicio.page":6,"./kit.page":7,"./main":8,"./produto.page":10,"easy-coding":15}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -152,7 +365,7 @@ CarrinhoPage = __decorate([
 ], CarrinhoPage);
 exports.default = CarrinhoPage;
 
-},{"./page":8,"easy-coding":14,"http-service-ts":15}],3:[function(require,module,exports){
+},{"./page":9,"easy-coding":15,"http-service-ts":16}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -296,7 +509,7 @@ CatalogoPage = __decorate([
 ], CatalogoPage);
 exports.default = CatalogoPage;
 
-},{"./page":8,"easy-coding":14}],4:[function(require,module,exports){
+},{"./page":9,"easy-coding":15}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -321,7 +534,7 @@ CriarContaPage = __decorate([
 ], CriarContaPage);
 exports.default = CriarContaPage;
 
-},{"./page":8}],5:[function(require,module,exports){
+},{"./page":9}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -381,7 +594,7 @@ InicioPage = __decorate([
 ], InicioPage);
 exports.default = InicioPage;
 
-},{"./page":8}],6:[function(require,module,exports){
+},{"./page":9}],7:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -409,14 +622,15 @@ KitPage = __decorate([
 ], KitPage);
 exports.default = KitPage;
 
-},{"./page":8,"./utils":10}],7:[function(require,module,exports){
+},{"./page":9,"./utils":11}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Automatically creates an instance of the given class and
  * dispatch an event called `mainComponentLoaded` that is used
- * to say to other components that they can be initialize now.
- * @param type {Type} Main class of the application
+ * to say to other components that they can be initialized now.
+ *
+ * @param {Type} type Main class of the application.
  */
 const Main = (type) => {
     // Create instance
@@ -428,7 +642,7 @@ const Main = (type) => {
 };
 exports.default = Main;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -485,7 +699,7 @@ const Page = (route, options) => (type) => {
 };
 exports.default = Page;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -550,15 +764,17 @@ ProdutoPage = __decorate([
 ], ProdutoPage);
 exports.default = ProdutoPage;
 
-},{"./page":8}],10:[function(require,module,exports){
+},{"./page":9}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.replaceLast = void 0;
+exports.uniqueId = exports.replaceLast = void 0;
 /**
  * Replace the last ocurrence of a string inside another one.
- * @param find {string} String to be replaced
- * @param replace {string} String to be placed
- * @param string {string} String where the replacement will be done
+ *
+ * @param {string} find String to be replaced
+ * @param {string} replace String to be placed
+ * @param {string} string String where the replacement will be done
+ *
  * @returns {string} The given string after the replacement.
  */
 function replaceLast(find, replace, string) {
@@ -570,8 +786,12 @@ function replaceLast(find, replace, string) {
     return beginString + replace + endString;
 }
 exports.replaceLast = replaceLast;
+function uniqueId() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+}
+exports.uniqueId = uniqueId;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cookies = void 0;
@@ -613,7 +833,7 @@ class Cookies {
 }
 exports.Cookies = Cookies;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Global = void 0;
@@ -624,7 +844,7 @@ exports.Global = void 0;
  */
 exports.Global = (type) => (globalThis[type.name] = type);
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeSpecialChars = exports.randomDateBetween = exports.randomNumberBetween = exports.getRandomValueFrom = exports.ruleOfThree = exports.makeGlobal = exports.addGlobalEntries = exports.handleBindingAttr = exports.createElement = void 0;
@@ -750,7 +970,7 @@ exports.randomDateBetween = (date1, date2) => {
  */
 exports.removeSpecialChars = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -767,7 +987,7 @@ __exportStar(require("./functions"), exports);
 __exportStar(require("./decorators"), exports);
 __exportStar(require("./classes"), exports);
 
-},{"./classes":11,"./decorators":12,"./functions":13}],15:[function(require,module,exports){
+},{"./classes":12,"./decorators":13,"./functions":14}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const service_1 = require("./service");
@@ -775,7 +995,7 @@ exports.Service = service_1.default;
 const request_parser_1 = require("./request.parser");
 exports.RequestParser = request_parser_1.default;
 
-},{"./request.parser":16,"./service":17}],16:[function(require,module,exports){
+},{"./request.parser":17,"./service":18}],17:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -892,7 +1112,7 @@ class RequestParser {
 }
 exports.default = RequestParser;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const request_parser_1 = require("./request.parser");
@@ -956,4 +1176,4 @@ class Service extends request_parser_1.default {
 }
 exports.default = Service;
 
-},{"./request.parser":16}]},{},[1]);
+},{"./request.parser":17}]},{},[2]);

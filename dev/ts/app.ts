@@ -2,6 +2,8 @@ import { Type } from 'easy-coding/lib/types';
 import { handleBindingAttr } from 'easy-coding';
 
 import Main from './main';
+import Modal from './Modal';
+
 import InicioPage from './inicio.page';
 import CatalogoPage from './catalogo.page';
 import CarrinhoPage from './carrinho.page';
@@ -25,12 +27,29 @@ class App {
   }
 
   private addListeners(): void {
-    // Avoid images from getting dragged by the user
+    /*
+      Avoid images from getting dragged by the user.
+    */
     document.body.ondragstart = () => false;
 
-    // Enable elements with the atribute clickAndGo to open links by clicking them
-    handleBindingAttr('clickAndGo', (element, value) =>
-      element.addEventListener('click', () => window.location.href = value)
+    /*
+      Enable elements with the attribute "clickAndGo" to open links by clicking them.
+    */
+    handleBindingAttr('clickAndGo', (element, url) =>
+      element.addEventListener('click', () => window.location.href = url)
     );
+
+    /*
+      Enable elements with the attribute "clickAndGoBlank" to open links in a new tab
+      by clicking them.
+    */
+    handleBindingAttr('clickAndGoBlank', (element, url) =>
+      element.addEventListener('click', () => window.open(url, '_blank'))
+    );
+
+    /**
+     * Initialize all modal instances set in the DOM.
+     */
+    Modal.initAll({ root: 'main' });
   }
 }
