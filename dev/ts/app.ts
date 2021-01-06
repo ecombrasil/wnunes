@@ -11,6 +11,8 @@ import ProdutoPage from './produto.page';
 import KitPage from './kit.page';
 import CriarContaPage from './criar-conta.page';
 
+import ShareModal from './components/ShareModal';
+
 @Main
 class App {
   pages: Type[] = [
@@ -21,6 +23,10 @@ class App {
     CarrinhoPage,
     CriarContaPage
   ];
+
+  components: Type[] = [
+    ShareModal
+  ]
 
   constructor() {
     this.addListeners();

@@ -22,7 +22,7 @@
   <div id="share-btn" class="opt-btn">Compartilhar</div>
 </div>
 
-<div data-modal data-trigger="#share-btn">
+<div data-modal data-trigger="#share-btn" id="share-modal">
   <div class="modal-box" id="share-modal">
     <div class="modal-head">
       <p class="modal-title">Compartilhar</p>
@@ -42,7 +42,7 @@
           <p class="share-btn-label">Twitter</p>
         </div>
       </div>
-      <p id="copy-link" title="Copiar link" onclick="navigator.clipboard.writeText(this.textContent)">
+      <p id="copy-link" title="Copiar link">
         {{ request.build_absolute_uri }}{{ object.get_absolute_url }}
       </p>
     </div>

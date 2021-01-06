@@ -212,9 +212,13 @@ main
       .share-btn
         flex-basis 8em
         cursor pointer
+        transition(200ms)
 
         @media (max-width 720px)
           flex-basis 6em
+
+        &:hover
+          color rgba(text-color, .55)
 
         .share-btn-icon
           width 80%
@@ -232,13 +236,14 @@ main
 
     #copy-link
       width calc(100% - 1.1em)
-      margin-top 2.5em
       padding .6em .75em .5em .75em
+      background-color #f2f2f2
+      margin-top 2.5em
       border-radius(5px)
       one-line-text()
       font-size 1.55em
+      text-align center
       color #a7a7a7
-      background-color #f2f2f2
       cursor pointer
       transition(300ms)
 

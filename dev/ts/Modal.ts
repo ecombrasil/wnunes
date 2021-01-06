@@ -71,7 +71,7 @@ export default class Modal {
     if (transition !== null) this.transition = transition;
 
     this.stylize();
-    this.addListeners({ trigger, event, eventTarget })
+    this.addListeners({ trigger, event, eventTarget });
   }
 
   /**
