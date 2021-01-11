@@ -26,17 +26,11 @@ class ItemCarrinhoViewSet(viewsets.ModelViewSet):
 
         # Faz a checagem se for produto
         if item.produto is not None:
-            is_disponivel = item.produto.qntd_estoque >= qntd
+            is_disponivel = item.produto.is_disponivel(qntd)
 
         # Faz a checagem se for kit
         elif item.kit is not None:
-            is_disponivel = True
-
-            for kit_item in item.kit.itens.all():
-                qntd_necessaria = qntd * kit_item.qntd
-                if not kit_item.produto.ativo or kit_item.produto.qntd_estoque < qntd_necessaria:
-                    is_disponivel = False
-                    break
+            is_disponivel = item.kit.is_disponivel(qntd)
         
         # Retorna Bad Request se não houver nem produto nem kit
         else:

@@ -84,6 +84,10 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    def get_carrinho(self):
+        """Retorna os itens do carrinho do usuário."""
+        return ItemCarrinho.objects.filter(cliente=self).exclude(produto__ativo=False).exclude(kit__ativo=False)
+
     def __str__(self):
         return self.get_full_name()
 
@@ -119,6 +123,14 @@ class Produto(models.Model, BaseProduto):
     ativo = models.BooleanField(default=True, verbose_name='Mostrar no site')
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
+    def is_disponivel(self, qntd_minima=1):
+        """Retorna um booleano indicando se o produto está ativo e e disponível em estoque."""
+        return self.get_qntd_disponivel() >= qntd_minima
+
+    def get_qntd_disponivel(self):
+        """Retorna uma integer representando a quantidade disponível em estoque."""
+        return 0 if not self.ativo else self.qntd_estoque
+
     def __str__(self):
         return self.nome
 
@@ -143,6 +155,7 @@ class Kit(models.Model, BaseProduto):
     data_criacao = models.DateField(auto_now_add=True, verbose_name='Data de criação no banco de dados')
 
     def get_valor_total(self):
+        """Retorna o valor do kit."""
         valor_total = 0
         lista_itens = self.itens.all()
 
@@ -150,6 +163,28 @@ class Kit(models.Model, BaseProduto):
             valor_total += item.produto.preco * item.qntd
 
         return valor_total
+
+    def is_disponivel(self, qntd_minima=1):
+        """Retorna um booleano indicando a disponibilidade e as quantidades dos produtos presentes no kit."""
+        return self.get_qntd_disponivel() >= qntd_minima
+
+    def get_qntd_disponivel(self):
+        """Retorna uma integer representando a quantidade disponível de unidades do kit."""
+        if not self.ativo:
+            return 0
+
+        quantidades = []
+
+        for item in self.itens.all():
+            qntd_estoque = item.produto.qntd_estoque
+            if item.produto.ativo and qntd_estoque > 0:
+                # Utiliza o int() para arredondar para o menor valor inteiro
+                qntd_disponivel = int(qntd_estoque / item.qntd)
+                quantidades.append(qntd_disponivel)
+            else:
+                quantidades.append(0)
+
+        return min(quantidades)
 
     def __str__(self):
         return self.nome

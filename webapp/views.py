@@ -74,20 +74,35 @@ class LoggedUserView(LoginRequiredMixin, View):
 
 class Carrinho(LoggedUserView):
     def get(self, request):
-        itens = ItemCarrinho.objects.filter(cliente=request.user).exclude(produto__ativo=False).exclude(kit__ativo=False)
+        itens = self.__get_carrinho(request)
 
         # Valor total exibido no carrinho
         valor_total = 0
-        # Loop para somar os valores
+
+        # Remove os itens indisponíveis e soma o valor dos itens disponíveis
         for item in itens:
-            # Soma valor do produto
-            if item.produto is not None:
-                valor_total += item.produto.preco * item.qntd
-            # Soma valor de cada produto no kit
-            elif item.kit is not None:
-                valor_total += item.kit.get_valor_total() * item.qntd
+            unidade = item.produto or item.kit
+            qntd_disponivel = unidade.get_qntd_disponivel()
+
+            if qntd_disponivel == 0:
+                item.delete()
+                continue
+            elif item.qntd > qntd_disponivel:
+                item.qntd = qntd_disponivel
+                item.save()
+            
+            if isinstance(unidade, Produto):
+                valor_total += unidade.preco * item.qntd
+            else:
+                valor_total += unidade.get_valor_total() * item.qntd
         
-        return render(request, 'carrinho.html', { 'carrinho': itens, 'total': round(valor_total, 2) })
+        return render(request, 'carrinho.html', {
+            'carrinho': self.__get_carrinho(request),
+            'total': round(valor_total, 2)
+        })
+
+    def __get_carrinho(self, request):
+        return request.user.get_carrinho()
 
 
 class AdicionarCarrinho(LoggedUserView):
@@ -95,7 +110,7 @@ class AdicionarCarrinho(LoggedUserView):
         # Se for produto e ele não existir no carrinho ainda, é adicionado
         if tipo == 'produto':
             produto = Produto.objects.get(pk=pk)
-            if produto is not None:
+            if produto is not None and produto.is_disponivel():
                 existe_no_carrinho = ItemCarrinho.objects.filter(cliente=request.user, produto=produto).exists()
                 if not existe_no_carrinho:
                     ItemCarrinho.objects.create(cliente=request.user, produto=produto)
@@ -103,7 +118,7 @@ class AdicionarCarrinho(LoggedUserView):
         # Se for kit e ele não existir no carrinho ainda, é adicionado
         elif tipo == 'kit':
             kit = Kit.objects.get(pk=pk)
-            if kit is not None:
+            if kit is not None and kit.is_disponivel():
                 existe_no_carrinho = ItemCarrinho.objects.filter(cliente=request.user, kit=kit).exists()
                 if not existe_no_carrinho:
                     ItemCarrinho.objects.create(cliente=request.user, kit=kit)
