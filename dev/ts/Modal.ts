@@ -1,6 +1,3 @@
-import { createElement } from 'easy-coding';
-import { uniqueId } from './utils';
-
 /**
  * Interface for the options available on the Modal's class constructor.
  */

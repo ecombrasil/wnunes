@@ -1,20 +1,25 @@
-import Page from '../page';
+import Component from '../Component';
 
-@Page('*')
+@Component('#share-modal')
 export default class ShareModal {
-  #component = document.querySelector('#share-modal');
-  
+  /**
+   * Button for copying the current link.
+   */
   #copyLinkButton = document.querySelector('#copy-link') as HTMLElement;
+
+  /**
+   * Boolean indicating if the click event callback for the "copy" button
+   * is currently running.
+   */
   #doingCopyStuff = false;
 
   constructor() {
-    this.#component && this.addListeners();
-  }
-
-  private addListeners(): void {
     this.#copyLinkButton.addEventListener('click', () => this.copyLink());
   }
 
+  /**
+   * Copies the current link.
+   */
   private copyLink(): void {
     if (!this.#doingCopyStuff) {
       this.#doingCopyStuff = true;
