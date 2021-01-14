@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Recuperar senha{% endblock %}
+
+{% block content %}
+<div id="login-wrapper">
+  <div id="login-box">
+    <h2 class="login-box-title">Recuperar senha</h2>
+
+    <form method="POST" class="login-form">
+      {% csrf_token %}
+      <input type="email" name="email" placeholder="Email da sua conta" required class="login-field">
+      {% if error %}
+      <p class="validation-error">Tem certeza de que o email acima está correto?</p>
+      {% endif %}
+      <input type="submit" value="Enviar" class="login-submit">
+    </form>
+    
+    <p class="or-option">ou</p>
+    <p class="secondary-option"><a href="{% url 'entrar' %}">Entrar</a></p>
+  </div>
+</div>
+{% endblock %}

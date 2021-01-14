@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
+from .email import ExpedidorEmail
 from .models import (
     User,
     Produto,
@@ -13,7 +14,6 @@ from .models import (
 )
 from .forms import CriarContaForm
 import json
-
 
 ### Compartilhado
 
@@ -66,6 +66,22 @@ class CatalogoProdutos(_Catalogo):
 
 class CatalogoKits(_Catalogo):
     model = Kit
+
+class EsqueciMinhaSenha(View):
+    template_name = 'esqueci-minha-senha.html'
+
+    def get(self, request):
+        return render(request, self.template_name, { 'error': False })
+
+    def post(self, request):
+        email = request.POST('email')
+        usuario = User.objects.filter(email=email).first()
+
+        if usuario is not None:
+            ExpedidorEmail.esqueci_minha_senha(usuario)
+            return redirect('/entrar')
+        else:
+            return render(request, self.template_name, { 'error': True })
 
 ### Somente com login
 

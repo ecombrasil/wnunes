@@ -15,7 +15,7 @@
       {% if error %}
       <p class="validation-error">Email ou senha incorreto(a)!</p>
       {% endif %}
-      <p class="forgot-password"><a href="">Esqueci minha senha</a></p>
+      <p class="forgot-password"><a href="{% url 'esqueci_minha_senha' %}">Esqueci minha senha</a></p>
       <input type="submit" value="Entrar" class="login-submit">
     </form>
     

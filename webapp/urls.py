@@ -2,6 +2,7 @@ from django.urls import path, include
 from .views import (
     Entrar,
     CriarConta,
+    EsqueciMinhaSenha,
     Sair,
     Inicio,
     SobreNos,
@@ -19,8 +20,8 @@ from .views import (
 from .api import router
 
 urlpatterns = [
-    path('api/', include(router.urls)),
     path('', Inicio.as_view(), name='inicio'),
+    path('api/', include(router.urls)),
     path('sobre-nos', SobreNos.as_view(), name='sobre_nos'),
     path('videos', Videos.as_view(), name='videos'),
     path('blog', Blog.as_view(), name='blog'),
@@ -33,6 +34,7 @@ urlpatterns = [
     path('carrinho/adicionar/<str:tipo>/<int:pk>', AdicionarCarrinho.as_view(), name='adicionar_carrinho'),
     path('entrar', Entrar.as_view(), name='entrar'),
     path('criar-conta', CriarConta.as_view(), name='criar_conta'),
+    path('esqueci-minha-senha', EsqueciMinhaSenha.as_view(), name='esqueci_minha_senha'),
     path('sair', Sair.as_view(), name='sair'),
     path('teste/server-error', ErrorTrigger.server_error, name='server_error'),
     path('teste/forbidden', ErrorTrigger.forbidden, name='forbidden'),
