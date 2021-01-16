@@ -23,6 +23,9 @@ class Inicio(TemplateView):
 class SobreNos(TemplateView):
     template_name = 'sobre.nos.html'
 
+class Contato(TemplateView):
+    template_name = 'contato.html'
+
 class Videos(TemplateView):
     template_name = 'videos.html'
 
