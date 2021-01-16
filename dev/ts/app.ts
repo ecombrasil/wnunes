@@ -12,6 +12,7 @@ import KitPage from './kit.page';
 import CriarContaPage from './criar-conta.page';
 
 import ShareModal from './components/ShareModal';
+import Footer from './components/Footer';
 
 @Main
 class App {
@@ -25,8 +26,9 @@ class App {
   ];
 
   components: Type[] = [
-    ShareModal
-  ]
+    ShareModal,
+    Footer
+  ];
 
   constructor() {
     this.addListeners();

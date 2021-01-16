@@ -1,14 +1,165 @@
 #footer
   resize-width()
+  flex-parent(row, wrap, space-between)
+  margin-top 14em
   padding 6em 10%
   background-color theme-color
-  margin-top 14em
+
+  @media (max-width 1600px)
+    margin-top 12em
 
   @media (max-width 1366px)
+    margin-top 10em
     padding 5%
+    justify-content space-around
 
   @media (max-width 900px)
+    margin-top 8em
     padding 4%
 
   @media (max-width 600px)
-    padding 7%
+    margin-top 6em
+    padding 4em 7%
+
+  .footer-section
+    color reversed-text-color
+
+    @media (max-width 1366px)
+      &:not(:last-child)
+        margin-bottom 3.5em
+
+    @media (min-width 721px)
+      margin-left 2em
+      margin-right 2em
+
+    @media (max-width 768px)
+      flex-basis 100%
+    
+    .footer-section-header
+      flex-parent(row, wrap, space-between)
+      margin-bottom 3.7em
+
+      @media (max-width 1600px)
+        margin-bottom 3.25em
+
+      @media (max-width 1366px)
+        justify-content center
+
+      .footer-section-title
+        font-size 3em
+        font-weight 800
+
+        @media (max-width 1600px)
+          font-size 2.75em
+
+        @media (max-width 1366px)
+          flex-basis 100%
+          text-align center
+
+      .footer-section-icon
+        padding 1em
+        flex-parent(row, nowrap, flex-start)
+        align-items center
+        border-radius(.5em)
+        background-color lighten(darker-theme-color, 8)
+        transition(200ms)
+        cursor pointer
+
+        &:hover
+          box-shadow(rgba(90, 90, 90, .15) 0px 10px 20px)
+          background-color lighten(darker-theme-color, 13)
+
+        @media (max-width 1366px)
+          margin-top 1.5em
+
+        @media (max-width 768px)
+          margin-top 2em
+          box-shadow(rgba(90, 90, 90, .15) 0px 10px 20px)
+          background-color lighten(darker-theme-color, 13)
+
+          &:hover
+          &:active
+            background-color lighten(darker-theme-color, 8)
+
+        &.disabled
+          cursor not-allowed
+
+        #message-form-status-text
+          margin .05em .5em 0 .5em
+          font-size 1.7em
+          font-weight 300
+          letter-spacing .1em
+
+          @media (max-width 1600px)
+            font-size 1.65em
+          
+          @media (max-width 1366px)
+            font-size 1.6em
+
+        .icon
+          flex-basis 2em
+          height 2em
+          margin-left .3em
+
+    .footer-section-body
+      .footer-p-row
+        font-size 1.7em
+        font-weight 200
+        margin-bottom 1em
+
+        @media (max-width 1600px)
+          font-size 1.65em
+
+        @media (max-width 1366px)
+          font-size 1.6em
+          text-align center
+
+      #send-message-form
+        width 100%
+        flex-parent(row, wrap, space-between)
+
+        @media (max-width 900px)
+          justify-content center
+
+          .inputs-separator
+            flex-basis 100%
+
+        .message-form-input
+          width 15em
+          margin-bottom 1em
+          padding .9em 1.1em .8em 1.1em
+          border-radius(1em)
+          font-size 1.7em
+          font-weight 500
+          color reversed-text-color
+          background-color lighten(darker-theme-color, 8)
+          transition(200ms)
+
+          @media (max-width 1600px)
+            padding .8em 1em .7em 1em
+            font-size 1.65em
+
+          @media (max-width 1366px)
+            font-size 1.6em
+
+          @media (max-width 900px)
+            width calc(100% - 2em)
+            text-align center
+
+          &:focus
+            box-shadow(rgba(90, 90, 90, .15) 0px 10px 20px)
+            background-color lighten(darker-theme-color, 13)
+
+          &[name="mensagem"]
+            width 20em
+            height 5.25em
+            margin-left 2em
+            resize none
+
+            @media (max-width 1600px)
+              width 18em
+              margin-left 1.5em
+
+            @media (max-width 900px)
+              width calc(100% - 2em)
+              margin-left 0

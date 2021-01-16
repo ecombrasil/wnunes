@@ -35,3 +35,10 @@ export interface ItemCarrinho {
   kit?: PrimaryKey;
   qntd: number;
 }
+
+export interface MensagemSite {
+  nome: string;
+  email: string;
+  mensagem: string;
+  data_criacao?: CreatedAt;
+}

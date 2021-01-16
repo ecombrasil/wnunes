@@ -11,20 +11,15 @@ from .models import (
     Kit,
     ProdutoKit,
     BlogPost,
-    ItemCarrinho
+    ItemCarrinho,
+    MensagemSite
 )
+from .forms import MensagemSiteAdminForm
 
 
 admin.site.register(AvaliacaoCliente)
 admin.site.register(ItemCarrinho)
 admin.site.register(ProdutoKit)
-
-@admin.register(BlogPost)
-class BlogPostAdmin(admin.ModelAdmin):
-    formfield_overrides = {
-        models.TextField: { 'widget': AdminMartorWidget },
-        models.CharField: { 'widget': forms.Textarea },
-    }
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
@@ -54,3 +49,14 @@ class ProdutoAdmin(admin.ModelAdmin):
 @admin.register(Kit)
 class KitAdmin(admin.ModelAdmin):
     exclude = ('avaliacoes',)
+
+@admin.register(MensagemSite)
+class MensagemSiteAdmin(admin.ModelAdmin):
+    form = MensagemSiteAdminForm
+
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: { 'widget': AdminMartorWidget },
+        models.CharField: { 'widget': forms.Textarea },
+    }

@@ -1,10 +1,15 @@
-from rest_framework import routers, serializers, viewsets
+from rest_framework import routers, serializers, viewsets, mixins, permissions
 from rest_framework.response import Response
-from .models import ItemCarrinho
+from .models import ItemCarrinho, MensagemSite
 from .utils import erro_com_mensagem
 
 
 # Serializers
+
+class MensagemSiteCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MensagemSite
+        fields = ['nome', 'email', 'mensagem']
 
 class ItemCarrinhoPartialSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,6 +17,10 @@ class ItemCarrinhoPartialSerializer(serializers.ModelSerializer):
         fields = ['qntd']
 
 # ViewSets
+
+class CreateMensagemSiteViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    serializer_class = MensagemSiteCreateSerializer
+    permission_classes = [permissions.AllowAny]
 
 class ItemCarrinhoViewSet(viewsets.ModelViewSet):
     queryset = ItemCarrinho.objects.all()
@@ -50,3 +59,4 @@ class ItemCarrinhoViewSet(viewsets.ModelViewSet):
 
 router = routers.DefaultRouter()
 router.register(r'item-carrinho', ItemCarrinhoViewSet)
+router.register(r'mensagem', CreateMensagemSiteViewSet, basename='mensagem')

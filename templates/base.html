@@ -8,9 +8,11 @@
     <title>Wnunes | {% block title %}{% endblock %}</title>
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/fetch.umd.js' %}"></script>
   </head>
   <body>
     <main>
+      <!--HEADER-->
       <header id="header">
         <img clickAndGo="{% url 'inicio' %}" id="header-logo" src="{% static 'img/logo.png' %}" alt="Logo da empresa: Weingartner & Nunes">
         <ul id="main-menu">
@@ -31,10 +33,62 @@
           </li>
         </ul>
       </header>
+
+      <!--CONTENT-->
       {% block content %}
       {% endblock %}
-      <footer id="footer"></footer>
+      
+      <!--FOOTER-->
+      <footer id="footer">
+
+        <div class="footer-section">
+          <div class="footer-section-header">
+            <h1 class="footer-section-title">Visite-nos</h1>
+          </div>
+          <div class="footer-section-body">
+            <p class="footer-p-row">R. Felício Czocher</p>
+            <p class="footer-p-row">Colombo - Paraná</p>
+            <p class="footer-p-row">83402-230</p>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <div class="footer-section-header">
+            <h1 class="footer-section-title">Fale conosco</h1>
+          </div>
+          <div class="footer-section-body">
+            <p class="footer-p-row">(41) 3621-4226</p>
+            <p class="footer-p-row">(41) 3606-6335</p>
+            <p class="footer-p-row">(41) 9 9187-0991</p>
+            <p class="footer-p-row">wnunes@wnunes.com.br</p>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <div class="footer-section-header">
+            <h1 class="footer-section-title">Envie uma mensagem</h1>
+            <div id="send-message-btn" class="footer-section-icon">
+              <span id="message-form-status-text" class="text">Enviar</span>
+              <img class="icon" src="{% static 'img/arrow-right.svg' %}" alt="Enviar mensagem">
+            </div>
+          </div>
+          <div class="footer-section-body">
+            <form id="send-message-form">
+              <div class="inputs-separator">
+                <input type="text" name="nome" min="3" placeholder="Nome" class="message-form-input" required><br>
+                <input type="email" name="email" placeholder="Email" class="message-form-input" required>
+              </div>
+              <div class="inputs-separator">
+                <textarea name="mensagem" placeholder="Mensagem" class="message-form-input" required></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </footer>
     </main>
+
+    <!--SCRIPTS-->
     <script src="{% static 'js/main.js' %}"></script>
     {% block after_script %}
     {% endblock %}

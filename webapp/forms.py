@@ -1,12 +1,20 @@
 from django import forms
 from martor.fields import MartorFormField
-from .models import UF_CHOICES, BlogPost
+from .models import UF_CHOICES, BlogPost, MensagemSite
 
 def create_attrs(placeholder=None, css_class=None):
     return {
         'placeholder': placeholder,
         'class': css_class or 'login-field'
     }
+
+class MensagemSiteAdminForm(forms.ModelForm):
+    class Meta:
+        model = MensagemSite
+        widgets = {
+            'mensagem': forms.Textarea
+        }
+        fields = '__all__'
 
 class CriarContaForm(forms.Form):
     nome_completo = forms.CharField(max_length=150, label='', help_text='', widget=forms.TextInput(attrs=create_attrs('Nome completo')))
