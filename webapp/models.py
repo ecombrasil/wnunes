@@ -4,7 +4,8 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from martor.models import MartorField
 from .utils import remove_acentos
-import datetime, statistics
+import datetime, statistics, uuid
+
 
 
 class UserManager(BaseUserManager):
@@ -110,9 +111,11 @@ class BaseProduto:
     def get_pontuacao(self):
         lista_avaliacoes = self.avaliacoes.all().values('pontuacao')
         pontuacoes = [avaliacao['pontuacao'] for avaliacao in lista_avaliacoes]
+
         return round(statistics.median(pontuacoes)) if len(pontuacoes) else None
 
 class Produto(models.Model, BaseProduto):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nome = models.CharField(max_length=128)
     preco = models.FloatField(verbose_name='Preço')
     qntd_estoque = models.PositiveIntegerField(default=0, verbose_name='Quantidade em estoque')
@@ -146,6 +149,7 @@ class ProdutoKit(models.Model):
         verbose_name_plural = 'Produtos em kits'
 
 class Kit(models.Model, BaseProduto):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nome = models.CharField(max_length=48)
     descricao = models.CharField(max_length=200, blank=True, null=True, verbose_name='Descrição')
     itens = models.ManyToManyField(ProdutoKit)

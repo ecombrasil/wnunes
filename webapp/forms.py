@@ -18,7 +18,7 @@ class MensagemSiteAdminForm(forms.ModelForm):
 
 class CriarContaForm(forms.Form):
     nome_completo = forms.CharField(max_length=150, label='', help_text='', widget=forms.TextInput(attrs=create_attrs('Nome completo')))
-    is_pessoa_juridica = forms.BooleanField(label='', help_text='')
+    is_pessoa_juridica = forms.BooleanField(label='', help_text='', required=False)
     cpf = forms.CharField(max_length=14, label='', help_text='', widget=forms.TextInput(attrs=create_attrs('CPF ou CNPJ (números)')))
     uf = forms.ChoiceField(choices=UF_CHOICES, label='', help_text='', required=False, widget=forms.Select(attrs=create_attrs('UF (para pessoa jurídica)')))
     email = forms.EmailField(label='', help_text='', widget=forms.EmailInput(attrs=create_attrs('Email')))
