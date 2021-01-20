@@ -146,8 +146,6 @@ export default class Modal {
 
   /**
    * Shows the modal.
-   * 
-   * @param {number} [time] Animation time in milisseconds.
    */
   private fadeIn(): void {
     let opacity = 0;
@@ -167,8 +165,6 @@ export default class Modal {
 
   /**
    * Hides the modal.
-   * 
-   * @param {number} [time] Animation time in milisseconds.
    */
   private fadeOut(): void {
     let opacity = 1;
