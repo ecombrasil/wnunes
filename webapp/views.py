@@ -3,7 +3,11 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from .email import ExpedidorEmail
+from .utils import UUIDEncoder
+from .forms import CriarContaForm
 from .models import (
     User,
     Produto,
@@ -12,8 +16,15 @@ from .models import (
     BlogPost,
     AvaliacaoCliente,
 )
-from .forms import CriarContaForm
 import json
+
+
+### Receivers
+
+@receiver(post_save, sender=User)
+def enviar_email_boas_vindas(sender, instance=None, created=False, **kwargs):
+    if created:
+        ExpedidorEmail.boas_vindas(instance)
 
 ### Compartilhado
 
@@ -54,7 +65,7 @@ class _Catalogo(View):
             'pontuacao': item.get_pontuacao(),
         } for item in queryset]
         
-        avaliacoes = json.dumps(avaliacoes)
+        avaliacoes = json.dumps(avaliacoes, cls=UUIDEncoder)
         
         return render(request, 'catalogo.html', {
             'produtos': queryset,
@@ -74,7 +85,7 @@ class EsqueciMinhaSenha(View):
         return render(request, self.template_name, { 'error': False })
 
     def post(self, request):
-        email = request.POST('email')
+        email = request.POST.get('email')
         usuario = User.objects.filter(email=email).first()
 
         if usuario is not None:
@@ -184,10 +195,7 @@ class CriarConta(View):
             email = form.cleaned_data['email']
             senha = form.cleaned_data['senha']
             # Cria o novo usuário
-            usuario = User.objects.create_user(email, senha)
-            usuario.first_name = nome
-            usuario.cpf = cpf
-            usuario.save()
+            usuario = User.objects.create_user(email, senha, first_name=nome, cpf=cpf)
             # Autentica o usuário
             usuario = authenticate(request, username=email, password=senha)
             # Faz login do usuário

@@ -1,0 +1,11 @@
+{% extends 'email/base.html' %}
+
+{% block title %}Olá, {{ nome }}!{% endblock %}
+{% block content %}
+<p>Já que você esqueceu sua senha, criamos uma nova que você pode utilizar provisoriamente:</p>
+<p>
+  <strong>{{ senha }}</strong>
+</p>
+<p>Após entrar no site novamente, você poderá alterá-la acessando a página de seu perfil.</p>
+<p>Se você não fez esta solicitação de recuperação de senha ou se a senha acima não funcionar, pedimos que entre em contato conosco para que possamos ajudar a manter sua experiência conosco segura e livre de preocupações ;)</p>
+{% endblock %}
