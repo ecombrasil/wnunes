@@ -21,6 +21,43 @@
     margin-top 6em
     padding 4em 7%
 
+  &.highlight
+    @-moz-keyframes shadowFade {
+      0% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0))
+      }
+      50% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0.3))
+      }
+      100% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0))
+      }
+    }
+    @-webkit-keyframes shadowFade {
+      0% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0))
+      }
+      50% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0.3))
+      }
+      100% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0))
+      }
+    }
+    @keyframes shadowFade {
+      0% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0))
+      }
+      50% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0.3))
+      }
+      100% {
+        box-shadow(0px -30px 50px 0px rgba(theme-color, 0))
+      }
+    }
+
+    animation(shadowFade 1.5s)
+
   .footer-section
     color reversed-text-color
 

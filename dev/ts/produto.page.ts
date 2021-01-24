@@ -5,6 +5,10 @@ import Page from './page';
 })
 export default class ProdutoPage {
   #title: string;
+
+  constructor() {
+    this.addHelpBoxClickListener();
+  }
   
   get title() {
     return this.#title;
@@ -35,5 +39,23 @@ export default class ProdutoPage {
         ${words.slice(half).join(' ')}
       `;
     }
+  }
+
+  private addHelpBoxClickListener(): void {
+    const helpBox = document.querySelector('.help-box');
+    const footer = document.querySelector('#footer');
+    let underEffect = false;
+
+    helpBox.addEventListener('click', () => {
+      if (!underEffect) {
+        underEffect = true;
+        footer.classList.add('highlight');
+
+        setTimeout(() => {
+          footer.classList.remove('highlight');
+          underEffect = false;
+        }, 1500);
+      }
+    });
   }
 }

@@ -240,6 +240,11 @@
     background-color rgba(text-color, .01)
     flex-parent(row, nowrap, center)
     align-items center
+    cursor pointer
+    transition(200ms)
+
+    &:hover
+      background-color rgba(text-color, .04)
 
     @media (max-width 1366px)
       width 26.5em

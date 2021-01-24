@@ -55,9 +55,18 @@ class App {
       element.addEventListener('click', () => window.open(url, '_blank'))
     );
 
-    /**
-     * Initialize all modal instances set in the DOM.
-     */
+    /*
+      Initialize all modal instances set in the DOM.
+    */
     Modal.initAll({ root: 'main' });
+
+    /*
+      Focus the first footer's form input when hash changes to "#footer".
+    */
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash === '#footer') {
+        setTimeout(() => (document.querySelector('.message-form-input') as HTMLInputElement)?.focus(), 900);
+      }
+    });
   }
 }
