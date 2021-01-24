@@ -3,7 +3,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .utils import get_uuid
 from .models import User
-from lets_debug import terminal
 
 class ExpedidorEmail:
     from_email = 'example@example.com'
