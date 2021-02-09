@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator, MaxLengthValidator
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from martor.models import MartorField
@@ -235,3 +235,82 @@ class BlogPost(models.Model):
     class Meta:
         verbose_name = 'Artigo do blog'
         verbose_name_plural = 'Artigos do blog'
+
+class CredencialPJBank(models.Model):
+    """
+    Modelo com as informações de credencial de conta no PJBank.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # Razão social da empresa. Será usado no campo “beneficiário” do boleto. Length (3-80).
+    nome_empresa = models.CharField(validators=[MinLengthValidator(3)], max_length=80, blank=False, null=False)
+    # Número da conta bancaria para a qual será feito o repasse, com dígito. Formato: 99999-9, 9999-99, length (3-32).
+    conta = models.CharField(validators=[MinLengthValidator(3)], max_length=32, blank=False, null=False)
+    # Número da agência para a qual será feito o repasse, com ou sem dígito dependendo do banco. Formato: 99999, 9999-9, length (2-6).
+    agencia = models.CharField(validators=[MinLengthValidator(2)], max_length=6, blank=False, null=False)
+    # Número do banco para o qual será feito o repasse, com 3 dígitos.
+    banco = models.CharField(validators=[MinLengthValidator(3)], max_length=3, blank=False, null=False)
+    # CNPJ da empresa, somente números. O CNPJ deve ser o mesmo da razão social e da conta de repasse. Será exposto no boleto bancário. Length (11-14).
+    cnpj = models.CharField(validators=[MinLengthValidator(11)], max_length=14, blank=False, null=False)
+    # DDD do telefone da empresa, somente números, length (2-2).
+    ddd = models.PositiveIntegerField(validators=[MinValueValidator(11), MaxValueValidator(99)], null=False)
+    # Telefone da empresa, sem DDD. Somente números. Para uso interno, length (8-10).
+    telefone = models.PositiveIntegerField(validators=[MinLengthValidator(8), MaxLengthValidator(10)], null=False)
+    # E-mail da empresa. Para uso interno, length (3-255).
+    email = models.EmailField(validators=[MinLengthValidator(3), MaxLengthValidator(255)], null=False)
+    # Flag para credenciamento de cartão.
+    cartao = models.BooleanField(default=True, null=False, verbose_name='Credenciamento de cartão')
+    
+    # Campos obtidos através da requisição ao PJBank
+    credencial = models.CharField(max_length=255)
+    chave = models.CharField(max_length=255)
+    conta_virtual = models.CharField(validators=[MinLengthValidator(3)], max_length=32)
+    agencia_virtual = models.CharField(validators=[MinLengthValidator(2)], max_length=6, blank=False, null=False)
+
+    @staticmethod
+    def get_last() -> CredencialPJBank:
+        """
+        Retorna o último registro do banco de dados.
+        """
+        return CredencialPJBank.objects.last()
+
+    def __str__(self):
+        return f"{self.nome_empresa} | {self.cnpj}"
+
+    class Meta:
+        verbose_name = 'Credencial de conta no PJBank'
+        verbose_name_plural = 'Credenciais de contas no PJBank'
+
+class TokenCartaoPJBank(models.Model):
+    """
+    Modelo para o token de cartão do PJBank.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # ID do token
+    tid = models.CharField(max_length=255)
+    # Chave utilizada no header de autenticação em requisições
+    chave = models.CharField(max_length=255)
+    # Ex.: 401200******1112
+    cartao_truncado = models.CharField(max_length=16)
+    # Booleano indicando se o cartão foi validado
+    is_valido = models.BooleanField(default=False, null=False)
+
+class TransacaoPJBank(models.Model):
+    """
+    Modelo que guarda as informações relativas a uma transação do PJBank.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    token_cartao = models.CharField(max_length=255)
+    tid = models.CharField(max_length=255)
+    previsao_credito = models.CharField(max_length=10)
+    mensagem_status = models.CharField(max_length=255)
+    tid_conciliacao = models.CharField(max_length=255)
+    bandeira = models.CharField(max_length=40)
+    autorizacao = models.CharField(max_length=40)
+    cartao_truncado = models.CharField(max_length=16)
+    status_cartao = models.CharField(max_length=3)
+    tarifa = models.CharField(max_length=5)
+    taxa = models.CharField(max_length=5)
+    pedido_numero = models.CharField(max_length=32)
