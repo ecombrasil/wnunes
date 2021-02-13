@@ -267,13 +267,6 @@ class CredencialPJBank(models.Model):
     conta_virtual = models.CharField(validators=[MinLengthValidator(3)], max_length=32)
     agencia_virtual = models.CharField(validators=[MinLengthValidator(2)], max_length=6, blank=False, null=False)
 
-    @staticmethod
-    def get_last() -> CredencialPJBank:
-        """
-        Retorna o último registro do banco de dados.
-        """
-        return CredencialPJBank.objects.last()
-
     def __str__(self):
         return f"{self.nome_empresa} | {self.cnpj}"
 

@@ -1,34 +1,39 @@
 import requests
 from requests import Request, Response
+from decouple import config
+from typing import Any
 from .models import CredencialPJBank, TokenCartaoPJBank, TransacaoPJBank
 from .errors import FeedbackError
 
 class Ambiente:
-    Dev = 'dev'
-    Prod = 'prod'
+    """
+    Enumerador de ambientes disponíveis (desenvolvimento e produção).
+    """
+    Dev = 'sandbox'
+    Prod = 'api'
 
 class PJBank:
-    def __init__(self, ambiente: Ambiente):
+    """
+    Classe base a realização de requisições à API do PJBank.
+    """
+    ambiente: str = config('ENV')
+
+    def __init__(self, credencial: CredencialPJBank=None):
         self.ambiente = ambiente
-        self.credencial = CredencialPJBank.get_last()
+        self.credencial = credencial or CredencialPJBank.objects.last()
 
     def get_raiz_api(self) -> str:
         """
         Retorna a URL principal da API do PJBank.
         """
-        ambiente = 'api' if self.ambiente == Ambiente.Prod else 'sandbox'
-        return f"https://{ambiente}.pkbank.com.br/"
+        return f'https://{self.ambiente}.pkbank.com.br/'
 
-    def requerir(self, method: str, rota: str, dados=None, headers=None, params=None) -> Response:
+    def requerir(self, method: str, rota: str, dados: Any=None, headers: dict=None, params: dict=None) -> Response:
         """
         Faz uma requisição à API do PJBank e retorna a resposta recebida.
         """
         url = self.get_raiz_api() + rota
-
-        if headers is None:
-            headers = {
-                'X-CHAVE': self.credencial.chave
-            }
+        headers |= { 'X-CHAVE': self.credencial.chave }
 
         return Request(
             method = method,
@@ -39,13 +44,15 @@ class PJBank:
         )
 
 class PJBankCartao(PJBank):
+    """
+    Manipulador de transações com cartão de crédito tokenizado via PJBank.
+    """
     def credenciar_conta(self) -> None:
         """
         Credencia uma nova conta para recebimentos.
         """
         credencial = self.credencial
-
-        resposta = self.requerir('POST', 'recebimentos', {
+        dados = {
             'nome_empresa': credencial.nome_empresa,
             'conta_repasse': credencial.conta,
             'agencia_repasse': credencial.agencia,
@@ -55,7 +62,9 @@ class PJBankCartao(PJBank):
             'telelefone': credencial.telefone,
             'email': credencial.email,
             'cartao': credencial.cartao
-        }, headers={})
+        }
+
+        resposta = self.requerir('POST', 'recebimentos', dados, headers={})
 
         if resposta.status_code == 201:
             resposta = resposta.json()
@@ -119,18 +128,18 @@ class PJBankCartao(PJBank):
 
         if resposta.status_code == 201:
             return TransacaoPJBank.objects.create(
-                token_cartao = resposta['token_cartao'],
-                tid = resposta['tid'],
-                previsao_credito = resposta['previsao_credito'],
-                mensagem_status = resposta['msg'],
-                tid_conciliaca = resposta['tid_conciliacao'],
-                bandeira = resposta['bandeira'],
-                autorizacao = resposta['autorizacao'],
-                cartao_truncado = resposta['cartao_truncado'],
-                status_cartao = resposta['statuscartao'],
-                tarifa = resposta['tarifa'],
-                taxa = resposta['taxa'],
-                pedido_numero = resposta['pedido_numero']
+                token_cartao=resposta['token_cartao'],
+                tid=resposta['tid'],
+                previsao_credito=resposta['previsao_credito'],
+                mensagem_status=resposta['msg'],
+                tid_conciliaca=resposta['tid_conciliacao'],
+                bandeira=resposta['bandeira'],
+                autorizacao=resposta['autorizacao'],
+                cartao_truncado=resposta['cartao_truncado'],
+                status_cartao=resposta['statuscartao'],
+                tarifa=resposta['tarifa'],
+                taxa=resposta['taxa'],
+                pedido_numero=resposta['pedido_numero']
             )
 
         raise FeedbackError('Não foi possível realizar a transação.')
@@ -146,7 +155,7 @@ class PJBankCartao(PJBank):
 
         raise FeedbackError('Não foi possível consultar a transação.')
 
-    def consultar_por_periodo(self, data_inicio: str, data_fim: str, pagina: int = 1) -> dict:
+    def consultar_por_periodo(self, data_inicio: str, data_fim: str, pagina: int=1) -> dict:
         """
         Lista o que foi recebido em um determinado dia em formato ideal para realizar as baixas. Observações:
 
