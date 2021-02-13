@@ -35,13 +35,7 @@ class PJBank:
         url = self.get_raiz_api() + rota
         headers |= { 'X-CHAVE': self.credencial.chave }
 
-        return Request(
-            method = method,
-            url = url,
-            headers = headers,
-            data = data,
-            params = params
-        )
+        return Request(method=method, url=url, headers=headers, data=data, params=params)
 
 class PJBankCartao(PJBank):
     """
